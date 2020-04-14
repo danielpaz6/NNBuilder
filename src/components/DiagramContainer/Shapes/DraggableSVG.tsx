@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IDraggableSVGState } from './shape';
+import { IDraggableSVGState } from "../../../interfaces/shapes";
 
 export interface IDraggableSVGProps {
 	render: any

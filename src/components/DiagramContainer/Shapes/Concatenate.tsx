@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IDraggableShape } from "./shape";
+import { IDraggableShape } from "../../../interfaces/shapes";
 
 // Positioning
 const WIDTH = 20;

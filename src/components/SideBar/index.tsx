@@ -4,13 +4,30 @@ import './sidebar.scss';
 //import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
-
+import { addShape } from '../../store/shapes/actions';
+import { ShapeState } from '../../store/shapes/types';
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
+import FullyConnected from '../DiagramContainer/Shapes/FullyConnected';
 
 export interface ISideBarProps {
+	addShape: typeof addShape;
+	shapes: ShapeState;
 }
 
-export default class SideBar extends React.Component<ISideBarProps> {
+class SideBar extends React.Component<ISideBarProps> {
+
+	createShape = (id: number) => {
+		if(id == 1) {
+			/*this.props.addShape({
+				name: "Fully Connected",
+				timestamp: new Date().getTime()
+			});*/
+		}
+	}
+
 	public render() {
+		console.log(this.props);
 		return (
 			<div className="side-bar">
 				<Dropdown>
@@ -20,7 +37,7 @@ export default class SideBar extends React.Component<ISideBarProps> {
 
 					<Dropdown.Menu style={{width: "100%"}}>
 						<Dropdown.Header>Layers</Dropdown.Header>
-						<Dropdown.Item href="#/action-1">Fully Connected</Dropdown.Item>
+						<Dropdown.Item onClick={this.createShape(1)}>Fully Connected</Dropdown.Item>
 						<Dropdown.Item href="#/action-2">Convolutional</Dropdown.Item>
 						<Dropdown.Item href="#/action-3">Max Pooling</Dropdown.Item>
 						<Dropdown.Item href="#/action-3">Concatenate</Dropdown.Item>
@@ -54,3 +71,12 @@ export default class SideBar extends React.Component<ISideBarProps> {
 		);
 	}
 }
+
+const mapStateToProps = (state: AppState) => ({
+	shapes: state.shapes
+});
+
+export default connect(
+	mapStateToProps,
+	{ addShape }
+)(SideBar);
