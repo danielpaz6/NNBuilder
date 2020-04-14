@@ -13,12 +13,14 @@ import Addition from "./Shapes/Addition";
 
 import { addShape } from '../../store/shapes/actions';
 import { ShapeState } from '../../store/shapes/types';
+import { connect } from 'react-redux';
+import { AppState } from '../../store';
 
 export interface IDiagramContainerProps {
-
+	shapes: ShapeState
 }
 
-export default class DiagramContainer extends React.Component<IDiagramContainerProps> {
+class DiagramContainer extends React.Component<IDiagramContainerProps> {
 	public render() {
 		return (
 			<div className="diagram-container">
@@ -35,7 +37,14 @@ export default class DiagramContainer extends React.Component<IDiagramContainerP
 						<Flatten {...props} />
 					)} />*/}
 
-					<DraggableSVG render={(props : IDraggableShape) => (
+					{
+						this.props.shapes.shapes.map(shape => 
+							<DraggableSVG render={(props : IDraggableShape) => 
+								React.createElement(shape.shape, {key: shape.timestamp, ...props}, null)}
+							/>)
+					}
+
+					{/*<DraggableSVG render={(props : IDraggableShape) => (
 						<MaxPooling {...props} />
 					)} />
 
@@ -45,9 +54,18 @@ export default class DiagramContainer extends React.Component<IDiagramContainerP
 
 					<DraggableSVG render={(props : IDraggableShape) => (
 						<Addition {...props} />
-					)} />
+					)} />*/}
 				</svg>
 			</div>
 		);
 	}
 }
+
+const mapStateToProps = (state: AppState) => ({
+	shapes: state.shapes
+});
+
+export default connect(
+	mapStateToProps,
+	{ addShape }
+)(DiagramContainer);

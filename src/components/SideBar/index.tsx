@@ -5,10 +5,10 @@ import './sidebar.scss';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { addShape } from '../../store/shapes/actions';
-import { ShapeState } from '../../store/shapes/types';
+import { ShapeState, Shape } from '../../store/shapes/types';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
-import FullyConnected from '../DiagramContainer/Shapes/FullyConnected';
+import { layersMap } from '../../interfaces/shapes';
 
 export interface ISideBarProps {
 	addShape: typeof addShape;
@@ -17,13 +17,23 @@ export interface ISideBarProps {
 
 class SideBar extends React.Component<ISideBarProps> {
 
-	createShape = (id: number) => {
-		if(id == 1) {
-			/*this.props.addShape({
-				name: "Fully Connected",
-				timestamp: new Date().getTime()
-			});*/
+	createShape = (shapeName: string) => {
+		const layer = layersMap[shapeName];
+
+		const newObject : Shape = {
+			name: shapeName,
+			timestamp: new Date().getTime(),
+			shape: layer(),
+			x: 0,
+			y: 0,
+			offset: {
+				x: 0,
+				y: 0
+			},
+			connectedTo: []
 		}
+
+		this.props.addShape(newObject);
 	}
 
 	public render() {
@@ -37,17 +47,17 @@ class SideBar extends React.Component<ISideBarProps> {
 
 					<Dropdown.Menu style={{width: "100%"}}>
 						<Dropdown.Header>Layers</Dropdown.Header>
-						<Dropdown.Item onClick={this.createShape(1)}>Fully Connected</Dropdown.Item>
-						<Dropdown.Item href="#/action-2">Convolutional</Dropdown.Item>
-						<Dropdown.Item href="#/action-3">Max Pooling</Dropdown.Item>
-						<Dropdown.Item href="#/action-3">Concatenate</Dropdown.Item>
-						<Dropdown.Item href="#/action-3">Flattern</Dropdown.Item>
-						<Dropdown.Item href="#/action-3">Add</Dropdown.Item>
+						<Dropdown.Item onClick={() => this.createShape("FullyConnected")}>Fully Connected</Dropdown.Item>
+						<Dropdown.Item onClick={() => this.createShape("Convolutional")}>Convolutional</Dropdown.Item>
+						<Dropdown.Item onClick={() => this.createShape("MaxPooling")}>Max Pooling</Dropdown.Item>
+						<Dropdown.Item onClick={() => this.createShape("Concatenate")}>Concatenate</Dropdown.Item>
+						<Dropdown.Item onClick={() => this.createShape("Flatten")}>Flatten</Dropdown.Item>
+						<Dropdown.Item onClick={() => this.createShape("Addition")}>Add</Dropdown.Item>
 						<Dropdown.Divider />
 						<Dropdown.Header>Activation</Dropdown.Header>
-						<Dropdown.Item href="#/action-1">ReLU</Dropdown.Item>
-						<Dropdown.Item href="#/action-2">Sigmoid</Dropdown.Item>
-						<Dropdown.Item href="#/action-3">Tanh</Dropdown.Item>
+						<Dropdown.Item>ReLU</Dropdown.Item>
+						<Dropdown.Item>Sigmoid</Dropdown.Item>
+						<Dropdown.Item>Tanh</Dropdown.Item>
 					</Dropdown.Menu>
 				</Dropdown>
 				<br />

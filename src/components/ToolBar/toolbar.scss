@@ -2,6 +2,57 @@
 	left: 0px;
     right: 0px;
     top: 30px;
-	height: 38px;
+	height: 39px;
+	background: #fff;
 	border-bottom: 1px solid #dadce0;
+	padding: 7px 20px;
+
+	.right-side {
+		float: right;
+
+		button {
+			margin-left: 18px;
+		}
+	}
+
+	.left-side {
+		float: left;
+
+		button {
+			margin-right: 18px;
+		}
+	}
+
+	button {
+		height: 25px;
+		color: inherit;
+		cursor: pointer;
+		background: none;
+		padding: 0px;
+		border-width: 3px 0px;
+		border-style: solid;
+		border-color: transparent;
+		border-image: initial;
+		border-top: 3px solid transparent;
+		border-bottom: 3px solid transparent;
+		transition: color 0.1s linear 0s, border-bottom-color 0.2s linear 0s;
+		outline: 0;
+		color: #5d5d5d;
+		
+		svg {
+			width: 15px;
+			shape-rendering: inherit;
+			transform: translate3d(0px, 0px, 0px);
+			display: block;
+
+			path {
+				fill: currentcolor;
+				transform-origin: 0px 0px;
+			}
+		}
+	}
+
+	button:hover {
+		color: rgb(30, 167, 253);
+	}
 }

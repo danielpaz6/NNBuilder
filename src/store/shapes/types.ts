@@ -1,10 +1,10 @@
-import DraggableSVG from "../../components/DiagramContainer/Shapes/DraggableSVG";
+import { LayerTypes } from "../../interfaces/shapes";
 
 // Describing the shape of the chat's slice of state
 export interface Shape {
 	name: string;
 	timestamp: number;
-	shape: DraggableSVG;
+	shape: LayerTypes;
 	x: number;
 	y: number;
 	offset: {
