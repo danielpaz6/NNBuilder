@@ -1,4 +1,11 @@
-import { Shape, ADD_SHAPE, DELETE_SHAPE, ShapeActionTypes } from './types';
+import { 
+	Shape,
+	ADD_SHAPE,
+	DELETE_SHAPE,
+	EDIT_SHAPE_ACTIVATION,
+	UPDATE_SHAPE_LOCATION,
+	ShapeActionTypes
+} from './types';
 
 export function addShape(newShape: Shape) : ShapeActionTypes {
 	return {
@@ -14,4 +21,25 @@ export function deleteShape(timestamp: number) : ShapeActionTypes {
 			timestamp
 		}
 	};
+}
+
+export function editActiveShape(timestamp: number, active: boolean) : ShapeActionTypes {
+	return {
+		type: EDIT_SHAPE_ACTIVATION,
+		meta: {
+			timestamp: timestamp,
+			active: active
+		}
+	}
+}
+
+export function updateShapePositionAction(timestamp: number, x: number, y: number) : ShapeActionTypes {
+	return {
+		type: UPDATE_SHAPE_LOCATION,
+		payload: {
+			timestamp: timestamp,
+			x: x,
+			y: y
+		}
+	}
 }

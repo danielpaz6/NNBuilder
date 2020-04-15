@@ -1,18 +1,25 @@
 import * as React from 'react';
 import { IDraggableSVGState } from "../../../interfaces/shapes";
+import { connect } from 'react-redux';
+import { AppState } from '../../../store';
+import { editActiveShape, updateShapePositionAction } from '../../../store/shapes/actions';
 
 export interface IDraggableSVGProps {
-	render: any
+	render: any,
+	id: number,
+	active: boolean,
+	editActiveShape: typeof editActiveShape,
+	updateShapePositionAction: typeof updateShapePositionAction
 }
 
-export default class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGState> {
+class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGState> {
 	constructor(props: IDraggableSVGProps) {
 		super(props);
 
 		this.state = {
 			x: 100,
 			y: 100,
-			active: false,
+			currentMove: false,
 			offset: {
 				x: 0,
 				y: 0
@@ -27,12 +34,17 @@ export default class DraggableSVG extends React.Component<IDraggableSVGProps, ID
 		const y = e.clientY - bbox.top;
 		el.setPointerCapture(e.pointerId);
 		this.setState({
-			active: true,
+			currentMove: true,
 			offset: {
 				x,
 				y
 			}
 		});
+
+		this.props.editActiveShape(
+			this.props.id,
+			true
+		);
 	};
 
 	handlePointerMove = (e: React.PointerEvent<EventTarget>) => {
@@ -44,7 +56,7 @@ export default class DraggableSVG extends React.Component<IDraggableSVGProps, ID
 		const newX = this.state.x - (this.state.offset.x - x);
 		const newY = this.state.y - (this.state.offset.y - y);
 
-		if (this.state.active) {
+		if (this.state.currentMove) {
 			this.setState({
 				x: newX < 0 ? 0 : newX,
 				y: newY < 0 ? 0 : newY
@@ -54,11 +66,21 @@ export default class DraggableSVG extends React.Component<IDraggableSVGProps, ID
 
 	handlePointerUp = () => {
 		this.setState({
-			active: false
+			currentMove: false
 		});
+
+		// Once stop moving ( releasing the mouse clicking ), we'll update the
+		// position of the shape in the redux shapes list
+
+		this.props.updateShapePositionAction(
+			this.props.id,
+			this.state.x,
+			this.state.y
+		);
 	};
 
 	public render() {
+		console.log("render", this.state, this.props.active);	
 		return (
 			/*this.props.render({
 				cx: this.state.x,
@@ -71,6 +93,7 @@ export default class DraggableSVG extends React.Component<IDraggableSVGProps, ID
 			
 			this.props.render({
 				...this.state,
+				active: this.props.active,
 				handlePointerDown: this.handlePointerDown,
 				handlePointerMove: this.handlePointerMove,
 				handlePointerUp: this.handlePointerUp
@@ -78,3 +101,12 @@ export default class DraggableSVG extends React.Component<IDraggableSVGProps, ID
 		);
 	}
 }
+
+const mapStateToProps = (state: AppState) => ({
+	shapes: state.shapes
+});
+
+export default connect(
+	mapStateToProps,
+	{ editActiveShape, updateShapePositionAction }
+)(DraggableSVG);

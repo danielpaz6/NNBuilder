@@ -8,7 +8,7 @@ import Concatenate from "../components/DiagramContainer/Shapes/Concatenate";
 export interface IDraggableSVGState {
 	x: number;
 	y: number;
-	active: boolean;
+	currentMove: boolean;
 	offset: {
 		x: number;
 		y: number;
@@ -19,6 +19,7 @@ export interface IDraggable {
 	handlePointerDown: (e : React.PointerEvent<EventTarget>) => void;
 	handlePointerMove: (e : React.PointerEvent<EventTarget>) => void;
 	handlePointerUp: () => void;
+	active: boolean;
 }
 
 export interface IDraggableShape extends IDraggableSVGState, IDraggable {};

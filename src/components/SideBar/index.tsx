@@ -4,7 +4,7 @@ import './sidebar.scss';
 //import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { addShape } from '../../store/shapes/actions';
+import { addShape, editActiveShape } from '../../store/shapes/actions';
 import { ShapeState, Shape } from '../../store/shapes/types';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
@@ -12,11 +12,12 @@ import { layersMap } from '../../interfaces/shapes';
 
 export interface ISideBarProps {
 	addShape: typeof addShape;
+	editActiveShape: typeof editActiveShape;
 	shapes: ShapeState;
 }
 
-class SideBar extends React.Component<ISideBarProps> {
-
+class SideBar extends React.Component<ISideBarProps>
+{
 	createShape = (shapeName: string) => {
 		const layer = layersMap[shapeName];
 
@@ -30,10 +31,18 @@ class SideBar extends React.Component<ISideBarProps> {
 				x: 0,
 				y: 0
 			},
-			connectedTo: []
+			connectedTo: [],
+			active: false
 		}
 
 		this.props.addShape(newObject);
+	}
+
+	toggleActive = (timestamp: number) => {
+		this.props.editActiveShape(
+			timestamp,
+			true
+		)
 	}
 
 	public render() {
@@ -42,7 +51,7 @@ class SideBar extends React.Component<ISideBarProps> {
 			<div className="side-bar">
 				<Dropdown>
 					<Dropdown.Toggle variant="success" id="dropdown-basic" style={{width: "100%"}}>
-						Add new layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						Add new layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</Dropdown.Toggle>
 
 					<Dropdown.Menu style={{width: "100%"}}>
@@ -64,18 +73,18 @@ class SideBar extends React.Component<ISideBarProps> {
 				
 				<h6 style={{paddingLeft: "5px"}}>Layers</h6>
 				<ListGroup defaultActiveKey="#link1">
-					<ListGroup.Item action href="#link1">
-						Convolutional
-					</ListGroup.Item>
-					<ListGroup.Item action href="#link2">
-						Max Pooling (1)
-					</ListGroup.Item>
-					<ListGroup.Item action href="#link3">
-						Max Pooling (2)
-					</ListGroup.Item>
-					<ListGroup.Item action href="#link4">
-						Fully Connected
-					</ListGroup.Item>
+					{
+						this.props.shapes.shapes.map(shape => 
+							<ListGroup.Item
+								action
+								key={shape.timestamp}
+								active={shape.active ? true : false}
+								onClick={() => this.toggleActive(shape.timestamp)}
+							>
+								{shape.name}
+							</ListGroup.Item>
+						)
+					}
 				</ListGroup>
 			</div>
 		);
@@ -88,5 +97,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ addShape }
+	{ addShape, editActiveShape }
 )(SideBar);
