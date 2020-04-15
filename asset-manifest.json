@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/React-Neural-Network-Planner/static/css/main.c7c76d55.chunk.css",
+    "main.js": "/React-Neural-Network-Planner/static/js/main.0f24c1b2.chunk.js",
+    "main.js.map": "/React-Neural-Network-Planner/static/js/main.0f24c1b2.chunk.js.map",
+    "runtime-main.js": "/React-Neural-Network-Planner/static/js/runtime-main.05cd5a7a.js",
+    "runtime-main.js.map": "/React-Neural-Network-Planner/static/js/runtime-main.05cd5a7a.js.map",
+    "static/js/2.056b61b4.chunk.js": "/React-Neural-Network-Planner/static/js/2.056b61b4.chunk.js",
+    "static/js/2.056b61b4.chunk.js.map": "/React-Neural-Network-Planner/static/js/2.056b61b4.chunk.js.map",
+    "index.html": "/React-Neural-Network-Planner/index.html",
+    "precache-manifest.294ecf19f5deb4855e6b70ceb57c11ca.js": "/React-Neural-Network-Planner/precache-manifest.294ecf19f5deb4855e6b70ceb57c11ca.js",
+    "service-worker.js": "/React-Neural-Network-Planner/service-worker.js",
+    "static/css/main.c7c76d55.chunk.css.map": "/React-Neural-Network-Planner/static/css/main.c7c76d55.chunk.css.map",
+    "static/js/2.056b61b4.chunk.js.LICENSE.txt": "/React-Neural-Network-Planner/static/js/2.056b61b4.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.05cd5a7a.js",
+    "static/js/2.056b61b4.chunk.js",
+    "static/css/main.c7c76d55.chunk.css",
+    "static/js/main.0f24c1b2.chunk.js"
+  ]
+}
