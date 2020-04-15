@@ -23,12 +23,11 @@ export function deleteShape(timestamp: number) : ShapeActionTypes {
 	};
 }
 
-export function editActiveShape(timestamp: number, active: boolean) : ShapeActionTypes {
+export function editActiveShape(timestamp: number) : ShapeActionTypes {
 	return {
 		type: EDIT_SHAPE_ACTIVATION,
 		meta: {
-			timestamp: timestamp,
-			active: active
+			timestamp: timestamp
 		}
 	}
 }

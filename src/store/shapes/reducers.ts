@@ -17,11 +17,13 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 	switch(action.type) {
 		case ADD_SHAPE:
 			return {
+				...state,
 				shapes: [...state.shapes, action.payload]
 			};
 
 		case DELETE_SHAPE:
 			return {
+				...state,
 				shapes: state.shapes.filter(
 					shape => shape.timestamp !== action.meta.timestamp
 				)
@@ -29,7 +31,7 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 
 		case EDIT_SHAPE_ACTIVATION:
 			// In the same loop we'll reset the active to false and active the selected one
-			for(let i = 0; i < shapes.length; i++) {
+			/*for(let i = 0; i < shapes.length; i++) {
 				shapes[i].active = false;
 
 				if(shapes[i].timestamp === action.meta.timestamp)
@@ -38,7 +40,12 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			
 			return {
 				shapes: shapes
-			};
+			};*/
+			
+			return {
+				...state,
+				targetShape: state.shapes.find(s => s.timestamp === action.meta.timestamp)
+			}
 		
 		case UPDATE_SHAPE_LOCATION:
 			const currShape = shapes.find(s => s.timestamp === action.payload.timestamp)!;
@@ -46,6 +53,7 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			currShape.y = action.payload.y;
 
 			return {
+				...state,
 				shapes: shapes
 			};
 		

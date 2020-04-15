@@ -7,16 +7,20 @@ export interface Shape {
 	shape: LayerTypes;
 	x: number;
 	y: number;
-	offset: {
-		x: number;
-		y: number;
-	}
+	centerPosition: number[]; // X and Y locations relative to the top left edge of the shape
 	connectedTo: Shape[];
-	active: boolean;
+	//active: boolean;
+}
+
+export interface Arrow {
+	timestamp: number;
+	source: Shape;
+	target: Shape;
 }
 
 export interface ShapeState {
 	shapes: Shape[];
+	targetShape?: Shape;
 }
 
 // Describing the different ACTION NAMES available
@@ -41,7 +45,6 @@ interface EditShapeActivationAction {
 	type: typeof EDIT_SHAPE_ACTIVATION;
 	meta: {
 		timestamp: number;
-		active: boolean;
 	};
 }
 

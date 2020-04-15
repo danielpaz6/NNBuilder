@@ -17,6 +17,8 @@ const BORDER3 = "#b89acf";
 const BORDER_ACTIVE = "red";
 
 export default class Concatenate extends React.Component<IDraggableShape> {
+	static centerPosition = [WIDTH / 2, HEIGHT * 3 / 2];
+
 	public render() {
 		console.log("Rect State", this.props);
 		return (

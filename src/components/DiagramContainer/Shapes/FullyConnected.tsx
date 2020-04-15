@@ -12,6 +12,8 @@ const BORDER = "#f6d186";
 const BORDER_ACTIVE = "orange";
 
 export default class FullyConnected extends React.Component<IDraggableShape> {
+	static centerPosition = [WIDTH / 2, HEIGHT / 2];
+	
 	public render() {
 		return (
 			<svg 

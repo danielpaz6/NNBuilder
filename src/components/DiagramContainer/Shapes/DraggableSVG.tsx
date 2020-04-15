@@ -3,13 +3,14 @@ import { IDraggableSVGState } from "../../../interfaces/shapes";
 import { connect } from 'react-redux';
 import { AppState } from '../../../store';
 import { editActiveShape, updateShapePositionAction } from '../../../store/shapes/actions';
+import { Shape } from '../../../store/shapes/types';
 
 export interface IDraggableSVGProps {
-	render: any,
-	id: number,
-	active: boolean,
-	editActiveShape: typeof editActiveShape,
-	updateShapePositionAction: typeof updateShapePositionAction
+	render: any;
+	id: number;
+	targetShape?: Shape;
+	editActiveShape: typeof editActiveShape;
+	updateShapePositionAction: typeof updateShapePositionAction;
 }
 
 class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGState> {
@@ -19,6 +20,8 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 		this.state = {
 			x: 100,
 			y: 100,
+			historyX: 100,
+			historyY: 100,
 			currentMove: false,
 			offset: {
 				x: 0,
@@ -32,18 +35,16 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 		const bbox = el.getBoundingClientRect();
 		const x = e.clientX - bbox.left;
 		const y = e.clientY - bbox.top;
+
 		el.setPointerCapture(e.pointerId);
-		this.setState({
+		this.setState((oldState) => ({
 			currentMove: true,
+			historyX: oldState.x,
+			historyY: oldState.y,
 			offset: {
 				x,
 				y
-			}
-		});
-
-		this.props.editActiveShape(
-			this.props.id,
-			true
+			}})
 		);
 	};
 
@@ -71,16 +72,24 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 
 		// Once stop moving ( releasing the mouse clicking ), we'll update the
 		// position of the shape in the redux shapes list
-
 		this.props.updateShapePositionAction(
 			this.props.id,
 			this.state.x,
 			this.state.y
 		);
+
+		// If the user just clicked on a shape without moving it, then we'll select it
+		if(this.state.x === this.state.historyX && this.state.y === this.state.historyY)
+		{
+			this.props.editActiveShape(
+				this.props.id
+			);
+		}
 	};
 
 	public render() {
-		console.log("render", this.state, this.props.active);	
+		console.log("render", this.state);	
+		const isShapeActive = this.props.targetShape && this.props.targetShape.timestamp === this.props.id;
 		return (
 			/*this.props.render({
 				cx: this.state.x,
@@ -93,7 +102,7 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 			
 			this.props.render({
 				...this.state,
-				active: this.props.active,
+				active: isShapeActive,
 				handlePointerDown: this.handlePointerDown,
 				handlePointerMove: this.handlePointerMove,
 				handlePointerUp: this.handlePointerUp
@@ -103,7 +112,7 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 }
 
 const mapStateToProps = (state: AppState) => ({
-	shapes: state.shapes
+	targetShape: state.shapes.targetShape
 });
 
 export default connect(

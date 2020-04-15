@@ -24,29 +24,27 @@ class SideBar extends React.Component<ISideBarProps>
 		const newObject : Shape = {
 			name: shapeName,
 			timestamp: new Date().getTime(),
-			shape: layer(),
+			shape: layer.create(),
 			x: 0,
 			y: 0,
-			offset: {
-				x: 0,
-				y: 0
-			},
-			connectedTo: [],
-			active: false
-		}
+			centerPosition: layer.centerPosition,
+			connectedTo: []
+		};
 
 		this.props.addShape(newObject);
 	}
 
 	toggleActive = (timestamp: number) => {
 		this.props.editActiveShape(
-			timestamp,
-			true
+			timestamp
 		)
 	}
 
 	public render() {
 		console.log(this.props);
+
+		const targetTimeStamp = this.props.shapes.targetShape ? this.props.shapes.targetShape.timestamp : -1;
+
 		return (
 			<div className="side-bar">
 				<Dropdown>
@@ -78,7 +76,7 @@ class SideBar extends React.Component<ISideBarProps>
 							<ListGroup.Item
 								action
 								key={shape.timestamp}
-								active={shape.active ? true : false}
+								active={shape.timestamp === targetTimeStamp ? true : false}
 								onClick={() => this.toggleActive(shape.timestamp)}
 							>
 								{shape.name}

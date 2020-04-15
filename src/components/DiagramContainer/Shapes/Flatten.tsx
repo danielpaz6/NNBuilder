@@ -12,6 +12,8 @@ const BORDER = "#FF7E75";
 const BORDER_ACTIVE = "#fd5e53";
 
 export default class Flatten extends React.Component<IDraggableShape> {
+	static centerPosition = [WIDTH / 2, HEIGHT / 2];
+	
 	public render() {
 		return (
 			<svg 
