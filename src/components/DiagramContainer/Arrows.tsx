@@ -18,19 +18,40 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 
 		}
 	}
-
 	
 	public render() {
 		return (
-			this.props.shapes.shapes.map(sourceShape => sourceShape.connectedTo.map(targetShape =>
-				<line
-					key={sourceShape.timestamp + "" + targetShape.timestamp}
-					x1={sourceShape.x + sourceShape.centerPosition[0]}
-					y1={sourceShape.y + sourceShape.centerPosition[1]}
-					x2={targetShape.x + targetShape.centerPosition[0]}
-					y2={targetShape.y + targetShape.centerPosition[1]}
-					style={{stroke:"rgb(255,0,0)", strokeWidth:2}} />
-			))
+			<React.Fragment>
+			{
+			this.props.shapes.shapes.map(sourceShape => sourceShape.connectedTo.map(targetShape => {
+				
+				const x1 = sourceShape.x + sourceShape.centerPosition[0];
+				const x2 = targetShape.x + targetShape.centerPosition[0];
+
+				const y1 = sourceShape.y + sourceShape.centerPosition[1];
+				const y2 = targetShape.y + targetShape.centerPosition[1];
+
+				const xMid = (x1 + x2) / 2;
+				const yMid = (y1 + y2) / 2;
+
+				const points = [
+					[xMid + 2,  yMid + 7],
+					[xMid + 0,  yMid + 0],
+					[xMid + 11, yMid + 7],
+					[xMid + 0,  yMid + 14]
+				]
+
+				return (
+					<polyline 
+						marker-mid="url(#arrow)"
+						points={`${x1},${y1} ${xMid},${yMid} ${x2},${y2}`}
+						fill="none"
+						stroke="black"
+					/>
+				);
+			}))
+			}
+			</React.Fragment>
 		);
 	}
 }

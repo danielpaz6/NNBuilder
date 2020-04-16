@@ -60,7 +60,16 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 						onClick={this.handleClick}
 						onMouseMove={this.handlePointerMovement}
 					>
-					
+					<defs>	
+						<marker orient='auto' id="arrow" refX="0" refY="7"
+							markerWidth="80" markerHeight="80">
+							<polygon
+									points="2,7 0,0 11,7 0,14"
+									stroke="red"
+									fill="red" 
+								/>
+						</marker>
+					</defs>	
 					{
 						this.props.shapes.sourceShape && lock ?
 						<line

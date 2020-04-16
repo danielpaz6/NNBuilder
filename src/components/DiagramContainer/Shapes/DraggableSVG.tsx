@@ -60,29 +60,18 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 			
 			if(this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.id).length === 0)
 			{
-				console.log("WE GOT HERE");
 				// If we got this far, we'll draw an arrow between source and target shapes
 
 				const getSourceShape = this.props.shapes.sourceShape;
 				const getTargetShape = this.props.shapes.shapes.find(s => s.timestamp === this.props.id);
 				
 				this.props.addArrowAndUpdateConnections(new Date().getTime(), getSourceShape, getTargetShape!);
-
-				console.log("SHAPES AFTER ADD ARROW", this.props.shapes);
 			}
-			else {
-				console.log("not filtering...",
-				this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.id));
-			}
-		}
-		else {
-			if(this.props.shapes.sourceShape)
-				console.log("NOT MATCH!", this.props.shapes.sourceShape.timestamp, this.props.id);
-			else
-				console.log("SOURCE SHAPE DOES NOT EXISTS!");
 		}
 	};
 
+
+	// TODO: Math.floor the position, this will improve the performance significantly.
 	handlePointerMove = (e: React.PointerEvent<EventTarget>) => {
 		const el = e.target as HTMLInputElement;
 		const bbox = el.getBoundingClientRect();

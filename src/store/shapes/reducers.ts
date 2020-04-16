@@ -12,7 +12,7 @@ import {
 
 const initialState: ShapeState = {
 	shapes: [],
-	arrows: []
+	//arrows: []
 };
 
 export function shapeReducer(state = initialState, action: ShapeActionTypes) : ShapeState {

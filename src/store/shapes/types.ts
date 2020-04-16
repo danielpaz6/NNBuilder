@@ -8,21 +8,21 @@ export interface Shape {
 	x: number;
 	y: number;
 	centerPosition: number[]; // X and Y locations relative to the top left edge of the shape
-	connectedTo: Shape[];
-	connectedToMe: Shape[];
+	connectedTo: Shape[]; // pointers to the real shapes
+	connectedToMe: Shape[]; // pointers to the real shapes
 	//active: boolean;
 }
 
-export interface Arrow {
+/*export interface Arrow {
 	timestamp: string; // concat of source.timestamp + " " + target.timestamp
 	source: Shape;
 	target: Shape;
-}
+}*/
 
 export interface ShapeState {
 	shapes: Shape[];
-	arrows: Arrow[];
 	sourceShape?: Shape;
+	//arrows: Arrow[];
 }
 
 // Describing the different ACTION NAMES available
