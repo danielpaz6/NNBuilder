@@ -19,10 +19,10 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 
 	// I'll leave it 4/2 since this "4" should be variable in the future, it's
 	// the number of boxes we display
-	static centerPosition = [(WIDTH + PADDING) * 4 / 2, (HEIGHT + PADDING) * 4 / 2];
+	static centerPosition = [WIDTH / 2 + (PADDING) * 4 / 2, HEIGHT / 2 + (PADDING) * 4 / 2];
 
 	public render() {
-		console.log("Rect State", this.props);
+		//console.log("Rect State", this.props);
 		return (
 			<svg 
 				x={this.props.x}

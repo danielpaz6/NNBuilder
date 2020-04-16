@@ -28,7 +28,8 @@ class SideBar extends React.Component<ISideBarProps>
 			x: 0,
 			y: 0,
 			centerPosition: layer.centerPosition,
-			connectedTo: []
+			connectedTo: [],
+			connectedToMe: []
 		};
 
 		this.props.addShape(newObject);
@@ -43,7 +44,7 @@ class SideBar extends React.Component<ISideBarProps>
 	public render() {
 		console.log(this.props);
 
-		const targetTimeStamp = this.props.shapes.targetShape ? this.props.shapes.targetShape.timestamp : -1;
+		const targetTimeStamp = this.props.shapes.sourceShape ? this.props.shapes.sourceShape.timestamp : -1;
 
 		return (
 			<div className="side-bar">

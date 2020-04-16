@@ -19,7 +19,7 @@ const BORDER_ACTIVE = "red";
 export default class MaxPooling extends React.Component<IDraggableShape> {
 	// I'll leave it 3/2 since this "3" should be variable in the future, it's
 	// the number of boxes we display
-	static centerPosition = [(WIDTH + PADDING) * 3 / 2, (HEIGHT + PADDING) * 3 / 2];
+	static centerPosition = [WIDTH / 2 + (PADDING) * 3 / 2, HEIGHT / 2 + (PADDING) * 3 / 2];
 
 	public render() {
 		console.log("Rect State", this.props);

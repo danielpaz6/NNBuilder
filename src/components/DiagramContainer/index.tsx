@@ -34,7 +34,7 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 	}
 
 	handlePointerMovement = (e: React.MouseEvent) => {
-		if(this.props.shapes.targetShape)
+		if(this.props.shapes.sourceShape)
 		{
 			//const el = e.target as HTMLInputElement;
 			//const bbox = el.getBoundingClientRect();
@@ -62,10 +62,11 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 					>
 					
 					{
-						this.props.shapes.targetShape && lock ?
+						this.props.shapes.sourceShape && lock ?
 						<line
-							x1={this.props.shapes.targetShape.x + this.props.shapes.targetShape.centerPosition[0]}
-							y1={this.props.shapes.targetShape.y + this.props.shapes.targetShape.centerPosition[1]}
+							onClick={this.handleClick}
+							x1={this.props.shapes.sourceShape.x + this.props.shapes.sourceShape.centerPosition[0]}
+							y1={this.props.shapes.sourceShape.y + this.props.shapes.sourceShape.centerPosition[1]}
 							x2={this.state.arrowX}
 							y2={this.state.arrowY}
 							style={{stroke:"rgb(255,0,0)",strokeWidth:2}} />

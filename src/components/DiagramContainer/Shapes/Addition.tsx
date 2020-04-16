@@ -3,7 +3,7 @@ import { IDraggableShape } from "../../../interfaces/shapes";
 
 // Positioning
 const WIDTH = 350;
-const PADDING = 12;
+//const PADDING = 12;
 const OFFSET = 2;
 
 // Styling Component

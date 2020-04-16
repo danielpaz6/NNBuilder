@@ -4,7 +4,9 @@ import {
 	DELETE_SHAPE,
 	EDIT_SHAPE_ACTIVATION,
 	UPDATE_SHAPE_LOCATION,
-	ShapeActionTypes
+	ShapeActionTypes,
+	ADD_ARROW,
+	UPDATE_SHAPE_ARROWS
 } from './types';
 
 export function addShape(newShape: Shape) : ShapeActionTypes {
@@ -39,6 +41,26 @@ export function updateShapePositionAction(timestamp: number, x: number, y: numbe
 			timestamp: timestamp,
 			x: x,
 			y: y
+		}
+	}
+}
+
+export function addArrowAndUpdateConnections(timestamp: number, source: Shape, target: Shape) : ShapeActionTypes {
+	return {
+		type: ADD_ARROW,
+		payload: {
+			timestamp: timestamp,
+			source: source,
+			target: target
+		}
+	}
+}
+
+export function updateShapeArrows(timestamp: number) : ShapeActionTypes {
+	return {
+		type: UPDATE_SHAPE_ARROWS,
+		meta: {
+			timestamp: timestamp
 		}
 	}
 }
