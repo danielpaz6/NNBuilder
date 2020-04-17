@@ -9,7 +9,8 @@ const OFFSET = 2;
 // Styling Component
 const BG = "#fcf7bb";
 const BORDER = "#f6d186";
-const BORDER_ACTIVE = "orange";
+//const BORDER_ACTIVE = "orange";
+const BORDER_ACTIVE = "red";
 
 export default class FullyConnected extends React.Component<IDraggableShape> {
 	static centerPosition = [WIDTH / 2, HEIGHT / 2];

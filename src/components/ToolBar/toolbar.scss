@@ -35,7 +35,7 @@
 		border-image: initial;
 		border-top: 3px solid transparent;
 		border-bottom: 3px solid transparent;
-		transition: color 0.1s linear 0s, border-bottom-color 0.2s linear 0s;
+		transition: color 0.1s linear 0s;
 		outline: 0;
 		color: #5d5d5d;
 		
@@ -53,6 +53,7 @@
 	}
 
 	button:hover, .active_button {
-		color: rgb(30, 167, 253);
+		//color: rgb(30, 167, 253);
+		color: #28a745;
 	}
 }

@@ -62,12 +62,30 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 		}
 	}
 
+	handleRightClick = (event: React.MouseEvent) => {
+		// Disable active shape if needed
+		this.handleClick(event);
+		
+		// Prevent default right click panel
+		event.preventDefault();
+	}
+
+	handleKeyDown = (event: React.KeyboardEvent<SVGSVGElement>) => {
+		// If we pressed Esc, we'll remove active shape
+		if(event.keyCode === 27)
+			this.props.editActiveShape(-1);
+	}
+
 	public render() {
 		return (
 			<div className="diagram-container">
 				<svg width="100%" height="100%"
 						onClick={this.handleClick}
 						onMouseMove={this.handlePointerMovement}
+						onContextMenu={this.handleRightClick}
+						onKeyDown={this.handleKeyDown}
+						role="button"
+						tabIndex={0}
 					>
 					<defs>	
 						<marker orient='auto' id="arrow" refX="0" refY="7"
@@ -83,6 +101,7 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 						this.props.shapes.sourceShape ?
 						<line
 							onClick={this.handleClick}
+							onContextMenu={this.handleRightClick}
 							x1={this.props.shapes.sourceShape.x + this.props.shapes.sourceShape.centerPosition[0]}
 							y1={this.props.shapes.sourceShape.y + this.props.shapes.sourceShape.centerPosition[1]}
 							x2={this.props.mouse.xPointer}

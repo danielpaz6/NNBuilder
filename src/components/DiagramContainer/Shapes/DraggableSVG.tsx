@@ -49,27 +49,6 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 				y
 			}})
 		);
-
-		// Once we clicked on a shape, we'll check if we should draw a line between
-		// the target shape and the current one
-
-		// 1. Checking if targetShape exists and edge case
-		// where the source Shape equals to the current Shape
-		if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp !== this.props.currentShape.timestamp) {
-			
-			// Then, we'll make sure there isn't an arrow already between source and target
-			// We can check it in the connected list of the source shape
-			
-			if(this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.currentShape.timestamp).length === 0)
-			{
-				// If we got this far, we'll draw an arrow between source and target shapes
-
-				const getSourceShape = this.props.shapes.sourceShape;
-				const getTargetShape = this.props.shapes.shapes.find(s => s.timestamp === this.props.currentShape.timestamp);
-				
-				this.props.addArrowAndUpdateConnections(new Date().getTime(), getSourceShape, getTargetShape!);
-			}
-		}
 	};
 
 
@@ -97,6 +76,14 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 				this.state.x,
 				this.state.y
 			);
+
+			// If the current shape moved and is not the active shape
+			// Then we'll remove the active shape.
+			if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp !== this.props.currentShape.timestamp) {
+				this.props.editActiveShape(
+					-1
+				);
+			}
 		}
 	};
 
@@ -108,6 +95,7 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 		// If the user just clicked on a shape without moving it, then we'll select it
 		if(this.state.x === this.state.historyX && this.state.y === this.state.historyY)
 		{
+			// Sets the current shape as the active shape
 			this.props.editActiveShape(
 				this.props.currentShape.timestamp
 			);
@@ -116,10 +104,33 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 			// we'll set the location of the mouse position to be the active shape
 
 			this.props.updateMouseLocation(
-				this.state.x,
-				this.state.y
+				this.state.x + this.props.currentShape.centerPosition[0],
+				this.state.y + this.props.currentShape.centerPosition[1]
 			);
+
+			// Once we confirmed that the shape didn't move,
+			// We'll check if the currentShape isn't equal the active shape and check if we should draw a line between
+			// the target shape and the current one
+
+			// 1. Checking if targetShape exists and edge case
+			// where the source Shape equals to the current Shape
+			if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp !== this.props.currentShape.timestamp) {
+				
+				// Then, we'll make sure there isn't an arrow already between source and target
+				// We can check it in the connected list of the source shape
+				
+				if(this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.currentShape.timestamp).length === 0)
+				{
+					// If we got this far, we'll draw an arrow between source and target shapes
+
+					const getSourceShape = this.props.shapes.sourceShape;
+					const getTargetShape = this.props.shapes.shapes.find(s => s.timestamp === this.props.currentShape.timestamp);
+					
+					this.props.addArrowAndUpdateConnections(new Date().getTime(), getSourceShape, getTargetShape!);
+				}
+			}
 		}
+		
 	};
 
 	public render() {
