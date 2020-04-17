@@ -3,9 +3,11 @@ import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import { shapeReducer } from './shapes/reducers';
+import { mouseReducer } from "./mouse/reducers";
 
 const rootReducer = combineReducers({
-	shapes: shapeReducer
+	shapes: shapeReducer,
+	mouse: mouseReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

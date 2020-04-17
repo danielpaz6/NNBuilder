@@ -3,15 +3,17 @@ import { IDraggableSVGState } from "../../../interfaces/shapes";
 import { connect } from 'react-redux';
 import { AppState } from '../../../store';
 import { editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections } from '../../../store/shapes/actions';
-import { ShapeState } from '../../../store/shapes/types';
+import { updateMouseLocation } from '../../../store/mouse/actions';
+import { ShapeState, Shape } from '../../../store/shapes/types';
 
 export interface IDraggableSVGProps {
 	render: any;
-	id: number;
+	currentShape: Shape;
 	shapes: ShapeState;
 	editActiveShape: typeof editActiveShape;
 	updateShapePositionAction: typeof updateShapePositionAction;
 	addArrowAndUpdateConnections: typeof addArrowAndUpdateConnections;
+	updateMouseLocation: typeof updateMouseLocation;
 }
 
 class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGState> {
@@ -19,8 +21,8 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 		super(props);
 
 		this.state = {
-			x: 100,
-			y: 100,
+			x: this.props.currentShape.x,
+			y: this.props.currentShape.y,
 			historyX: 100,
 			historyY: 100,
 			currentMove: false,
@@ -53,17 +55,17 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 
 		// 1. Checking if targetShape exists and edge case
 		// where the source Shape equals to the current Shape
-		if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp !== this.props.id) {
+		if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp !== this.props.currentShape.timestamp) {
 			
 			// Then, we'll make sure there isn't an arrow already between source and target
 			// We can check it in the connected list of the source shape
 			
-			if(this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.id).length === 0)
+			if(this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.currentShape.timestamp).length === 0)
 			{
 				// If we got this far, we'll draw an arrow between source and target shapes
 
 				const getSourceShape = this.props.shapes.sourceShape;
-				const getTargetShape = this.props.shapes.shapes.find(s => s.timestamp === this.props.id);
+				const getTargetShape = this.props.shapes.shapes.find(s => s.timestamp === this.props.currentShape.timestamp);
 				
 				this.props.addArrowAndUpdateConnections(new Date().getTime(), getSourceShape, getTargetShape!);
 			}
@@ -91,7 +93,7 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 
 			// Update the position of the current shape in the redux
 			this.props.updateShapePositionAction(
-				this.props.id,
+				this.props.currentShape.timestamp,
 				this.state.x,
 				this.state.y
 			);
@@ -107,14 +109,22 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 		if(this.state.x === this.state.historyX && this.state.y === this.state.historyY)
 		{
 			this.props.editActiveShape(
-				this.props.id
+				this.props.currentShape.timestamp
+			);
+
+			// Once we updated the active shape, to avoid mouse glitching,
+			// we'll set the location of the mouse position to be the active shape
+
+			this.props.updateMouseLocation(
+				this.state.x,
+				this.state.y
 			);
 		}
 	};
 
 	public render() {
 		//console.log("render", this.state);	
-		const isShapeActive = this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp === this.props.id;
+		const isShapeActive = this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp === this.props.currentShape.timestamp;
 		return (
 			/*this.props.render({
 				cx: this.state.x,
@@ -142,5 +152,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections }
+	{ editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections, updateMouseLocation }
 )(DraggableSVG);

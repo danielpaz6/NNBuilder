@@ -6,6 +6,7 @@ import {
 	UPDATE_SHAPE_LOCATION,
 	ShapeActionTypes,
 	ADD_ARROW,
+	SET_SHAPES
 	//Arrow,
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
@@ -30,6 +31,12 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			return {
 				...state,
 				shapes: [...state.shapes, action.payload]
+			};
+
+		case SET_SHAPES:
+			return {
+				...state,
+				shapes: [...action.payload]
 			};
 
 		case DELETE_SHAPE:

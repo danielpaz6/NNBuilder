@@ -5,6 +5,7 @@ import './sidebar.scss';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { addShape, editActiveShape } from '../../store/shapes/actions';
+import { updateMouseLocation } from '../../store/mouse/actions';
 import { ShapeState, Shape } from '../../store/shapes/types';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
@@ -13,6 +14,7 @@ import { layersMap } from '../../interfaces/shapes';
 export interface ISideBarProps {
 	addShape: typeof addShape;
 	editActiveShape: typeof editActiveShape;
+	updateMouseLocation: typeof updateMouseLocation;
 	shapes: ShapeState;
 }
 
@@ -25,8 +27,8 @@ class SideBar extends React.Component<ISideBarProps>
 			name: shapeName,
 			timestamp: new Date().getTime(),
 			shape: layer.create(),
-			x: 0,
-			y: 0,
+			x: 100 + Math.random() * 100,
+			y: 100 + Math.random() * 100,
 			centerPosition: layer.centerPosition,
 			connectedTo: [],
 			connectedToMe: []
@@ -39,11 +41,16 @@ class SideBar extends React.Component<ISideBarProps>
 		this.props.editActiveShape(
 			timestamp
 		)
+
+		const getActiveShape = this.props.shapes.shapes.find(s => s.timestamp === timestamp)!;
+
+		this.props.updateMouseLocation(
+			getActiveShape.x + getActiveShape.centerPosition[0],
+			getActiveShape.y + getActiveShape.centerPosition[1]
+		);
 	}
 
 	public render() {
-		console.log(this.props);
-
 		const targetTimeStamp = this.props.shapes.sourceShape ? this.props.shapes.sourceShape.timestamp : -1;
 
 		return (
@@ -96,5 +103,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ addShape, editActiveShape }
+	{ addShape, editActiveShape, updateMouseLocation }
 )(SideBar);

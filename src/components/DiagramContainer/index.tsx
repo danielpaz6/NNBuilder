@@ -4,28 +4,41 @@ import './diagram.scss';
 import DraggableSVG from "./Shapes/DraggableSVG";
 import { IDraggableShape } from "../../interfaces/shapes";
 
-import { editActiveShape } from '../../store/shapes/actions';
+import { editActiveShape, setShapes } from '../../store/shapes/actions';
+import { updateMouseLocation } from '../../store/mouse/actions';
 import { ShapeState } from '../../store/shapes/types';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import Arrows from './Arrows';
+import { MouseState } from '../../store/mouse/types';
+import { seedInitShapes } from '../../utils/seedShapes';
 
 export interface IDiagramContainerProps {
-	shapes: ShapeState,
-	editActiveShape: typeof editActiveShape
+	shapes: ShapeState;
+	mouse: MouseState;
+	editActiveShape: typeof editActiveShape;
+	updateMouseLocation: typeof updateMouseLocation;
+	setShapes: typeof setShapes;
 }
 
 export interface IDiagramContainerState {
-	arrowX?: number;
-	arrowY?: number;
+	//arrowX?: number;
+	//arrowY?: number;
 }
 
 class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramContainerState> {
 
 	refElement = React.createRef<HTMLDivElement>();
 
-	handleClick = (event : React.MouseEvent) => {
+	constructor(props : IDiagramContainerProps) {
+		super(props);
+	}
+	
+	componentDidMount() {
+		this.props.setShapes(seedInitShapes);
+	}
 
+	handleClick = (event : React.MouseEvent) => {
 		// Checks if we clicked on the SVG element, but not any element inside.
 		if (event.currentTarget === event.target) {
 			// If that's the case, we'll remove the "active" from any shape
@@ -36,24 +49,20 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 	handlePointerMovement = (e: React.MouseEvent) => {
 		if(this.props.shapes.sourceShape)
 		{
-			//const el = e.target as HTMLInputElement;
-			//const bbox = el.getBoundingClientRect();
+			const x = e.nativeEvent.offsetX;
+			const y = e.nativeEvent.offsetY;
 
-			const x = e.clientX - 212;
-			const y = e.clientY - 38;
-
-			this.setState({
+			/*this.setState({
 				arrowX: x,
 				arrowY: y
-			});
+			});*/
 
-			console.log(e)
+			this.props.updateMouseLocation(x, y);
+
 		}
 	}
 
 	public render() {
-		const lock = this.state && this.state.arrowX ? true : false;
-
 		return (
 			<div className="diagram-container">
 				<svg width="100%" height="100%"
@@ -71,14 +80,14 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 						</marker>
 					</defs>	
 					{
-						this.props.shapes.sourceShape && lock ?
+						this.props.shapes.sourceShape ?
 						<line
 							onClick={this.handleClick}
 							x1={this.props.shapes.sourceShape.x + this.props.shapes.sourceShape.centerPosition[0]}
 							y1={this.props.shapes.sourceShape.y + this.props.shapes.sourceShape.centerPosition[1]}
-							x2={this.state.arrowX}
-							y2={this.state.arrowY}
-							style={{stroke:"rgb(255,0,0)",strokeWidth:2}} />
+							x2={this.props.mouse.xPointer}
+							y2={this.props.mouse.yPointer}
+							style={{stroke:"rgb(255,0,0)", strokeWidth:2}} />
 						:
 						null
 					}
@@ -88,7 +97,7 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 					{
 						this.props.shapes.shapes.map(shape => 
 							<DraggableSVG
-								id={shape.timestamp}
+								currentShape={shape}
 								key={shape.timestamp}
 								render={(props : IDraggableShape) => 
 									React.createElement(shape.shape, {...props}, null)}
@@ -105,10 +114,11 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 }
 
 const mapStateToProps = (state: AppState) => ({
-	shapes: state.shapes
+	shapes: state.shapes,
+	mouse: state.mouse
 });
 
 export default connect(
 	mapStateToProps,
-	{ editActiveShape }
+	{ editActiveShape, updateMouseLocation, setShapes }
 )(DiagramContainer);

@@ -11,14 +11,6 @@ export interface IArrowsState {
 }
 
 class Arrows extends React.Component<IArrowsProps, IArrowsState> {
-	constructor(props: IArrowsProps) {
-		super(props);
-
-		this.state = {
-
-		}
-	}
-	
 	public render() {
 		return (
 			<React.Fragment>
@@ -43,7 +35,8 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 
 				return (
 					<polyline 
-						marker-mid="url(#arrow)"
+						key={sourceShape.timestamp + " " + targetShape.timestamp}
+						markerMid="url(#arrow)"
 						points={`${x1},${y1} ${xMid},${yMid} ${x2},${y2}`}
 						fill="none"
 						stroke="black"

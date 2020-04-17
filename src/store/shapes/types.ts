@@ -27,6 +27,7 @@ export interface ShapeState {
 
 // Describing the different ACTION NAMES available
 export const ADD_SHAPE = "ADD_SHAPE";
+export const SET_SHAPES = "SET_SHAPES";
 export const DELETE_SHAPE = "DELETE_SHAPE";
 export const EDIT_SHAPE_ACTIVATION = "EDIT_SHAPE_ACTIVATION";
 export const UPDATE_SHAPE_LOCATION = "UPDATE_SHAPE_LOCATION";
@@ -37,6 +38,11 @@ export const UPDATE_SHAPE_ARROWS = "UPDATE_SHAPE_ARROWS";
 interface AddShapeAction {
 	type: typeof ADD_SHAPE;
 	payload: Shape;
+}
+
+interface SetShapesAction {
+	type: typeof SET_SHAPES;
+	payload: Shape[];
 }
 
 interface DeleteShapeAction {
@@ -84,4 +90,5 @@ export type ShapeActionTypes =
 	EditShapeActivationAction |
 	UpdateShapePositionAction |
 	AddArrowAction |
-	UpdateShapeArrows;
+	UpdateShapeArrows |
+	SetShapesAction;
