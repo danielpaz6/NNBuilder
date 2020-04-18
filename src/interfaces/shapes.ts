@@ -6,15 +6,7 @@ import Addition from "../components/DiagramContainer/Shapes/Addition";
 import Concatenate from "../components/DiagramContainer/Shapes/Concatenate";
 
 export interface IDraggableSVGState {
-	x: number;
-	y: number;
-	historyX: number;
-	historyY: number;
-	currentMove: boolean;
-	offset: {
-		x: number;
-		y: number;
-	}
+	isMarked: boolean;
 }
 
 export interface IDraggable {
@@ -24,7 +16,7 @@ export interface IDraggable {
 	active: boolean;
 }
 
-export interface IDraggableShape extends IDraggableSVGState, IDraggable {};
+export interface IDraggableShape extends IDraggableSVGState {};
 
 export abstract class ShapeCenterPosition {
 	static constX : number;

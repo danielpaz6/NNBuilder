@@ -7,7 +7,8 @@ import {
 	UPDATE_SHAPE_LOCATION,
 	ShapeActionTypes,
 	ADD_ARROW,
-	UPDATE_SHAPE_ARROWS
+	UPDATE_SHAPE_ARROWS,
+	EDIT_SHAPE_NAME
 } from './types';
 
 export function addShape(newShape: Shape) : ShapeActionTypes {
@@ -39,7 +40,17 @@ export function editActiveShape(timestamp: number) : ShapeActionTypes {
 		meta: {
 			timestamp: timestamp
 		}
-	}
+	};
+}
+
+export function editShapeName(timestamp: number, name: string) : ShapeActionTypes {
+	return {
+		type: EDIT_SHAPE_NAME,
+		payload: {
+			timestamp: timestamp,
+			newName: name
+		}
+	};
 }
 
 export function updateShapePositionAction(timestamp: number, x: number, y: number) : ShapeActionTypes {
@@ -50,7 +61,7 @@ export function updateShapePositionAction(timestamp: number, x: number, y: numbe
 			x: x,
 			y: y
 		}
-	}
+	};
 }
 
 export function addArrowAndUpdateConnections(timestamp: number, source: Shape, target: Shape) : ShapeActionTypes {
@@ -70,5 +81,5 @@ export function updateShapeArrows(timestamp: number) : ShapeActionTypes {
 		meta: {
 			timestamp: timestamp
 		}
-	}
+	};
 }

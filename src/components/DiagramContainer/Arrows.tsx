@@ -26,12 +26,12 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 				const xMid = (x1 + x2) / 2;
 				const yMid = (y1 + y2) / 2;
 
-				const points = [
+				/*const points = [
 					[xMid + 2,  yMid + 7],
 					[xMid + 0,  yMid + 0],
 					[xMid + 11, yMid + 7],
 					[xMid + 0,  yMid + 14]
-				]
+				];*/
 
 				return (
 					<polyline 

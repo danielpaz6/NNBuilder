@@ -6,7 +6,8 @@ import {
 	UPDATE_SHAPE_LOCATION,
 	ShapeActionTypes,
 	ADD_ARROW,
-	SET_SHAPES
+	SET_SHAPES,
+	EDIT_SHAPE_NAME
 	//Arrow,
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
@@ -52,6 +53,16 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 				...state,
 				sourceShape: state.shapes.find(s => s.timestamp === action.meta.timestamp)
 			}
+
+		case EDIT_SHAPE_NAME: {
+			const currShape = shapes.find(s => s.timestamp === action.payload.timestamp)!;
+			currShape.name = action.payload.newName;
+			
+			return {
+				...state,
+				shapes
+			}
+		}
 		
 		case UPDATE_SHAPE_LOCATION: {
 			const currShape = shapes.find(s => s.timestamp === action.payload.timestamp)!;

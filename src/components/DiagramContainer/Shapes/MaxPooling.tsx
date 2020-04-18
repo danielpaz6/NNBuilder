@@ -23,19 +23,13 @@ export default class MaxPooling extends React.Component<IDraggableShape> {
 
 	public render() {
 		return (
-			<svg 
-				x={this.props.x}
-				y={this.props.y}
-				onPointerDown={this.props.handlePointerDown}
-				onPointerUp={this.props.handlePointerUp}
-				onPointerMove={this.props.handlePointerMove}
-				fill={this.props.active ? "blue" : "black"}>
-					<title>Max Pooling Layer</title>
-					
-					<rect id="svg_1" height={HEIGHT} width={WIDTH} y={OFFSET} x={OFFSET + PADDING} strokeWidth="1" stroke={this.props.active ? BORDER_ACTIVE : BORDER1} fill={BG1} rx="1"></rect>
-					<rect id="svg_2" height={HEIGHT} width={WIDTH} y={OFFSET + PADDING} x={OFFSET + PADDING*2} strokeWidth="1" stroke={this.props.active ? BORDER_ACTIVE : BORDER2} fill={BG2} rx="1"></rect>
-					<rect id="svg_3" height={HEIGHT} width={WIDTH} y={OFFSET + PADDING*2} x={OFFSET + PADDING*3} strokeWidth="1" stroke={this.props.active ? BORDER_ACTIVE : BORDER3} fill={BG3} rx="1"></rect>
-			</svg>
+			<React.Fragment>
+				<title>Max Pooling Layer</title>
+				
+				<rect id="svg_1" height={HEIGHT} width={WIDTH} y={OFFSET} x={OFFSET + PADDING} strokeWidth="1" stroke={this.props.isMarked ? BORDER_ACTIVE : BORDER1} fill={BG1} rx="1"></rect>
+				<rect id="svg_2" height={HEIGHT} width={WIDTH} y={OFFSET + PADDING} x={OFFSET + PADDING*2} strokeWidth="1" stroke={this.props.isMarked ? BORDER_ACTIVE : BORDER2} fill={BG2} rx="1"></rect>
+				<rect id="svg_3" height={HEIGHT} width={WIDTH} y={OFFSET + PADDING*2} x={OFFSET + PADDING*3} strokeWidth="1" stroke={this.props.isMarked ? BORDER_ACTIVE : BORDER3} fill={BG3} rx="1"></rect>
+			</React.Fragment>
 		);
 	}
 }

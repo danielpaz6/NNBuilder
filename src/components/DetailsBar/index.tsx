@@ -1,18 +1,21 @@
 import * as React from 'react';
 import './detailsbar.scss';
-import Button from "react-bootstrap/Button";
+//import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
+//import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { ShapeState } from '../../store/shapes/types';
+import { editShapeName, updateShapePositionAction } from '../../store/shapes/actions';
 
 
 interface IDetailsBarProps {
 	shapes: ShapeState;
+	editShapeName: typeof editShapeName;
+	updateShapePositionAction: typeof updateShapePositionAction;
 }
 
 interface IDetailsBarState {
@@ -22,6 +25,32 @@ interface IDetailsBarState {
 
 class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 	
+	handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+		this.props.editShapeName(this.props.shapes.sourceShape!.timestamp, event.target.value);
+	}
+
+	handleChangePosition = (event: React.ChangeEvent<HTMLInputElement>, axisToChange : number) => {
+		
+		const value = +event.target.value;
+
+		// Change X Axis
+		if(axisToChange === 0) {
+			this.props.updateShapePositionAction(
+				this.props.shapes.sourceShape!.timestamp,
+				value > 0 ? value : 0,
+				this.props.shapes.sourceShape!.y
+			);
+		}
+		// Change Y Axis
+		else {
+			this.props.updateShapePositionAction(
+				this.props.shapes.sourceShape!.timestamp,
+				this.props.shapes.sourceShape!.x,
+				value > 0 ? value : 0
+			);
+		}
+	}
+
 	render() {
 		if(this.props.shapes.sourceShape)
 		{
@@ -35,7 +64,8 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 					<Form.Control
 						type="text"
 						placeholder="Layer Name"
-						value={shape.name} />
+						value={shape.name}
+						onChange={this.handleChangeName} />
 				</Form.Group>
 				<Form.Group controlId="activation-function">
 					<Form.Label>Activation Function</Form.Label>
@@ -66,17 +96,24 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 					<Row>
 						<Col style={{paddingRight: "3px"}}>
 							<Form.Control
+								type="number"
+								step="5"
 								placeholder="X"
 								size="sm"
 								bsPrefix={'form-control fixed-size'}
-								value={shape.x} />
+								value={shape.x}
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangePosition(e, 0)} />
 						</Col>
 						<Col style={{paddingLeft: "3px"}}>
 							<Form.Control
+								type="number"
+								step="5"
 								placeholder="Y"
 								size="sm"
 								bsPrefix={'form-control fixed-size'}
-								value={shape.y} />
+								value={shape.y}
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangePosition(e, 1)} 
+								 />
 						</Col>
 					</Row>
 				</Form.Group>
@@ -85,7 +122,7 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 						Note: There's a warning when openning the Accordion.Toggle:
 						"Warning: findDOMNode is deprecated in StrictMode"
 
-						it is known issue:
+						it is known issue in react-bootstrap package:
 						https://github.com/react-bootstrap/react-bootstrap/issues/5075
 
 						And will be fixed.
@@ -112,5 +149,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	//{ editActiveShape, updateMouseLocation, setShapes }
+	{ editShapeName, updateShapePositionAction }
 )(DetailsBar);

@@ -30,6 +30,7 @@ export const ADD_SHAPE = "ADD_SHAPE";
 export const SET_SHAPES = "SET_SHAPES";
 export const DELETE_SHAPE = "DELETE_SHAPE";
 export const EDIT_SHAPE_ACTIVATION = "EDIT_SHAPE_ACTIVATION";
+export const EDIT_SHAPE_NAME = "EDIT_SHAPE_NAME";
 export const UPDATE_SHAPE_LOCATION = "UPDATE_SHAPE_LOCATION";
 
 export const ADD_ARROW = "ADD_ARROW";
@@ -56,6 +57,14 @@ interface EditShapeActivationAction {
 	type: typeof EDIT_SHAPE_ACTIVATION;
 	meta: {
 		timestamp: number;
+	};
+}
+
+interface EditShapeNameAction {
+	type: typeof EDIT_SHAPE_NAME;
+	payload: {
+		timestamp: number;
+		newName: string;
 	};
 }
 
@@ -91,4 +100,5 @@ export type ShapeActionTypes =
 	UpdateShapePositionAction |
 	AddArrowAction |
 	UpdateShapeArrows |
-	SetShapesAction;
+	SetShapesAction |
+	EditShapeNameAction;

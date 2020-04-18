@@ -1,8 +1,7 @@
 import * as React from 'react';
 import './diagram.scss';
 
-import DraggableSVG from "./Shapes/DraggableSVG";
-import { IDraggableShape } from "../../interfaces/shapes";
+import DraggableSVG from "./DraggableSVG";
 
 import { editActiveShape, setShapes } from '../../store/shapes/actions';
 import { updateMouseLocation } from '../../store/mouse/actions';
@@ -27,12 +26,7 @@ export interface IDiagramContainerState {
 }
 
 class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramContainerState> {
-
-	refElement = React.createRef<HTMLDivElement>();
-
-	constructor(props : IDiagramContainerProps) {
-		super(props);
-	}
+	//refElement = React.createRef<HTMLDivElement>();
 	
 	componentDidMount() {
 		this.props.setShapes(seedInitShapes);
@@ -118,9 +112,12 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 							<DraggableSVG
 								currentShape={shape}
 								key={shape.timestamp}
-								render={(props : IDraggableShape) => 
-									React.createElement(shape.shape, {...props}, null)}
-							/>)
+							>
+								{React.createElement(shape.shape, {
+									isMarked: this.props.shapes.sourceShape && shape.timestamp === this.props.shapes.sourceShape!.timestamp ? true : false
+								})}
+							</DraggableSVG>
+						)
 					}
 
 					{/*<DraggableSVG render={(props : IDraggableShape) => (

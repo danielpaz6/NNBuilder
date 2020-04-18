@@ -1,22 +1,36 @@
 import * as React from 'react';
-import { IDraggableSVGState } from "../../../interfaces/shapes";
 import { connect } from 'react-redux';
-import { AppState } from '../../../store';
-import { editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections } from '../../../store/shapes/actions';
-import { updateMouseLocation } from '../../../store/mouse/actions';
-import { ShapeState, Shape } from '../../../store/shapes/types';
+import { AppState } from '../../store';
+import { editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections } from '../../store/shapes/actions';
+import { updateMouseLocation } from '../../store/mouse/actions';
+import { ShapeState, Shape } from '../../store/shapes/types';
 
 export interface IDraggableSVGProps {
-	render: any;
 	currentShape: Shape;
 	shapes: ShapeState;
+	children: React.ReactNode;
 	editActiveShape: typeof editActiveShape;
 	updateShapePositionAction: typeof updateShapePositionAction;
 	addArrowAndUpdateConnections: typeof addArrowAndUpdateConnections;
 	updateMouseLocation: typeof updateMouseLocation;
 }
 
-class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGState> {
+// We must maintain a local state in addition to the redux shape attributes
+// so we could move shapes that are not targeted.
+
+export interface IDraggableSVGState {
+	x: number;
+	y: number;
+	historyX: number;
+	historyY: number;
+	currentMove: boolean;
+	offset: {
+		x: number;
+		y: number;
+	}
+}
+
+class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVGState> {
 	constructor(props: IDraggableSVGProps) {
 		super(props);
 
@@ -32,6 +46,11 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 			}
 		}
 	}
+
+	// TODO: use this component to avoid wasted rendering.
+	/*shouldComponentUpdate() {
+		return false;
+	}*/
 
 	handlePointerDown = (e : React.PointerEvent<EventTarget>) => {
 		const el = e.target as HTMLInputElement;
@@ -53,6 +72,7 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 
 
 	// TODO: Math.floor the position, this will improve the performance significantly.
+	// and also a pure component
 	handlePointerMove = (e: React.PointerEvent<EventTarget>) => {
 		const el = e.target as HTMLInputElement;
 		const bbox = el.getBoundingClientRect();
@@ -61,7 +81,7 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 
 		const newX = this.state.x - (this.state.offset.x - x);
 		const newY = this.state.y - (this.state.offset.y - y);
-
+		
 		if (this.state.currentMove) {
 			
 			// we might pass this local state since we use redux
@@ -73,8 +93,10 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 			// Update the position of the current shape in the redux
 			this.props.updateShapePositionAction(
 				this.props.currentShape.timestamp,
-				this.state.x,
-				this.state.y
+				newX < 0 ? 0 : newX,
+				newY < 0 ? 0 : newY
+				//this.state.x,
+				//this.state.y
 			);
 
 			// If the current shape moved and is not the active shape
@@ -134,25 +156,31 @@ class DraggableSVG extends React.Component<IDraggableSVGProps, IDraggableSVGStat
 	};
 
 	public render() {
-		//console.log("render", this.state);	
-		const isShapeActive = this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp === this.props.currentShape.timestamp;
+		// Edge case: if we change the shape location from the Details Bar,
+		// it means that the current shape is the sourceShape,
+		// to avoid cases where we need to choose between sourceShape and this state
+
+		// we'll simply use this.props.currentShape to display the shape location
+
+		console.log("RENDERING DRAGGABLESVG!");
+
 		return (
 			/*this.props.render({
-				cx: this.state.x,
-				cy: this.state.y,
-				onPointerDown: this.handlePointerDown,
-				onPointerUp: this.handlePointerUp,
-				onPointerMove: this.handlePointerMove,
-				active: this.state.active
-			})*/
-			
-			this.props.render({
 				...this.state,
 				active: isShapeActive,
 				handlePointerDown: this.handlePointerDown,
 				handlePointerMove: this.handlePointerMove,
 				handlePointerUp: this.handlePointerUp
-			})
+			})*/
+
+			<svg 
+				x={this.props.currentShape.x}
+				y={this.props.currentShape.y}
+				onPointerDown={this.handlePointerDown}
+				onPointerUp={this.handlePointerUp}
+				onPointerMove={this.handlePointerMove}>
+					{this.props.children}
+			</svg>
 		);
 	}
 }
