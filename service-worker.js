@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/React-Neural-Network-Planner/precache-manifest.32bb695cbcebad874026a856c3149594.js"
+  "/React-Neural-Network-Planner/precache-manifest.591486752e0f87a00de3eb0c4f4d0314.js"
 );
 
 self.addEventListener('message', (event) => {
