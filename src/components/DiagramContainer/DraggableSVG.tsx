@@ -164,24 +164,14 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 		}
 	};
 
+	// Edge case: if we change the shape location from the Details Bar,
+	// it means that the current shape is the sourceShape,
+	// to avoid cases where we need to choose between sourceShape and this state
+
+	// we'll simply use this.props.currentShape to display the shape location
 	public render() {
-		// Edge case: if we change the shape location from the Details Bar,
-		// it means that the current shape is the sourceShape,
-		// to avoid cases where we need to choose between sourceShape and this state
-
-		// we'll simply use this.props.currentShape to display the shape location
-
-		//console.log("RENDERING DRAGGABLESVG!");
 
 		return (
-			/*this.props.render({
-				...this.state,
-				active: isShapeActive,
-				handlePointerDown: this.handlePointerDown,
-				handlePointerMove: this.handlePointerMove,
-				handlePointerUp: this.handlePointerUp
-			})*/
-
 			<svg 
 				x={this.props.currentShape.x}
 				y={this.props.currentShape.y}

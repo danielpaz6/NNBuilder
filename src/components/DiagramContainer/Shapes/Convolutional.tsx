@@ -22,7 +22,6 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 	static centerPosition = [WIDTH / 2 + (PADDING) * 4 / 2, HEIGHT / 2 + (PADDING) * 4 / 2];
 
 	public render() {
-		//console.log("Rect State", this.props);
 		return (
 			<React.Fragment>
 				<title>Convolutional Layer</title>

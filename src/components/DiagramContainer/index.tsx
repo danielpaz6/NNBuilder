@@ -146,10 +146,6 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 							</DraggableSVG>
 						)
 					}
-
-					{/*<DraggableSVG render={(props : IDraggableShape) => (
-						<MaxPooling {...props} />
-					)} />*/}
 				</svg>
 			</div>
 		);

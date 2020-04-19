@@ -11,12 +11,12 @@ import { seedNewShapes } from '../../utils/seedShapes';
 export interface ITemplatesModalProps {
 	show: boolean;
 	onHide: () => void;
-	setShapes: typeof setShapes;
+	//setShapes: typeof setShapes;
 }
 
 class TemplatesModal extends React.Component<ITemplatesModalProps> {
 	handleTemplate = (temp: string) => {
-		switch(temp) {
+		/*switch(temp) {
 			case "resnet":
 				this.props.setShapes(ResNet);
 				break;
@@ -24,7 +24,7 @@ class TemplatesModal extends React.Component<ITemplatesModalProps> {
 			case "blank":
 				this.props.setShapes(seedNewShapes);
 				break;
-		}
+		}*/
 
 		this.props.onHide();
 	}
@@ -63,7 +63,7 @@ class TemplatesModal extends React.Component<ITemplatesModalProps> {
 	}
 }
 
-export default connect(
+export default /*connect(
 	null,
 	{ setShapes }
-)(TemplatesModal);
+)*/(TemplatesModal);

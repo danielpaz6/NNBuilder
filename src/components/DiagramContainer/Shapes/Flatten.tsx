@@ -18,7 +18,6 @@ export default class Flatten extends React.Component<IDraggableShape> {
 		return (
 			<React.Fragment>
 				<title>Flatten Layer</title>
-				
 				<rect id="svg_1" height={HEIGHT} width={WIDTH} y={OFFSET} x={OFFSET} strokeWidth="1" stroke={this.props.isMarked ? BORDER_ACTIVE : BORDER} fill={BG}></rect>
 			</React.Fragment>
 		);

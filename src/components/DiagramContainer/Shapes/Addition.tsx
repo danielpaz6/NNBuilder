@@ -28,10 +28,6 @@ export default class Addition extends React.Component<IDraggableShape> {
 					stroke={BORDER}
 					fill={BORDER}
 				strokeWidth="2"/>
-
-				{/*<path d="m20,20 v0 h0 v20 a40,40 10 11,11 20,10Z" x="0" y="0" fill="rgb(115, 166, 101)"></path>
-				<line x1="0" y1="0" x2="30" y2="0" strokeWidth="5" stroke="rgb(0,68,0)" />
-			<line x1="5" y1="0" x2="5" y2="30" strokeWidth="5" stroke="rgb(0,68,0)" />*/}
 			</React.Fragment>
 		);
 	}
