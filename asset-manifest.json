@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/React-Neural-Network-Planner/static/css/main.c7c76d55.chunk.css",
-    "main.js": "/React-Neural-Network-Planner/static/js/main.eecc1467.chunk.js",
-    "main.js.map": "/React-Neural-Network-Planner/static/js/main.eecc1467.chunk.js.map",
+    "main.css": "/React-Neural-Network-Planner/static/css/main.73970739.chunk.css",
+    "main.js": "/React-Neural-Network-Planner/static/js/main.faa208e1.chunk.js",
+    "main.js.map": "/React-Neural-Network-Planner/static/js/main.faa208e1.chunk.js.map",
     "runtime-main.js": "/React-Neural-Network-Planner/static/js/runtime-main.05cd5a7a.js",
     "runtime-main.js.map": "/React-Neural-Network-Planner/static/js/runtime-main.05cd5a7a.js.map",
-    "static/js/2.8b795d83.chunk.js": "/React-Neural-Network-Planner/static/js/2.8b795d83.chunk.js",
-    "static/js/2.8b795d83.chunk.js.map": "/React-Neural-Network-Planner/static/js/2.8b795d83.chunk.js.map",
+    "static/js/2.7afbc178.chunk.js": "/React-Neural-Network-Planner/static/js/2.7afbc178.chunk.js",
+    "static/js/2.7afbc178.chunk.js.map": "/React-Neural-Network-Planner/static/js/2.7afbc178.chunk.js.map",
     "index.html": "/React-Neural-Network-Planner/index.html",
-    "precache-manifest.e9f8fcb3b1528f21ef2540bf687d8b19.js": "/React-Neural-Network-Planner/precache-manifest.e9f8fcb3b1528f21ef2540bf687d8b19.js",
+    "precache-manifest.de44a2b68521abde4e2113f4ebbc7654.js": "/React-Neural-Network-Planner/precache-manifest.de44a2b68521abde4e2113f4ebbc7654.js",
     "service-worker.js": "/React-Neural-Network-Planner/service-worker.js",
-    "static/css/main.c7c76d55.chunk.css.map": "/React-Neural-Network-Planner/static/css/main.c7c76d55.chunk.css.map",
-    "static/js/2.8b795d83.chunk.js.LICENSE.txt": "/React-Neural-Network-Planner/static/js/2.8b795d83.chunk.js.LICENSE.txt"
+    "static/css/main.73970739.chunk.css.map": "/React-Neural-Network-Planner/static/css/main.73970739.chunk.css.map",
+    "static/js/2.7afbc178.chunk.js.LICENSE.txt": "/React-Neural-Network-Planner/static/js/2.7afbc178.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.05cd5a7a.js",
-    "static/js/2.8b795d83.chunk.js",
-    "static/css/main.c7c76d55.chunk.css",
-    "static/js/main.eecc1467.chunk.js"
+    "static/js/2.7afbc178.chunk.js",
+    "static/css/main.73970739.chunk.css",
+    "static/js/main.faa208e1.chunk.js"
   ]
 }
