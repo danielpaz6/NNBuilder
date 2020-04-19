@@ -10,6 +10,7 @@ export interface Shape {
 	centerPosition: number[]; // X and Y locations relative to the top left edge of the shape
 	connectedTo: Shape[]; // pointers to the real shapes
 	connectedToMe: Shape[]; // pointers to the real shapes
+	description?: string;
 	//active: boolean;
 }
 
@@ -32,6 +33,7 @@ export const DELETE_SHAPE = "DELETE_SHAPE";
 export const EDIT_SHAPE_ACTIVATION = "EDIT_SHAPE_ACTIVATION";
 export const EDIT_SHAPE_NAME = "EDIT_SHAPE_NAME";
 export const UPDATE_SHAPE_LOCATION = "UPDATE_SHAPE_LOCATION";
+export const UPDATE_SHAPE_DESCRIPTION = "UPDATE_SHAPE_DESCRIPTION";
 
 export const ADD_ARROW = "ADD_ARROW";
 export const UPDATE_SHAPE_ARROWS = "UPDATE_SHAPE_ARROWS";
@@ -68,6 +70,14 @@ interface EditShapeNameAction {
 	};
 }
 
+interface UpdateShapeDescriptionAction {
+	type: typeof UPDATE_SHAPE_DESCRIPTION;
+	payload: {
+		timestamp: number;
+		desc: string;
+	}
+}
+
 interface UpdateShapePositionAction {
 	type: typeof UPDATE_SHAPE_LOCATION;
 	payload: {
@@ -101,4 +111,5 @@ export type ShapeActionTypes =
 	AddArrowAction |
 	UpdateShapeArrows |
 	SetShapesAction |
-	EditShapeNameAction;
+	EditShapeNameAction |
+	UpdateShapeDescriptionAction;

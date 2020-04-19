@@ -7,7 +7,8 @@ import {
 	ShapeActionTypes,
 	ADD_ARROW,
 	SET_SHAPES,
-	EDIT_SHAPE_NAME
+	EDIT_SHAPE_NAME,
+	UPDATE_SHAPE_DESCRIPTION
 	//Arrow,
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
@@ -37,7 +38,8 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 		case SET_SHAPES:
 			return {
 				...state,
-				shapes: [...action.payload]
+				shapes: [...action.payload],
+				sourceShape: undefined
 			};
 
 		case DELETE_SHAPE:
@@ -48,7 +50,7 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 				)
 			};
 
-		case EDIT_SHAPE_ACTIVATION:			
+		case EDIT_SHAPE_ACTIVATION:
 			return {
 				...state,
 				sourceShape: state.shapes.find(s => s.timestamp === action.meta.timestamp)
@@ -68,6 +70,16 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			const currShape = shapes.find(s => s.timestamp === action.payload.timestamp)!;
 			currShape.x = action.payload.x;
 			currShape.y = action.payload.y;
+
+			return {
+				...state,
+				shapes: shapes
+			};
+		}
+
+		case UPDATE_SHAPE_DESCRIPTION: {
+			const currShape = shapes.find(s => s.timestamp === action.payload.timestamp)!;
+			currShape.description = action.payload.desc;
 
 			return {
 				...state,

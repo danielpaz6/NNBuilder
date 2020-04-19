@@ -4,6 +4,10 @@ import Flatten from "../components/DiagramContainer/Shapes/Flatten";
 import Convolutional from "../components/DiagramContainer/Shapes/Convolutional";
 import Addition from "../components/DiagramContainer/Shapes/Addition";
 import Concatenate from "../components/DiagramContainer/Shapes/Concatenate";
+import Input from "../components/DiagramContainer/Shapes/Input";
+import Output from "../components/DiagramContainer/Shapes/Output";
+import Dropout from "../components/DiagramContainer/Shapes/Dropout";
+import BatchNormalization from "../components/DiagramContainer/Shapes/BatchNormalization";
 
 export interface IDraggableSVGState {
 	isMarked: boolean;
@@ -29,7 +33,11 @@ export type LayerTypes =
 	typeof Flatten |
 	typeof Convolutional |
 	typeof Concatenate |
-	typeof Addition;
+	typeof Addition |
+	typeof Input |
+	typeof Output |
+	typeof Dropout |
+	typeof BatchNormalization;
 
 export const layersMap : Record<string, {create: () => LayerTypes, centerPosition: number[]}> = {
 	MaxPooling: {
@@ -55,5 +63,21 @@ export const layersMap : Record<string, {create: () => LayerTypes, centerPositio
 	Addition: {
 		create: () => Addition,
 		centerPosition: Addition.centerPosition
+	},
+	Input: {
+		create: () => Input,
+		centerPosition: Input.centerPosition
+	},
+	Output: {
+		create: () => Output,
+		centerPosition: Output.centerPosition
+	},
+	Dropout: {
+		create: () => Dropout,
+		centerPosition: Dropout.centerPosition
+	},
+	BatchNormalization: {
+		create: () => BatchNormalization,
+		centerPosition: BatchNormalization.centerPosition
 	}
 }

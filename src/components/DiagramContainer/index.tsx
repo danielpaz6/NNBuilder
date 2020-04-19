@@ -12,6 +12,13 @@ import Arrows from './Arrows';
 import { MouseState } from '../../store/mouse/types';
 import { seedInitShapes } from '../../utils/seedShapes';
 
+interface MouseLocation {
+	nativeEvent: {
+		offsetX: number;
+		offsetY: number;
+	};
+}
+
 export interface IDiagramContainerProps {
 	shapes: ShapeState;
 	mouse: MouseState;
@@ -23,11 +30,16 @@ export interface IDiagramContainerProps {
 export interface IDiagramContainerState {
 	//arrowX?: number;
 	//arrowY?: number;
+	isMouseInsideSVG: boolean;
 }
 
-class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramContainerState> {
+class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiagramContainerState> {
 	//refElement = React.createRef<HTMLDivElement>();
 	
+	state = {
+		isMouseInsideSVG: false
+	};
+
 	componentDidMount() {
 		this.props.setShapes(seedInitShapes);
 	}
@@ -40,7 +52,7 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 		}
 	}
 
-	handlePointerMovement = (e: React.MouseEvent) => {
+	handlePointerMovement = (e: React.MouseEvent | MouseLocation) => {
 		if(this.props.shapes.sourceShape)
 		{
 			const x = e.nativeEvent.offsetX;
@@ -70,6 +82,18 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 			this.props.editActiveShape(-1);
 	}
 
+	handleMouseLeave = () => {
+		this.setState({
+			isMouseInsideSVG: false
+		});
+	}
+
+	handleMouseEnter = () => {
+		this.setState({
+			isMouseInsideSVG: true
+		});
+	}
+
 	public render() {
 		return (
 			<div className="diagram-container">
@@ -78,6 +102,8 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 						onMouseMove={this.handlePointerMovement}
 						onContextMenu={this.handleRightClick}
 						onKeyDown={this.handleKeyDown}
+						onMouseLeave={this.handleMouseLeave}
+						onMouseEnter={this.handleMouseEnter}
 						role="button"
 						tabIndex={0}
 					>
@@ -92,7 +118,7 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 						</marker>
 					</defs>	
 					{
-						this.props.shapes.sourceShape ?
+						this.props.shapes.sourceShape && this.state.isMouseInsideSVG ?
 						<line
 							onClick={this.handleClick}
 							onContextMenu={this.handleRightClick}
@@ -110,6 +136,7 @@ class DiagramContainer extends React.Component<IDiagramContainerProps, IDiagramC
 					{
 						this.props.shapes.shapes.map(shape => 
 							<DraggableSVG
+								isMarked={this.props.shapes.sourceShape && shape.timestamp === this.props.shapes.sourceShape!.timestamp ? true : false}
 								currentShape={shape}
 								key={shape.timestamp}
 							>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './sidebar.scss';
-//import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 //import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -10,6 +10,7 @@ import { ShapeState, Shape } from '../../store/shapes/types';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 import { layersMap } from '../../interfaces/shapes';
+import TemplatesModal from '../TemplatesModal';
 
 export interface ISideBarProps {
 	addShape: typeof addShape;
@@ -18,8 +19,22 @@ export interface ISideBarProps {
 	shapes: ShapeState;
 }
 
-class SideBar extends React.Component<ISideBarProps>
+export interface ISideBarState {
+	modalShow: boolean;
+}
+
+class SideBar extends React.Component<ISideBarProps, ISideBarState>
 {
+	state = {
+		modalShow: false
+	};
+
+	handleSetModal = (pred: boolean) => {
+		this.setState({
+			modalShow: pred
+		});
+	};
+
 	createShape = (shapeName: string) => {
 		const layer = layersMap[shapeName];
 
@@ -54,11 +69,18 @@ class SideBar extends React.Component<ISideBarProps>
 		const targetTimeStamp = this.props.shapes.sourceShape ? this.props.shapes.sourceShape.timestamp : -1;
 
 		return (
+			<React.Fragment>
 			<div className="side-bar">
 				<Dropdown>
-					<Dropdown.Toggle variant="success" id="dropdown-basic" style={{width: "100%"}}>
-						Add new layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<Dropdown.Toggle variant="success" id="dropdown-basic" style={{width: "100%", marginBottom: "10px"}}>
+						Add new layer&nbsp;&nbsp;
 					</Dropdown.Toggle>
+
+					<Button 
+						variant="primary"
+						style={{width: "100%", marginBottom: "10px"}}
+						onClick={() => this.handleSetModal(true)}>Choose Template</Button>
+					<Button variant="danger" style={{width: "100%"}}>Get Code</Button>
 
 					<Dropdown.Menu style={{width: "100%"}}>
 						<Dropdown.Header>Layers</Dropdown.Header>
@@ -66,6 +88,8 @@ class SideBar extends React.Component<ISideBarProps>
 						<Dropdown.Item onClick={() => this.createShape("Convolutional")}>Convolutional</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("MaxPooling")}>Max Pooling</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("Concatenate")}>Concatenate</Dropdown.Item>
+						<Dropdown.Item onClick={() => this.createShape("Dropout")}>Dropout</Dropdown.Item>
+						<Dropdown.Item onClick={() => this.createShape("BatchNormalization")}>Batch Norm</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("Flatten")}>Flatten</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("Addition")}>Add</Dropdown.Item>
 						<Dropdown.Divider />
@@ -93,6 +117,12 @@ class SideBar extends React.Component<ISideBarProps>
 					}
 				</ListGroup>
 			</div>
+			
+			<TemplatesModal 
+				show={this.state.modalShow}
+				onHide={() => this.handleSetModal(false)}
+			/>
+			</React.Fragment>
 		);
 	}
 }

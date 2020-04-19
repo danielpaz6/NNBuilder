@@ -8,7 +8,8 @@ import {
 	ShapeActionTypes,
 	ADD_ARROW,
 	UPDATE_SHAPE_ARROWS,
-	EDIT_SHAPE_NAME
+	EDIT_SHAPE_NAME,
+	UPDATE_SHAPE_DESCRIPTION
 } from './types';
 
 export function addShape(newShape: Shape) : ShapeActionTypes {
@@ -60,6 +61,16 @@ export function updateShapePositionAction(timestamp: number, x: number, y: numbe
 			timestamp: timestamp,
 			x: x,
 			y: y
+		}
+	};
+}
+
+export function updateShapeDescription(timestamp: number, desc: string) : ShapeActionTypes {
+	return {
+		type: UPDATE_SHAPE_DESCRIPTION,
+		payload: {
+			timestamp: timestamp,
+			desc: desc
 		}
 	};
 }

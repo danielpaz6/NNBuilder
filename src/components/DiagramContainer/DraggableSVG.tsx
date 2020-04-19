@@ -4,11 +4,13 @@ import { AppState } from '../../store';
 import { editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections } from '../../store/shapes/actions';
 import { updateMouseLocation } from '../../store/mouse/actions';
 import { ShapeState, Shape } from '../../store/shapes/types';
+import { manhattanDistance } from '../../utils/distance';
 
 export interface IDraggableSVGProps {
 	currentShape: Shape;
 	shapes: ShapeState;
 	children: React.ReactNode;
+	isMarked: boolean;
 	editActiveShape: typeof editActiveShape;
 	updateShapePositionAction: typeof updateShapePositionAction;
 	addArrowAndUpdateConnections: typeof addArrowAndUpdateConnections;
@@ -100,8 +102,12 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 			);
 
 			// If the current shape moved and is not the active shape
-			// Then we'll remove the active shape.
-			if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp !== this.props.currentShape.timestamp) {
+			// Then we'll remove the active shape (after a certain threshold of the manhattan distance).
+			if(
+				this.props.shapes.sourceShape &&
+				this.props.shapes.sourceShape.timestamp !== this.props.currentShape.timestamp &&
+				Math.abs(manhattanDistance(this.state.x, this.state.y, this.state.historyX, this.state.historyY)) > 10
+			) {
 				this.props.editActiveShape(
 					-1
 				);
@@ -115,13 +121,12 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 		});
 
 		// If the user just clicked on a shape without moving it, then we'll select it
-		if(this.state.x === this.state.historyX && this.state.y === this.state.historyY)
+		// And since the position is so sensitive, we'll check if the distance between
+		// the position when we start clicked on the shape and when we stopped moving it
+		// is |distance| < 5 in manhattan distance ( which is the cheaper to calculate )
+		
+		if(Math.abs(manhattanDistance(this.state.x, this.state.y, this.state.historyX, this.state.historyY)) < 6)
 		{
-			// Sets the current shape as the active shape
-			this.props.editActiveShape(
-				this.props.currentShape.timestamp
-			);
-
 			// Once we updated the active shape, to avoid mouse glitching,
 			// we'll set the location of the mouse position to be the active shape
 
@@ -130,14 +135,14 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 				this.state.y + this.props.currentShape.centerPosition[1]
 			);
 
-			// Once we confirmed that the shape didn't move,
+			// Once we confirmed that the shape didn't move ( in our distance definition ),
 			// We'll check if the currentShape isn't equal the active shape and check if we should draw a line between
 			// the target shape and the current one
 
 			// 1. Checking if targetShape exists and edge case
 			// where the source Shape equals to the current Shape
-			if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp !== this.props.currentShape.timestamp) {
-				
+			if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.timestamp !== this.props.currentShape.timestamp)
+			{	
 				// Then, we'll make sure there isn't an arrow already between source and target
 				// We can check it in the connected list of the source shape
 				
@@ -151,8 +156,12 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 					this.props.addArrowAndUpdateConnections(new Date().getTime(), getSourceShape, getTargetShape!);
 				}
 			}
+
+			// Sets the current shape as the active shape
+			this.props.editActiveShape(
+				this.props.currentShape.timestamp
+			);
 		}
-		
 	};
 
 	public render() {
@@ -162,7 +171,7 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 
 		// we'll simply use this.props.currentShape to display the shape location
 
-		console.log("RENDERING DRAGGABLESVG!");
+		//console.log("RENDERING DRAGGABLESVG!");
 
 		return (
 			/*this.props.render({

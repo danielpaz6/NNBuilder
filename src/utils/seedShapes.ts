@@ -2,12 +2,12 @@ import { Shape } from "../store/shapes/types";
 import { layersMap } from '../interfaces/shapes';
 
 const fc1 : Shape = {
-	name: "FullyConnected",
+	name: "Input",
 	timestamp: new Date().getTime() - 100,
-	shape: layersMap.FullyConnected.create(),
+	shape: layersMap.Input.create(),
 	x: 83,
 	y: 70,
-	centerPosition: layersMap.FullyConnected.centerPosition,
+	centerPosition: layersMap.Input.centerPosition,
 	connectedTo: [],
 	connectedToMe: []
 };
@@ -67,6 +67,17 @@ const concat : Shape = {
 	connectedToMe: []
 }
 
+const output : Shape = {
+	name: "Output",
+	timestamp: new Date().getTime() - 700,
+	shape: layersMap.Output.create(),
+	x: 543,
+	y: 155,
+	centerPosition: layersMap.Output.centerPosition,
+	connectedTo: [],
+	connectedToMe: []
+}
+
 // Make connections between the shapes
 fc1.connectedTo.push(fc3);
 fc3.connectedToMe.push(fc1);
@@ -82,6 +93,30 @@ concat.connectedToMe.push(fc3, fc4);
 concat.connectedTo.push(fc5);
 fc3.connectedToMe.push(concat);
 
+fc5.connectedTo.push(output);
+output.connectedToMe.push(fc5);
 
+const newInput: Shape = {
+	name: "Input",
+	timestamp: new Date().getTime() - 1000,
+	shape: layersMap.Input.create(),
+	x: 57,
+	y: 180,
+	centerPosition: layersMap.Input.centerPosition,
+	connectedTo: [],
+	connectedToMe: []
+};
 
-export const seedInitShapes : Shape[] = [fc1, fc2, fc3, fc4, concat, fc5];
+const newOutput: Shape = {
+	name: "Output",
+	timestamp: new Date().getTime() - 1100,
+	shape: layersMap.Output.create(),
+	x: 587,
+	y: 155,
+	centerPosition: layersMap.Output.centerPosition,
+	connectedTo: [],
+	connectedToMe: []
+};
+
+export const seedInitShapes : Shape[] = [fc1, fc2, fc3, fc4, concat, fc5, output];
+export const seedNewShapes : Shape[] = [newInput, newOutput];

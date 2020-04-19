@@ -9,13 +9,14 @@ import Accordion from "react-bootstrap/Accordion";
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { ShapeState } from '../../store/shapes/types';
-import { editShapeName, updateShapePositionAction } from '../../store/shapes/actions';
+import { editShapeName, updateShapePositionAction, updateShapeDescription } from '../../store/shapes/actions';
 
 
 interface IDetailsBarProps {
 	shapes: ShapeState;
 	editShapeName: typeof editShapeName;
 	updateShapePositionAction: typeof updateShapePositionAction;
+	updateShapeDescription: typeof updateShapeDescription;
 }
 
 interface IDetailsBarState {
@@ -30,7 +31,6 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 	}
 
 	handleChangePosition = (event: React.ChangeEvent<HTMLInputElement>, axisToChange : number) => {
-		
 		const value = +event.target.value;
 
 		// Change X Axis
@@ -49,6 +49,13 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 				value > 0 ? value : 0
 			);
 		}
+	}
+
+	handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		this.props.updateShapeDescription(
+			this.props.shapes.sourceShape!.timestamp,
+			event.target.value
+		);
 	}
 
 	render() {
@@ -127,12 +134,16 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 
 						And will be fixed.
 					*/}
-					<Accordion defaultActiveKey="0">
+					<Accordion defaultActiveKey={shape.description ? '1' : '0'}>
 						<Accordion.Toggle as={Form.Label} eventKey="1" id="basic-nav-dropdown">				
 							Description <span className="dropdown-icon"></span>
 						</Accordion.Toggle>
 						<Accordion.Collapse eventKey="1">
-							<Form.Control as="textarea" rows="3" />
+							<Form.Control
+								as="textarea"
+								rows="3"
+								onChange={this.handleDescriptionChange}
+								value={shape.description ? shape.description : ""} />
 						</Accordion.Collapse>
 					</Accordion>
 				</Form.Group>
@@ -149,5 +160,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ editShapeName, updateShapePositionAction }
+	{ editShapeName, updateShapePositionAction, updateShapeDescription }
 )(DetailsBar);
