@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a04d4e2f892711774c653abdea1e79dd",
+    "revision": "f5915129bec092d00bc07c57ca05e481",
     "url": "/React-Neural-Network-Planner/index.html"
   },
   {
-    "revision": "06670b0c7b10097b3629",
+    "revision": "dce38511145922f3960e",
     "url": "/React-Neural-Network-Planner/static/css/main.73970739.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/React-Neural-Network-Planner/static/js/2.6203ded3.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "06670b0c7b10097b3629",
-    "url": "/React-Neural-Network-Planner/static/js/main.116b209b.chunk.js"
+    "revision": "dce38511145922f3960e",
+    "url": "/React-Neural-Network-Planner/static/js/main.072ebda5.chunk.js"
   },
   {
     "revision": "ef7b60b49f1303a74227",
