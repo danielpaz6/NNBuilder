@@ -15,8 +15,8 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 		return (
 			<React.Fragment>
 			{
-			this.props.shapes.shapes.map(sourceShape => sourceShape.connectedTo.map(targetShape => {
-				
+			//this.props.shapes.shapes.map(sourceShape => sourceShape.connectedTo.map(targetShape => {
+			this.props.shapes.arrows.forEach((activeFunction, [sourceShape, targetShape]) => {
 				const x1 = sourceShape.x + sourceShape.centerPosition[0];
 				const x2 = targetShape.x + targetShape.centerPosition[0];
 
@@ -35,7 +35,7 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 						stroke="black"
 					/>
 				);
-			}))
+			})})
 			}
 			</React.Fragment>
 		);

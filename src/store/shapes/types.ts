@@ -1,4 +1,5 @@
 import { LayerTypes } from "../../interfaces/shapes";
+import { AllActivationFunctions } from "../../interfaces/activations";
 
 // Describing the shape of the shapes's slice of state
 export interface Shape {
@@ -8,22 +9,25 @@ export interface Shape {
 	x: number;
 	y: number;
 	centerPosition: number[]; // X and Y locations relative to the top left edge of the shape
-	connectedTo: Shape[]; // pointers to the real shapes
-	connectedToMe: Shape[]; // pointers to the real shapes
+	//associatedArrows: Arrow[]; // include both connected to and connectedToMe
+	//connectedTo: Shape[]; // pointers to the real shapes
+	//connectedToMe: Shape[]; // pointers to the real shapes
 	description?: string;
 	//active: boolean;
 }
 
-/*export interface Arrow {
-	timestamp: string; // concat of source.timestamp + " " + target.timestamp
+export interface Arrow {
 	source: Shape;
 	target: Shape;
-}*/
+	activationFunction?: string;
+}
 
 export interface ShapeState {
 	shapes: Shape[];
 	sourceShape?: Shape;
+	arrows: Map<[Shape, Shape], AllActivationFunctions>;
 	//arrows: Arrow[];
+	sourceArrow?: Arrow;
 }
 
 // Describing the different ACTION NAMES available
@@ -90,7 +94,6 @@ interface UpdateShapePositionAction {
 interface AddArrowAction {
 	type: typeof ADD_ARROW;
 	payload: {
-		timestamp: number;
 		source: Shape;
 		target: Shape;
 	}

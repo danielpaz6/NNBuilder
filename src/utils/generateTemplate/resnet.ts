@@ -10,8 +10,8 @@ const input : Shape = {
 	x: 55,
 	y: 218,
 	centerPosition: layersMap.Input.centerPosition,
-	connectedTo: [],
-	connectedToMe: []
+	//connectedTo: [],
+	//connectedToMe: []
 };
 
 const fc1 : Shape = {
@@ -21,8 +21,8 @@ const fc1 : Shape = {
 	x: 168,
 	y: 83,
 	centerPosition: layersMap.FullyConnected.centerPosition,
-	connectedTo: [],
-	connectedToMe: []
+	//connectedTo: [],
+	//connectedToMe: []
 };
 
 const fc2 : Shape = {
@@ -32,8 +32,8 @@ const fc2 : Shape = {
 	x: 373,
 	y: 83,
 	centerPosition: layersMap.FullyConnected.centerPosition,
-	connectedTo: [],
-	connectedToMe: []
+	//connectedTo: [],
+	//connectedToMe: []
 };
 
 const norm1 : Shape = {
@@ -43,8 +43,8 @@ const norm1 : Shape = {
 	x: 261,
 	y: 103,
 	centerPosition: layersMap.BatchNormalization.centerPosition,
-	connectedTo: [],
-	connectedToMe: []
+	//connectedTo: [],
+	//connectedToMe: []
 };
 
 const norm2 : Shape = {
@@ -54,8 +54,8 @@ const norm2 : Shape = {
 	x: 453,
 	y: 103,
 	centerPosition: layersMap.BatchNormalization.centerPosition,
-	connectedTo: [],
-	connectedToMe: []
+	//connectedTo: [],
+	//connectedToMe: []
 };
 
 const add : Shape = {
@@ -65,8 +65,8 @@ const add : Shape = {
 	x: 453,
 	y: 214,
 	centerPosition: layersMap.Addition.centerPosition,
-	connectedTo: [],
-	connectedToMe: []
+	//connectedTo: [],
+	//connectedToMe: []
 };
 
 const output : Shape = {
@@ -76,10 +76,11 @@ const output : Shape = {
 	x: 627,
 	y: 194,
 	centerPosition: layersMap.Output.centerPosition,
-	connectedTo: [],
-	connectedToMe: []
+	//connectedTo: [],
+	//connectedToMe: []
 };
 
+/*
 input.connectedTo.push(fc1,add);
 fc1.connectedToMe.push(input);
 fc1.connectedTo.push(norm1);
@@ -91,5 +92,6 @@ norm2.connectedToMe.push(fc2);
 norm2.connectedTo.push(add);
 add.connectedToMe.push(norm2,input);
 add.connectedTo.push(output);
+*/
 
 export default [input, fc1, norm1, fc2, norm2, add, output];

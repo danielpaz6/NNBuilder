@@ -146,7 +146,15 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 				// Then, we'll make sure there isn't an arrow already between source and target
 				// We can check it in the connected list of the source shape
 				
-				if(this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.currentShape.timestamp).length === 0)
+				const getSourceShape = this.props.shapes.sourceShape;
+
+				// Complexity: O(|Shapes|)
+				//const getTargetShape = this.props.shapes.shapes.find(s => s.timestamp === this.props.currentShape.timestamp);
+
+				// Complexity: O(1)
+				this.props.addArrowAndUpdateConnections(getSourceShape, this.props.currentShape);
+
+				/*if(this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.currentShape.timestamp).length === 0)
 				{
 					// If we got this far, we'll draw an arrow between source and target shapes
 
@@ -154,7 +162,7 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 					const getTargetShape = this.props.shapes.shapes.find(s => s.timestamp === this.props.currentShape.timestamp);
 					
 					this.props.addArrowAndUpdateConnections(new Date().getTime(), getSourceShape, getTargetShape!);
-				}
+				}*/
 			}
 
 			// Sets the current shape as the active shape

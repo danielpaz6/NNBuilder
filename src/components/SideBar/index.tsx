@@ -45,8 +45,8 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 			x: 100 + Math.random() * 100,
 			y: 100 + Math.random() * 100,
 			centerPosition: layer.centerPosition,
-			connectedTo: [],
-			connectedToMe: []
+			//connectedTo: [],
+			//connectedToMe: []
 		};
 
 		this.props.addShape(newObject);

@@ -75,11 +75,10 @@ export function updateShapeDescription(timestamp: number, desc: string) : ShapeA
 	};
 }
 
-export function addArrowAndUpdateConnections(timestamp: number, source: Shape, target: Shape) : ShapeActionTypes {
+export function addArrowAndUpdateConnections(source: Shape, target: Shape) : ShapeActionTypes {
 	return {
 		type: ADD_ARROW,
 		payload: {
-			timestamp: timestamp,
 			source: source,
 			target: target
 		}
