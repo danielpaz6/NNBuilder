@@ -12,11 +12,19 @@ export interface IArrowsState {
 
 class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 	public render() {
+		/*console.log("Regular", this.props.shapes.arrows);
+		console.log("Test", Array.from(this.props.shapes.arrows.entries()));
+		console.log("Object.entries", Object.entries(this.props.shapes.arrows));
+		console.log("Object.keys", Object.keys(this.props.shapes.arrows));
+		console.log("-----------------------");*/
 		return (
 			<React.Fragment>
 			{
-			//this.props.shapes.shapes.map(sourceShape => sourceShape.connectedTo.map(targetShape => {
-			this.props.shapes.arrows.forEach((activeFunction, [sourceShape, targetShape]) => {
+			//Array.from(this.props.shapes.arrows.entries()).map((entry) => {
+			this.props.shapes.arrows.getList().map((entry : any) => {
+				// [[Shape, Shape], AllActivationFunctions]
+				const [[sourceShape, targetShape], activationFunction] = entry;
+
 				const x1 = sourceShape.x + sourceShape.centerPosition[0];
 				const x2 = targetShape.x + targetShape.centerPosition[0];
 
@@ -35,7 +43,8 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 						stroke="black"
 					/>
 				);
-			})})
+				
+			})
 			}
 			</React.Fragment>
 		);

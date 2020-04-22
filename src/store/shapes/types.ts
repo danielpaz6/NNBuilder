@@ -1,5 +1,6 @@
 import { LayerTypes } from "../../interfaces/shapes";
 import { AllActivationFunctions } from "../../interfaces/activations";
+import { ArrowMap } from "../../interfaces/arrowmap";
 
 // Describing the shape of the shapes's slice of state
 export interface Shape {
@@ -25,7 +26,8 @@ export interface Arrow {
 export interface ShapeState {
 	shapes: Shape[];
 	sourceShape?: Shape;
-	arrows: Map<[Shape, Shape], AllActivationFunctions>;
+	//arrows: Map<[Shape, Shape], AllActivationFunctions>;
+	arrows: ArrowMap;
 	//arrows: Arrow[];
 	sourceArrow?: Arrow;
 }

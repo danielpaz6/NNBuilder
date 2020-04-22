@@ -17,6 +17,7 @@
     "@types/redux-devtools-extension": "^2.13.2",
     "@types/redux-thunk": "^2.1.0",
     "bootstrap": "^4.4.1",
+    "collections": "^5.1.10",
     "d3": "^5.15.1",
     "d3-drag": "^1.2.5",
     "gh-pages": "^2.2.0",
@@ -34,8 +35,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-	"eject": "react-scripts eject",
-	"predeploy": "npm run build",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -54,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@types/collections": "^5.0.2",
     "@types/react": "^16.9.34"
   }
 }

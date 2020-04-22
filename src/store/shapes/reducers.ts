@@ -14,10 +14,12 @@ import {
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
 import { AllActivationFunctions } from "../../interfaces/activations";
+import { ArrowMap } from "../../interfaces/arrowmap";
 
 const initialState: ShapeState = {
 	shapes: [],
-	arrows: new Map<[Shape, Shape], AllActivationFunctions>()
+	//arrows: new Map<[Shape, Shape], AllActivationFunctions>()
+	arrows: new ArrowMap()
 };
 
 export function shapeReducer(state = initialState, action: ShapeActionTypes) : ShapeState {
@@ -96,30 +98,51 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			// point them to action.payload.source/target.
 			
 			// Complexity: O(2 * |Shapes|)
-			//const sourceShape = state.shapes.find(s => s.timestamp === action.payload.source.timestamp)!;
-			//const targetShape = state.shapes.find(s => s.timestamp === action.payload.target.timestamp)!;
+			const sourceShape2 = state.shapes.find(s => s.timestamp === action.payload.source.timestamp)!;
+			const targetShape2 = state.shapes.find(s => s.timestamp === action.payload.target.timestamp)!;
 
 			// Complextiy: O(1)
 			const sourceShape = action.payload.source;
 			const targetShape = action.payload.target;
 
+			/*console.log("2:----");
+			console.log(sourceShape2, targetShape2);
+
+			console.log("1:----");
+			console.log(sourceShape, targetShape);
+
+			console.log("checks:----");
+			console.log("One: ", sourceShape === sourceShape2);
+			console.log("--------------");*/
+
 			// If there is already an Arrow between them, we won't do it again
-			if(state.arrows.get([sourceShape, targetShape])) {
+			if(state.arrows.has([sourceShape, targetShape])) {
+				console.log("it's the same one.");
 				return state;
+			}
+			else
+			{
+				console.log("Seems like it's not inside!", state.arrows);
+				console.log("more info about it: ", targetShape == targetShape2, sourceShape == sourceShape2);
+				
+				
+				state.arrows.set([sourceShape, targetShape], null);
+				console.log("After setting:", state.arrows.has([sourceShape, targetShape]));
 			}
 
 			// If there is an opposite Arrow, we'll return the previous state and
 			// will return an Error
-			if(state.arrows.get([targetShape, sourceShape])) {
+			if(state.arrows.has([targetShape, sourceShape])) {
 				// TODO: Make an error here, it could be down by dispatch to new reducer.
-				console.log("Error, cannot make opposite arrow.")
+				console.log("Error, cannot make opposite arrow.");
 				return state;
 			}
 			
 			//sourceShape.connectedTo.push(targetShape);
 			//targetShape.connectedToMe.push(sourceShape);
 
-			const arrowsClone = new Map<[Shape, Shape], AllActivationFunctions>(state.arrows);
+			//const arrowsClone = new Map<[Shape, Shape], AllActivationFunctions>(state.arrows);
+			const arrowsClone = new ArrowMap(state.arrows);
 
 			
 			arrowsClone.set([sourceShape, targetShape], null);
