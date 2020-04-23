@@ -120,15 +120,6 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 				console.log("it's the same one.");
 				return state;
 			}
-			else
-			{
-				console.log("Seems like it's not inside!", state.arrows);
-				console.log("more info about it: ", targetShape == targetShape2, sourceShape == sourceShape2);
-				
-				
-				state.arrows.set([sourceShape, targetShape], null);
-				console.log("After setting:", state.arrows.has([sourceShape, targetShape]));
-			}
 
 			// If there is an opposite Arrow, we'll return the previous state and
 			// will return an Error

@@ -4,10 +4,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import { shapeReducer } from './shapes/reducers';
 import { mouseReducer } from "./mouse/reducers";
+import { toastsReducer } from "./toasts/reducers";
 
 const rootReducer = combineReducers({
 	shapes: shapeReducer,
-	mouse: mouseReducer
+	mouse: mouseReducer,
+	toasts: toastsReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

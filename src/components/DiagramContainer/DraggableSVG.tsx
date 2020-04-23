@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections } from '../../store/shapes/actions';
 import { updateMouseLocation } from '../../store/mouse/actions';
+import { addToast } from '../../store/toasts/actions';
 import { ShapeState, Shape } from '../../store/shapes/types';
 import { manhattanDistance } from '../../utils/distance';
+import { isValidArrow } from '../../model/checkArrow';
 
 export interface IDraggableSVGProps {
 	currentShape: Shape;
@@ -15,6 +17,7 @@ export interface IDraggableSVGProps {
 	updateShapePositionAction: typeof updateShapePositionAction;
 	addArrowAndUpdateConnections: typeof addArrowAndUpdateConnections;
 	updateMouseLocation: typeof updateMouseLocation;
+	addToast: typeof addToast;
 }
 
 // We must maintain a local state in addition to the redux shape attributes
@@ -152,7 +155,12 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 				//const getTargetShape = this.props.shapes.shapes.find(s => s.timestamp === this.props.currentShape.timestamp);
 
 				// Complexity: O(1)
-				this.props.addArrowAndUpdateConnections(getSourceShape, this.props.currentShape);
+				
+				// isValid also creates a toast if it doesn't successed.
+				if(isValidArrow(getSourceShape, this.props.currentShape, this.props.shapes.arrows, this.props.addToast))
+				{
+					this.props.addArrowAndUpdateConnections(getSourceShape, this.props.currentShape);
+				}
 
 				/*if(this.props.shapes.sourceShape.connectedTo.filter(s => s.timestamp === this.props.currentShape.timestamp).length === 0)
 				{
@@ -193,10 +201,17 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 }
 
 const mapStateToProps = (state: AppState) => ({
-	shapes: state.shapes
+	shapes: state.shapes,
+	toasts: state.toasts
 });
 
 export default connect(
 	mapStateToProps,
-	{ editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections, updateMouseLocation }
+	{ 
+		editActiveShape, 
+		updateShapePositionAction, 
+		addArrowAndUpdateConnections, 
+		updateMouseLocation,
+		addToast
+	}
 )(DraggableSVG);

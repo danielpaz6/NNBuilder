@@ -7,7 +7,10 @@ export class ArrowMap {
 
 	constructor(otherArrowMap?: ArrowMap) {
 		if(otherArrowMap)
+		{
 			this.map = new Map<string, AllActivationFunctions>(otherArrowMap.map); 
+			this.reverseMap = new Map<string, [Shape, Shape]>(otherArrowMap.reverseMap);
+		}
 	}
 
     set(key: [Shape, Shape], value: AllActivationFunctions): this {
@@ -40,12 +43,17 @@ export class ArrowMap {
 	
 	getList() {
 		const newList: [[Shape, Shape], AllActivationFunctions][] = [];
-		this.map.forEach((value, key) => newList.push(
-			[
-				this.reverseMap.get(key)!,
-				value
-			]
-		));
+		this.map.forEach((value, key) => {
+
+			if(this.reverseMap.has(key))
+			{
+				newList.push(
+				[
+					this.reverseMap.get(key)!,
+					value
+				])
+			}
+		});
 
 		return newList;
 	}

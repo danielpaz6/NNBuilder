@@ -8,6 +8,7 @@ import ToolBar from "./components/ToolBar";
 import SideBar from "./components/SideBar";
 import DiagramContainer from "./components/DiagramContainer";
 import DetailsBar from "./components/DetailsBar";
+import Toasts from "./components/Toasts";
 
 function App() {
 	
@@ -17,6 +18,7 @@ function App() {
 			<SideBar />
 			<DiagramContainer />
 			<DetailsBar />
+			<Toasts />
 		</div>
 	);
 }
