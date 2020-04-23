@@ -66,6 +66,14 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 			this.props.updateMouseLocation(x, y);
 
 		}
+
+		// Edge case: when you click on close button of a Toast
+		// the this.state.isMouseInsideSVG will be set as false
+		// hence, if we moving the mouse inside the SVG again, we'll set it as true
+		// it is pure component so no need to check if it's false
+		// and anyway it will be re-rendered since we move the red line.
+		
+		this.setState({isMouseInsideSVG: true});
 	}
 
 	handleRightClick = (event: React.MouseEvent) => {

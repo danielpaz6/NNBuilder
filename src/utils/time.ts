@@ -27,5 +27,9 @@ export function timeSince(timestamp: number) {
 		return interval + " minutes";
 	}
 	
+	if(seconds <= 7) {
+		return "just now";
+	}
+	
 	return Math.floor(seconds) + " seconds";
 }

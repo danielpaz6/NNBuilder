@@ -14,7 +14,7 @@ import {
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
 import { AllActivationFunctions } from "../../interfaces/activations";
-import { ArrowMap } from "../../interfaces/arrowmap";
+import ArrowMap from "../../interfaces/arrowMap";
 
 const initialState: ShapeState = {
 	shapes: [],
@@ -43,6 +43,7 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			return {
 				...state,
 				shapes: [...action.payload],
+				arrows: new ArrowMap(),
 				sourceShape: undefined
 			};
 

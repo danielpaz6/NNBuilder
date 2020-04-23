@@ -77,7 +77,6 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 
 
 	// TODO: Math.floor the position, this will improve the performance significantly.
-	// and also a pure component
 	handlePointerMove = (e: React.PointerEvent<EventTarget>) => {
 		const el = e.target as HTMLInputElement;
 		const bbox = el.getBoundingClientRect();

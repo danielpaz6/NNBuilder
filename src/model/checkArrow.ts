@@ -1,7 +1,10 @@
 import { Shape } from "../store/shapes/types"
 import { addToast } from "../store/toasts/actions"
-import { ArrowMap } from "../interfaces/arrowmap"
+import ArrowMap from "../interfaces/arrowMap"
 import Input from "../components/DiagramContainer/Shapes/Input";
+import Output from "../components/DiagramContainer/Shapes/Output";
+import Concatenate from "../components/DiagramContainer/Shapes/Concatenate";
+import Addition from "../components/DiagramContainer/Shapes/Addition";
 
 export const isValidArrow = (
 	sourceShape: Shape,
@@ -21,6 +24,17 @@ export const isValidArrow = (
 	// Hence, it won't be true to check if it's "instanceof" Input, but equals.
 	if(targetShape.shape === Input) {
 		addNotifcation("Illegal Arrow Drawing", `Cannot draw arrow to Input layer.`);
+		return false;
+	}
+
+	// No more than one arrow can be connected to a Shape except Concat and Add.
+	if(
+		targetShape.shape !== Concatenate &&
+		targetShape.shape !== Addition &&
+		arrows.getConnectedToMeCount(targetShape) > 0) {
+		
+			addNotifcation("Illegal Arrow Drawing", `Please use Concatenate or Addition layer if you 
+		want to multiple arrows to the same layer.`);
 		return false;
 	}
 

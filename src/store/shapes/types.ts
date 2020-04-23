@@ -1,6 +1,7 @@
 import { LayerTypes } from "../../interfaces/shapes";
 import { AllActivationFunctions } from "../../interfaces/activations";
-import { ArrowMap } from "../../interfaces/arrowmap";
+import ArrowMap from "../../interfaces/arrowMap";
+//import ArrowMap from "../../interfaces/arrowMap";
 
 // Describing the shape of the shapes's slice of state
 export interface Shape {

@@ -1,7 +1,7 @@
 import { Shape } from "../store/shapes/types";
 import { AllActivationFunctions } from "./activations";
 
-export class ArrowMap {
+export default class ArrowMap {
 	private map = new Map<string, AllActivationFunctions>();
 	private reverseMap = new Map<string, [Shape, Shape]>();
 
@@ -39,6 +39,20 @@ export class ArrowMap {
 
     get size() {
         return this.map.size;
+	}
+
+	// It does it in O(|Arrows|) but it can reduced to O(1) if we'll maintain
+	// other structure of hash maps, maybe source to target and target to source.
+	getConnectedToMeCount(targetShape: Shape) : number {
+		let count = 0;
+		
+		this.map.forEach((_, key) => {
+			const [, target] = this.reverseMap.get(key)!;
+			if(target == targetShape)
+				count++;
+		});
+
+		return count;
 	}
 	
 	getList() {
