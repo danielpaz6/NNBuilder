@@ -38,5 +38,10 @@ export const isValidArrow = (
 		return false;
 	}
 
+	if(sourceShape.shape === Output) {
+		addNotifcation("Illegal Arrow Drawing", `Cannot draw arrows from Output layer.`);
+		return false;
+	}
+
 	return true;
 }

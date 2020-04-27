@@ -21,7 +21,6 @@ class Toasts extends React.Component<IToastsProps> {
 
 	public render() {
 		const nowTime = new Date().getTime() + delay_time;
-		console.log("notifications", this.props.toasts.notifications);
 
 		return (
 		<div

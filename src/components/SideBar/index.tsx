@@ -11,11 +11,14 @@ import { AppState } from '../../store';
 import { connect } from 'react-redux';
 import { layersMap } from '../../interfaces/shapes';
 import TemplatesModal from '../TemplatesModal';
+import { topologicalSort } from '../../model/checkGraph';
+import { addToast } from '../../store/toasts/actions';
 
 export interface ISideBarProps {
 	addShape: typeof addShape;
 	editActiveShape: typeof editActiveShape;
 	updateMouseLocation: typeof updateMouseLocation;
+	addToast: typeof addToast;
 	shapes: ShapeState;
 }
 
@@ -65,6 +68,12 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 		);
 	}
 
+	handleGetCode = () => {
+		console.log("Topological Sort",
+			topologicalSort(this.props.shapes.shapes, this.props.shapes.arrows, this.props.addToast)
+		);
+	}
+
 	public render() {
 		const targetTimeStamp = this.props.shapes.sourceShape ? this.props.shapes.sourceShape.timestamp : -1;
 
@@ -80,7 +89,11 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 						variant="primary"
 						style={{width: "100%", marginBottom: "10px"}}
 						onClick={() => this.handleSetModal(true)}>Choose Template</Button>
-					<Button variant="danger" style={{width: "100%"}}>Get Code</Button>
+					<Button 
+						variant="danger"
+						style={{width: "100%"}}
+						onClick={this.handleGetCode}
+					>Get Code</Button>
 
 					<Dropdown.Menu style={{width: "100%"}}>
 						<Dropdown.Header>Layers</Dropdown.Header>
@@ -133,5 +146,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ addShape, editActiveShape, updateMouseLocation }
+	{ addShape, editActiveShape, updateMouseLocation, addToast }
 )(SideBar);

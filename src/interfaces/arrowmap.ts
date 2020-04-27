@@ -2,71 +2,99 @@ import { Shape } from "../store/shapes/types";
 import { AllActivationFunctions } from "./activations";
 
 export default class ArrowMap {
-	private map = new Map<string, AllActivationFunctions>();
-	private reverseMap = new Map<string, [Shape, Shape]>();
+	/*private activationMap = new Map<string, AllActivationFunctions>();
+	private connectedToMap = new Map<Shape, Shape[]>();
+	private connectedToMeMap = new Map<Shape, Shape[]>();*/
+
+	private activationMap = new Map<string, AllActivationFunctions>();
+	private connectedToMap = new Map<Shape, Shape[]>();
+	private connectedToMeMap = new Map<Shape, Shape[]>();
 
 	constructor(otherArrowMap?: ArrowMap) {
 		if(otherArrowMap)
 		{
-			this.map = new Map<string, AllActivationFunctions>(otherArrowMap.map); 
-			this.reverseMap = new Map<string, [Shape, Shape]>(otherArrowMap.reverseMap);
+			this.activationMap = new Map<string, AllActivationFunctions>(otherArrowMap.activationMap); 
+			this.connectedToMap = new Map<Shape, Shape[]>(otherArrowMap.connectedToMap);
+			this.connectedToMeMap = new Map<Shape, Shape[]>(otherArrowMap.connectedToMeMap);
 		}
 	}
 
     set(key: [Shape, Shape], value: AllActivationFunctions): this {
 		const newKey = key[0].timestamp + "|" + key[1].timestamp;
-		this.map.set(newKey, value);
-		this.reverseMap.set(newKey, [key[0], key[1]]);
+		this.activationMap.set(newKey, value);
+
+		if(this.connectedToMap.has(key[0]))
+			this.connectedToMap.get(key[0])!.push(key[1]);
+		else
+			this.connectedToMap.set(key[0], [key[1]]);
+
+		if(this.connectedToMeMap.has(key[1]))
+			this.connectedToMeMap.get(key[1])!.push(key[0]);
+		else
+			this.connectedToMeMap.set(key[1], [key[0]]);
 
         return this;
     }
 
     get(key: [Shape, Shape]): AllActivationFunctions | undefined {
-        return this.map.get(key[0].timestamp + "|" + key[1].timestamp);
+        return this.activationMap.get(key[0].timestamp + "|" + key[1].timestamp);
     }
 
-    clear() {
-        this.map.clear();
-    }
+    deleteArrow(key: [Shape, Shape]): boolean {
+		if(!this.connectedToMap.get(key[0]) || !this.connectedToMeMap.get(key[1]))
+			return false;
 
-    delete(key: [Shape, Shape]): boolean {
-        return this.map.delete(key[0].timestamp + "|" + key[1].timestamp);
+		this.connectedToMap.set(
+			key[0], 
+			this.connectedToMap.get(key[0])!.filter(s => s !== key[1])
+		);
+
+		this.connectedToMeMap.set(
+			key[1], 
+			this.connectedToMeMap.get(key[1])!.filter(s => s !== key[0])
+		);
+
+		return this.activationMap.delete(key[0].timestamp + "|" + key[1].timestamp);
     }
 
     has(key: [Shape, Shape]): boolean {
-        return this.map.has(key[0].timestamp + "|" + key[1].timestamp);
+        return this.activationMap.has(key[0].timestamp + "|" + key[1].timestamp);
     }
 
     get size() {
-        return this.map.size;
+        return this.activationMap.size;
 	}
 
-	// It does it in O(|Arrows|) but it can reduced to O(1) if we'll maintain
-	// other structure of hash maps, maybe source to target and target to source.
-	getConnectedToMeCount(targetShape: Shape) : number {
-		let count = 0;
-		
-		this.map.forEach((_, key) => {
-			const [, target] = this.reverseMap.get(key)!;
-			if(target == targetShape)
-				count++;
-		});
+	getConnectedToCount(targetShape: Shape) : number {
+		return this.connectedToMap.has(targetShape) ? this.connectedToMap.get(targetShape)!.length : 0;
+	}
 
-		return count;
+	getConnectedToMeCount(targetShape: Shape) : number {
+		return this.connectedToMeMap.has(targetShape) ? this.connectedToMeMap.get(targetShape)!.length : 0;
+	}
+
+	getConnectedToMe(shape: Shape) : Shape[] | undefined {
+		return this.connectedToMeMap.get(shape);
+	}
+
+	getConnectedTo(shape: Shape) : Shape[] | undefined {
+		return this.connectedToMap.get(shape);
 	}
 	
 	getList() {
-		const newList: [[Shape, Shape], AllActivationFunctions][] = [];
-		this.map.forEach((value, key) => {
+		const newList: [Shape, Shape, AllActivationFunctions][] = [];
 
-			if(this.reverseMap.has(key))
+		this.connectedToMap.forEach((value, sourceShape) => {
+			
+			value.forEach(targetShape =>
 			{
 				newList.push(
 				[
-					this.reverseMap.get(key)!,
-					value
+					sourceShape,
+					targetShape,
+					this.get([sourceShape, targetShape])!
 				])
-			}
+			})
 		});
 
 		return newList;
