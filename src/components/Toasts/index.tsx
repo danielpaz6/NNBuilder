@@ -29,6 +29,7 @@ class Toasts extends React.Component<IToastsProps> {
 		aria-atomic="true"
 		style={{
 			position: 'fixed',
+			zIndex: 999,
 			bottom: 20,
 			left: 15
 		}}
