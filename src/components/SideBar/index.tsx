@@ -11,6 +11,7 @@ import { AppState } from '../../store';
 import { connect } from 'react-redux';
 import { layersMap } from '../../interfaces/shapes';
 import TemplatesModal from '../TemplatesModal';
+import CodeGeneratorPanel from '../CodeGeneratorPanel';
 import { topologicalSort } from '../../model/checkGraph';
 import { addToast } from '../../store/toasts/actions';
 
@@ -24,12 +25,14 @@ export interface ISideBarProps {
 
 export interface ISideBarState {
 	modalShow: boolean;
+	codeModalShow: boolean;
 }
 
 class SideBar extends React.Component<ISideBarProps, ISideBarState>
 {
 	state = {
-		modalShow: false
+		modalShow: false,
+		codeModalShow: false
 	};
 
 	handleSetModal = (pred: boolean) => {
@@ -37,6 +40,12 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 			modalShow: pred
 		});
 	};
+
+	handleSetCodeModal = (pred: boolean) => {
+		this.setState({
+			codeModalShow: pred
+		});
+	}
 
 	createShape = (shapeName: string) => {
 		const layer = layersMap[shapeName];
@@ -89,11 +98,11 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 						variant="primary"
 						style={{width: "100%", marginBottom: "10px"}}
 						onClick={() => this.handleSetModal(true)}>Choose Template</Button>
+					
 					<Button 
 						variant="danger"
 						style={{width: "100%"}}
-						onClick={this.handleGetCode}
-					>Get Code</Button>
+						onClick={() => this.handleSetCodeModal(true)}>Get Code</Button>
 
 					<Dropdown.Menu style={{width: "100%"}}>
 						<Dropdown.Header>Layers</Dropdown.Header>
@@ -135,6 +144,13 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 				show={this.state.modalShow}
 				onHide={() => this.handleSetModal(false)}
 			/>
+
+			{this.state.codeModalShow && 
+				<CodeGeneratorPanel
+					show={this.state.codeModalShow}
+					onHide={() => this.handleSetCodeModal(false)}
+				/>
+			}
 			</React.Fragment>
 		);
 	}
