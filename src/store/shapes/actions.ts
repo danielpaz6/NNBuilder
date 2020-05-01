@@ -1,5 +1,4 @@
 import { 
-	Shape,
 	ADD_SHAPE,
 	SET_SHAPES,
 	DELETE_SHAPE,
@@ -9,8 +8,10 @@ import {
 	ADD_ARROW,
 	UPDATE_SHAPE_ARROWS,
 	EDIT_SHAPE_NAME,
-	UPDATE_SHAPE_DESCRIPTION
+	UPDATE_SHAPE_DESCRIPTION,
+	SET_SHAPE_ADDITONAL_INFO
 } from './types';
+import { Shape, AdditionalInformationType } from '../../interfaces/IShape';
 
 export function addShape(newShape: Shape) : ShapeActionTypes {
 	return {
@@ -92,4 +93,15 @@ export function updateShapeArrows(timestamp: number) : ShapeActionTypes {
 			timestamp: timestamp
 		}
 	};
+}
+
+export function setShapeAdditionalInfo(timestamp: number, key: string, value: AdditionalInformationType) : ShapeActionTypes {
+	return {
+		type: SET_SHAPE_ADDITONAL_INFO,
+		payload: {
+			timestamp: timestamp,
+			key: key,
+			value: value
+		}
+	}
 }

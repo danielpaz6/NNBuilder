@@ -9,7 +9,13 @@ import Accordion from "react-bootstrap/Accordion";
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { ShapeState } from '../../store/shapes/types';
-import { editShapeName, updateShapePositionAction, updateShapeDescription } from '../../store/shapes/actions';
+import { 
+	editShapeName,
+	updateShapePositionAction, 
+	updateShapeDescription,
+	setShapeAdditionalInfo
+} from '../../store/shapes/actions';
+import { formsMap } from './Forms/FormList';
 
 
 interface IDetailsBarProps {
@@ -17,6 +23,7 @@ interface IDetailsBarProps {
 	editShapeName: typeof editShapeName;
 	updateShapePositionAction: typeof updateShapePositionAction;
 	updateShapeDescription: typeof updateShapeDescription;
+	setShapeAdditionalInfo: typeof setShapeAdditionalInfo;
 }
 
 interface IDetailsBarState {
@@ -25,6 +32,15 @@ interface IDetailsBarState {
 
 
 class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
+
+	handleParamaterChange = (event: React.ChangeEvent<HTMLInputElement>, key: string) => {
+		const value = +event.target.value;
+		this.props.setShapeAdditionalInfo(
+			this.props.shapes.sourceShape!.timestamp,
+			key,
+			value	
+		);
+	}
 	
 	handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.props.editShapeName(this.props.shapes.sourceShape!.timestamp, event.target.value);
@@ -63,8 +79,17 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 		{
 			const shape = this.props.shapes.sourceShape;
 
+			let parameters: JSX.Element | undefined = undefined;
+
+			if(formsMap[shape.shape.name + "Form"]) {
+				parameters = React.createElement(formsMap[shape.shape.name + "Form"], {
+					handleParamaterChange: this.handleParamaterChange,
+					shapeAdditionalInfo: shape.additionalInfo!
+				});
+			}
+
 			return <aside className="component-info">
-				<h6 style={{textAlign: "center"}}>Layer Details</h6>
+				<h6 style={{textAlign: "center"}}>Layer Properties</h6>
 				<hr />
 				<Form.Group controlId="layerName">
 					<Form.Label>Layer name</Form.Label>
@@ -83,20 +108,7 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 						<option>Tanh</option>
 					</Form.Control>
 				</Form.Group>
-				<hr />
-				<Form.Group>
-					<Form.Label>Parameters</Form.Label>
-					<Row>
-						<Col>
-							<Form.Label>Kernel</Form.Label>
-							<Form.Control placeholder="X" size="sm" bsPrefix={'form-control fixed-size'} />
-						</Col>
-						<Col>
-							<Form.Label>Filters:</Form.Label>
-							<Form.Control placeholder="Y" size="sm" bsPrefix={'form-control fixed-size'} />
-						</Col>
-					</Row>
-				</Form.Group>
+				{parameters}
 				<hr />
 				<Form.Group>
 					<Form.Label>Layer Position</Form.Label>
@@ -160,5 +172,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ editShapeName, updateShapePositionAction, updateShapeDescription }
+	{ editShapeName, updateShapePositionAction, updateShapeDescription, setShapeAdditionalInfo }
 )(DetailsBar);

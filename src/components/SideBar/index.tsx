@@ -6,13 +6,14 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { addShape, editActiveShape } from '../../store/shapes/actions';
 import { updateMouseLocation } from '../../store/mouse/actions';
-import { ShapeState, Shape } from '../../store/shapes/types';
+import { ShapeState } from '../../store/shapes/types';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 import { layersMap } from '../../interfaces/shapes';
 import TemplatesModal from '../TemplatesModal';
 import CodeGeneratorPanel from '../CodeGeneratorPanel';
 import { addToast } from '../../store/toasts/actions';
+import { Shape } from '../../interfaces/IShape';
 
 export interface ISideBarProps {
 	addShape: typeof addShape;
@@ -56,9 +57,12 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 			x: 100 + Math.random() * 100,
 			y: 100 + Math.random() * 100,
 			centerPosition: layer.centerPosition,
-			//connectedTo: [],
-			//connectedToMe: []
+			
+			// Deep copy, otherwise they all will point to the same additionalInfo object
+			additionalInfo: {...layer.additionalInfo}
 		};
+
+		console.log(newObject);
 
 		this.props.addShape(newObject);
 	}
@@ -83,12 +87,14 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 			<React.Fragment>
 			<div className="side-bar">
 				<Dropdown>
-					<Dropdown.Toggle variant="success" id="dropdown-basic" style={{width: "100%", marginBottom: "10px"}}>
-						Add new layer&nbsp;&nbsp;
-					</Dropdown.Toggle>
+					<Dropdown.Toggle
+						variant="outline-secondary"
+						id="dropdown-basic"
+						style={{width: "100%", marginBottom: "10px"}}
+					>Add new layer&nbsp;&nbsp;</Dropdown.Toggle>
 
 					<Button 
-						variant="primary"
+						variant="outline-secondary"
 						style={{width: "100%", marginBottom: "10px"}}
 						onClick={() => this.handleSetModal(true)}>Choose Template</Button>
 					

@@ -1,10 +1,10 @@
-import { Shape } from "../store/shapes/types"
-import { addToast } from "../store/toasts/actions"
-import ArrowMap from "../interfaces/arrowMap"
+import { addToast } from "../store/toasts/actions";
+import ArrowMap from "../interfaces/arrowMap";
 import Input from "../components/DiagramContainer/Shapes/Input";
 import Output from "../components/DiagramContainer/Shapes/Output";
 import Concatenate from "../components/DiagramContainer/Shapes/Concatenate";
 import Addition from "../components/DiagramContainer/Shapes/Addition";
+import { Shape } from "../interfaces/IShape";
 
 export const isValidArrow = (
 	sourceShape: Shape,

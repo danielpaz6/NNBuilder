@@ -1,6 +1,6 @@
-import { Shape } from "../store/shapes/types";
 import { layersMap } from '../interfaces/shapes';
 import { AllActivationFunctions } from "../interfaces/activations";
+import { Shape } from '../interfaces/IShape';
 
 const fc1 : Shape = {
 	name: "Input",
@@ -9,6 +9,7 @@ const fc1 : Shape = {
 	x: 83,
 	y: 70,
 	centerPosition: layersMap.Input.centerPosition,
+	additionalInfo: {...layersMap.Input.additionalInfo}
 	////connectedTo: [],
 	////connectedToMe: []
 };
@@ -20,6 +21,7 @@ const fc2 : Shape = {
 	x: 83,
 	y: 230,
 	centerPosition: layersMap.FullyConnected.centerPosition,
+	additionalInfo: {...layersMap.FullyConnected.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };
@@ -31,6 +33,7 @@ const fc3 : Shape = {
 	x: 203,
 	y: 70,
 	centerPosition: layersMap.FullyConnected.centerPosition,
+	additionalInfo: {...layersMap.FullyConnected.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };
@@ -42,6 +45,7 @@ const fc4 : Shape = {
 	x: 203,
 	y: 230,
 	centerPosition: layersMap.FullyConnected.centerPosition,
+	additionalInfo: {...layersMap.FullyConnected.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 }
@@ -53,6 +57,7 @@ const fc5 : Shape = {
 	x: 443,
 	y: 155,
 	centerPosition: layersMap.FullyConnected.centerPosition,
+	additionalInfo: {...layersMap.FullyConnected.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 }
@@ -64,6 +69,7 @@ const concat : Shape = {
 	x: 328,
 	y: 140,
 	centerPosition: layersMap.Concatenate.centerPosition,
+	additionalInfo: {...layersMap.Concatenate.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 }
@@ -75,6 +81,7 @@ const output : Shape = {
 	x: 543,
 	y: 155,
 	centerPosition: layersMap.Output.centerPosition,
+	additionalInfo: {...layersMap.Output.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 }

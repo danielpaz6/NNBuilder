@@ -1,22 +1,6 @@
-import { LayerTypes } from "../../interfaces/shapes";
-import { AllActivationFunctions } from "../../interfaces/activations";
 import ArrowMap from "../../interfaces/arrowMap";
+import { Shape, AdditionalInformationType } from "../../interfaces/IShape";
 //import ArrowMap from "../../interfaces/arrowMap";
-
-// Describing the shape of the shapes's slice of state
-export interface Shape {
-	name: string;
-	timestamp: number;
-	shape: LayerTypes;
-	x: number;
-	y: number;
-	centerPosition: number[]; // X and Y locations relative to the top left edge of the shape
-	//associatedArrows: Arrow[]; // include both connected to and connectedToMe
-	//connectedTo: Shape[]; // pointers to the real shapes
-	//connectedToMe: Shape[]; // pointers to the real shapes
-	description?: string;
-	//active: boolean;
-}
 
 export interface Arrow {
 	source: Shape;
@@ -41,6 +25,7 @@ export const EDIT_SHAPE_ACTIVATION = "EDIT_SHAPE_ACTIVATION";
 export const EDIT_SHAPE_NAME = "EDIT_SHAPE_NAME";
 export const UPDATE_SHAPE_LOCATION = "UPDATE_SHAPE_LOCATION";
 export const UPDATE_SHAPE_DESCRIPTION = "UPDATE_SHAPE_DESCRIPTION";
+export const SET_SHAPE_ADDITONAL_INFO = "SET_SHAPE_ADDITONAL_INFO";
 
 export const ADD_ARROW = "ADD_ARROW";
 export const UPDATE_SHAPE_ARROWS = "UPDATE_SHAPE_ARROWS";
@@ -109,6 +94,15 @@ interface UpdateShapeArrows {
 	}
 }
 
+interface SetShapeInfo {
+	type: typeof SET_SHAPE_ADDITONAL_INFO;
+	payload: {
+		timestamp: number;
+		key: string;
+		value: AdditionalInformationType;
+	}
+}
+
 export type ShapeActionTypes =
 	AddShapeAction |
 	DeleteShapeAction |
@@ -118,4 +112,5 @@ export type ShapeActionTypes =
 	UpdateShapeArrows |
 	SetShapesAction |
 	EditShapeNameAction |
-	UpdateShapeDescriptionAction;
+	UpdateShapeDescriptionAction |
+	SetShapeInfo;

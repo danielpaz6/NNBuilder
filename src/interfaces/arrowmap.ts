@@ -1,5 +1,5 @@
-import { Shape } from "../store/shapes/types";
 import { AllActivationFunctions } from "./activations";
+import { Shape } from "./IShape";
 
 export default class ArrowMap {
 	/*private activationMap = new Map<string, AllActivationFunctions>();

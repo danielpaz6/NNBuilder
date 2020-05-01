@@ -23,7 +23,7 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 			//Array.from(this.props.shapes.arrows.entries()).map((entry) => {
 			this.props.shapes.arrows.getList().map((entry : any) => {
 				// [[Shape, Shape], AllActivationFunctions]
-				const [sourceShape, targetShape, activationFunction] = entry;
+				const [sourceShape, targetShape, /*activationFunction*/] = entry;
 
 				const x1 = sourceShape.x + sourceShape.centerPosition[0];
 				const x2 = targetShape.x + targetShape.centerPosition[0];

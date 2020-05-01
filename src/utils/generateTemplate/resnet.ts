@@ -1,5 +1,5 @@
-import { Shape } from "../../store/shapes/types";
 import { layersMap } from "../../interfaces/shapes";
+import { Shape } from "../../interfaces/IShape";
 
 const time = new Date().getTime() - 2000;
 
@@ -10,6 +10,7 @@ const input : Shape = {
 	x: 55,
 	y: 218,
 	centerPosition: layersMap.Input.centerPosition,
+	additionalInfo: {...layersMap.Input.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };
@@ -21,6 +22,7 @@ const fc1 : Shape = {
 	x: 168,
 	y: 83,
 	centerPosition: layersMap.FullyConnected.centerPosition,
+	additionalInfo: {...layersMap.FullyConnected.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };
@@ -32,6 +34,7 @@ const fc2 : Shape = {
 	x: 373,
 	y: 83,
 	centerPosition: layersMap.FullyConnected.centerPosition,
+	additionalInfo: {...layersMap.FullyConnected.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };
@@ -43,6 +46,7 @@ const norm1 : Shape = {
 	x: 261,
 	y: 103,
 	centerPosition: layersMap.BatchNormalization.centerPosition,
+	additionalInfo: {...layersMap.BatchNormalization.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };
@@ -54,6 +58,7 @@ const norm2 : Shape = {
 	x: 453,
 	y: 103,
 	centerPosition: layersMap.BatchNormalization.centerPosition,
+	additionalInfo: {...layersMap.BatchNoralization.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };
@@ -65,6 +70,7 @@ const add : Shape = {
 	x: 453,
 	y: 214,
 	centerPosition: layersMap.Addition.centerPosition,
+	additionalInfo: {...layersMap.Addition.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };
@@ -76,6 +82,7 @@ const output : Shape = {
 	x: 627,
 	y: 194,
 	centerPosition: layersMap.Output.centerPosition,
+	additionalInfo: {...layersMap.Output.additionalInfo}
 	//connectedTo: [],
 	//connectedToMe: []
 };

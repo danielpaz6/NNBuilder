@@ -1,8 +1,8 @@
-import { Shape } from "../../store/shapes/types"
-import ArrowMap from "../../interfaces/arrowMap"
-import FullyConnected from "../../components/DiagramContainer/Shapes/FullyConnected"
-import Concatenate from "../../components/DiagramContainer/Shapes/Concatenate"
-import Output from "../../components/DiagramContainer/Shapes/Output"
+import ArrowMap from "../../interfaces/arrowMap";
+import FullyConnected from "../../components/DiagramContainer/Shapes/FullyConnected";
+import Concatenate from "../../components/DiagramContainer/Shapes/Concatenate";
+import Output from "../../components/DiagramContainer/Shapes/Output";
+import { Shape } from "../../interfaces/IShape";
 
 export const fillPytorchCode = (sortedList: Shape[], arrows: ArrowMap) => {
 	const layersOutput: string[] = []
@@ -26,7 +26,7 @@ export const fillPytorchCode = (sortedList: Shape[], arrows: ArrowMap) => {
 			arrows.getConnectedToMe(currShape)!.forEach(connectedShape => {
 				allIndexes.push("x" + sortedList.findIndex(s => s === connectedShape));
 			});
-			
+
 			connectionsOutput.push("\t\tx" + i + " = torch.cat((" + allIndexes.join(', ') + "), dim=1)");
 		}
 		else if(currShape.shape === Output) {

@@ -1,10 +1,10 @@
 import { topologicalSort, BFSAncestorsCount } from "./graphAlgorithms";
 import { generateFullPyTorchCode } from "./generateCode/pytorch";
-import { Shape } from "../store/shapes/types";
 import { addToast } from "../store/toasts/actions";
 import ArrowMap from "../interfaces/arrowMap";
 import { CodeTypes, PYTORCH_CODE } from "./generateCode/types";
 import Input from "../components/DiagramContainer/Shapes/Input";
+import { Shape } from "../interfaces/IShape";
 
 /**
  * All the model logic of creating code and creating errors
@@ -25,8 +25,8 @@ export const generateGraphCodeableWithErrors = (
 	// The final output
 	const codedMap = new Map<CodeTypes, string>();
 
-	if(vertexes.length == 0 || vertexes[0].shape !== Input) {
-		addNotifcation("Generate Code Error", `Cannot generate code if the 
+	if(vertexes.length === 0 || vertexes[0].shape !== Input) {
+		addNotifcation("Code Generation Error", `Cannot generate code if the 
 		first layer is not an Input layter.`);
 
 		return codedMap;
@@ -35,14 +35,15 @@ export const generateGraphCodeableWithErrors = (
 	const bfsCount = BFSAncestorsCount(vertexes[0], arrowsMap);
 	
 	if(bfsCount !== vertexes.length) {
-		addNotifcation("Generate Code Error", `All layers must be ancestors of the Input layer.`);
+		addNotifcation("Code Generation Error", `All layers must be ancestors of the Input layer. 
+		It seems like you didn't finish design your model.`);
 
 		return codedMap;
 	}
 
 	// TopologicalSort already prints error if exists.
 	const shapes = topologicalSort(vertexes, arrowsMap, addNotifcation);
-	if(!shapes || shapes.length == 0) {
+	if(!shapes || shapes.length === 0) {
 		return codedMap;
 	}
 

@@ -1,7 +1,7 @@
-import { Shape } from "../store/shapes/types";
 import ArrowMap from "../interfaces/arrowMap";
 import { addToast } from "../store/toasts/actions";
 import { Queue } from "../interfaces/queue";
+import { Shape } from "../interfaces/IShape";
 
 
 /**
@@ -21,13 +21,6 @@ export const topologicalSort = (
 	arrowsMap: ArrowMap, 
 	addNotifcation: typeof addToast) =>
 {
-	/*if(!arrowsMap.getConnectedToMe(OutputShape))
-	{
-		addNotifcation("Interpretation Error", `The Output layer must be
-		connected to at least one layer.`);
-		return;
-	}*/
-
 	// Copy of the Arrow Map ( so we could delete edges and vertexes )
 	const arrows = new ArrowMap(arrowsMap);
 

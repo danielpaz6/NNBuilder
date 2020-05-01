@@ -11,3 +11,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* width */
+::-webkit-scrollbar {
+	/*background-color: rgba(0,0,0,.1);*/
+	background-clip: padding-box;
+	border: solid transparent;
+	width: 12px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+   
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background-color: rgba(0,0,0,.1);
+	background-clip: padding-box;
+	border: solid transparent;
+	border-radius: 50px;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
+	background-clip: padding-box;
+	border: solid transparent;
+}

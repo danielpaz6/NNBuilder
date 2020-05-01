@@ -8,6 +8,7 @@ import Input from "../components/DiagramContainer/Shapes/Input";
 import Output from "../components/DiagramContainer/Shapes/Output";
 import Dropout from "../components/DiagramContainer/Shapes/Dropout";
 import BatchNormalization from "../components/DiagramContainer/Shapes/BatchNormalization";
+import { AdditionalInformationType } from "./IShape";
 
 export interface IDraggableSVGState {
 	isMarked: boolean;
@@ -39,14 +40,24 @@ export type LayerTypes =
 	typeof Dropout |
 	typeof BatchNormalization;
 
-export const layersMap : Record<string, {create: () => LayerTypes, centerPosition: number[]}> = {
+export interface LayerInformation {
+	create: () => LayerTypes;
+	centerPosition: number[];
+	additionalInfo?: Record<string, AdditionalInformationType>;
+}
+
+export const layersMap : Record<string, LayerInformation> = {
 	MaxPooling: {
 		create: () => MaxPooling,
 		centerPosition: MaxPooling.centerPosition
 	},
 	FullyConnected: {
 		create: () => FullyConnected,
-		centerPosition: FullyConnected.centerPosition
+		centerPosition: FullyConnected.centerPosition,
+		additionalInfo: {
+			inputDimension: 32,
+			outputDimension: 32
+		}
 	},
 	Flatten: {
 		create: () => Flatten,

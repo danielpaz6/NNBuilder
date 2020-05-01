@@ -19,7 +19,7 @@ export class Queue<T>
 	isEmpty() 
 	{ 
 		// Returns true if the queue is empty. 
-		return this.items.length == 0; 
+		return this.items.length === 0; 
 	}
 	
 	

@@ -4,9 +4,10 @@ import { AppState } from '../../store';
 import { editActiveShape, updateShapePositionAction, addArrowAndUpdateConnections } from '../../store/shapes/actions';
 import { updateMouseLocation } from '../../store/mouse/actions';
 import { addToast } from '../../store/toasts/actions';
-import { ShapeState, Shape } from '../../store/shapes/types';
+import { ShapeState } from '../../store/shapes/types';
 import { manhattanDistance } from '../../utils/distance';
 import { isValidArrow } from '../../model/checkArrow';
+import { Shape } from '../../interfaces/IShape';
 
 export interface IDraggableSVGProps {
 	currentShape: Shape;

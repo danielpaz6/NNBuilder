@@ -10,10 +10,9 @@ import {
 	EDIT_SHAPE_NAME,
 	UPDATE_SHAPE_DESCRIPTION,
 	//Arrow,
-	Shape,
+	SET_SHAPE_ADDITONAL_INFO,
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
-import { AllActivationFunctions } from "../../interfaces/activations";
 import ArrowMap from "../../interfaces/arrowMap";
 
 const initialState: ShapeState = {
@@ -99,22 +98,13 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			// point them to action.payload.source/target.
 			
 			// Complexity: O(2 * |Shapes|)
-			const sourceShape2 = state.shapes.find(s => s.timestamp === action.payload.source.timestamp)!;
-			const targetShape2 = state.shapes.find(s => s.timestamp === action.payload.target.timestamp)!;
+			//const sourceShape2 = state.shapes.find(s => s.timestamp === action.payload.source.timestamp)!;
+			//const targetShape2 = state.shapes.find(s => s.timestamp === action.payload.target.timestamp)!;
 
 			// Complextiy: O(1)
 			const sourceShape = action.payload.source;
 			const targetShape = action.payload.target;
 
-			/*console.log("2:----");
-			console.log(sourceShape2, targetShape2);
-
-			console.log("1:----");
-			console.log(sourceShape, targetShape);
-
-			console.log("checks:----");
-			console.log("One: ", sourceShape === sourceShape2);
-			console.log("--------------");*/
 
 			// If there is already an Arrow between them, we won't do it again
 			if(state.arrows.has([sourceShape, targetShape])) {
@@ -154,18 +144,17 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 				arrows: arrowsClone
 			};
 		}
-		
-		/*
-		case UPDATE_SHAPE_ARROWS:
-			// Once we moved a shape, we need to update:
-			// 1. The arrows connected to this shape
-			// 2. The arrows that coming out from the shape
 
-			const currShape = shapes.find(s => s.timestamp === action.meta.timestamp)!;
+		case SET_SHAPE_ADDITONAL_INFO: {
+			
+			const currShape = shapes.find(s => s.timestamp === action.payload.timestamp)!;
+			currShape.additionalInfo![action.payload.key] = action.payload.value;
 
 			return {
-				...state
-			}*/
+				...state,
+				shapes: shapes
+			}
+		}
 
 		default:
 			return state;
