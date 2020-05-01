@@ -1,6 +1,7 @@
 import { Shape } from "../store/shapes/types";
 import ArrowMap from "../interfaces/arrowMap";
 import { addToast } from "../store/toasts/actions";
+import { Queue } from "../interfaces/queue";
 
 
 /**
@@ -12,6 +13,8 @@ import { addToast } from "../store/toasts/actions";
  * @param vertexes - List of all vertexes 
  * @param arrowsMap - List of all edges
  * @param addNotifcation - a function to display errors
+ * 
+ * @returns undefined | sortedList : Shape[]
  */
 export const topologicalSort = (
 	vertexes: Shape[], 
@@ -70,4 +73,52 @@ export const topologicalSort = (
 
 	// A topologically sorted order
 	return L;
+}
+
+
+/**
+ * A BFS algorithm. Note that it is a bit modified in that way that we don't have a goal vertex,
+ * But instead we will just traverse the graph until we visited all the ancestors inputShape
+ * 
+ * @param inputShape - The input shape as it will be the "start_v" in the algorithm
+ * @param arrowsMap - List of all edges
+ * 
+ * @returns Discovered shapes size
+ */
+export const BFSAncestorsCount = (
+	inputShape: Shape,
+	arrowsMap: ArrowMap) => 
+{
+	const discoveredShapes = new Set<Shape>();
+
+	// Let Q be a queue
+	const Q = new Queue<Shape>();
+
+	// Label start_v as discovered
+	discoveredShapes.add(inputShape);
+
+	Q.enqueue(inputShape);
+
+	// While Q is not empty do
+	while(!Q.isEmpty()) {
+		const v = Q.dequeue()!;
+		
+		// For all edges from v to w in G.adjacentEdges(v) do
+		if(arrowsMap.getConnectedToCount(v) > 0) {
+			for(const w of arrowsMap.getConnectedTo(v)!) {
+				// If w is not labeled as discovered then
+				if(!discoveredShapes.has(w)) {
+					// Label w as discovered	
+					discoveredShapes.add(w);
+
+					// We could have set w.parent to be V
+					// but we just care about ancestors count
+
+					Q.enqueue(w);
+				}
+			}
+		}
+	}
+
+	return discoveredShapes.size;
 }

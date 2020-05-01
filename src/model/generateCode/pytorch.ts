@@ -26,13 +26,12 @@ export const fillPytorchCode = (sortedList: Shape[], arrows: ArrowMap) => {
 			arrows.getConnectedToMe(currShape)!.forEach(connectedShape => {
 				allIndexes.push("x" + sortedList.findIndex(s => s === connectedShape));
 			});
-
-			// For example: x = torch.cat((x6, x8), dim=1)
+			
 			connectionsOutput.push("\t\tx" + i + " = torch.cat((" + allIndexes.join(', ') + "), dim=1)");
 		}
 		else if(currShape.shape === Output) {
 			const previousIndex = sortedList.findIndex(s => s === arrows.getConnectedToMe(currShape)![0]);
-			connectionsOutput.push("\t\treturn x" + previousIndex + "");
+			connectionsOutput.push("\n\t\treturn x" + previousIndex + "");
 		}
 	}
 
@@ -55,4 +54,4 @@ import torch.nn.functional as F
 class GeneratedNetwork(nn.Module):
 \tdef __init__(self):
 \t\tsuper(GeneratedNetwork, self).__init__()\n
-\t\t# Model layers\n`,`\n\n\tdef forward(self, x):\n`];
+\t\t# Model layers\n`,`\n\n\tdef forward(self, x0):\n`];

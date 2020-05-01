@@ -3,10 +3,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import CardDeck from 'react-bootstrap/CardDeck';
 import Template from './Template';
-import ResNet from '../../utils/generateTemplate/resnet';
-import { connect } from 'react-redux';
-import { setShapes } from '../../store/shapes/actions';
-import { seedNewShapes } from '../../utils/seedShapes';
 
 export interface ITemplatesModalProps {
 	show: boolean;

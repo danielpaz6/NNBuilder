@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import { layersMap } from '../../interfaces/shapes';
 import TemplatesModal from '../TemplatesModal';
 import CodeGeneratorPanel from '../CodeGeneratorPanel';
-import { topologicalSort } from '../../model/checkGraph';
 import { addToast } from '../../store/toasts/actions';
 
 export interface ISideBarProps {
@@ -76,13 +75,7 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 			getActiveShape.y + getActiveShape.centerPosition[1]
 		);
 	}
-
-	handleGetCode = () => {
-		console.log("Topological Sort",
-			topologicalSort(this.props.shapes.shapes, this.props.shapes.arrows, this.props.addToast)
-		);
-	}
-
+	
 	public render() {
 		const targetTimeStamp = this.props.shapes.sourceShape ? this.props.shapes.sourceShape.timestamp : -1;
 

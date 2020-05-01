@@ -11,10 +11,10 @@ import { AppState } from '../../store';
 import { connect } from 'react-redux';
 import { addShape, editActiveShape } from '../../store/shapes/actions';
 import { updateMouseLocation } from '../../store/mouse/actions';
-import { ShapeState, Shape } from '../../store/shapes/types';
+import { ShapeState } from '../../store/shapes/types';
 import { addToast } from '../../store/toasts/actions';
-import { topologicalSort } from '../../model/checkGraph';
-import { generateFullPyTorchCode } from '../../model/generateCode/pytorch';
+import { generateGraphCodeableWithErrors } from '../../model/graphCodes';
+import { PYTORCH_CODE } from '../../model/generateCode/types';
 
 export interface ICodeGeneratorPanelProps {
 	show: boolean;
@@ -29,21 +29,37 @@ export interface ICodeGeneratorPanelProps {
 
 export interface ICodeGeneratorPanelState {
 	pytorchCode: string;
+	isValidCode: boolean;
 }
 
 class CodeGeneratorPanel extends React.Component<ICodeGeneratorPanelProps, ICodeGeneratorPanelState> {
 	state = {
-		pytorchCode: ''
+		pytorchCode: '',
+		isValidCode: false
 	}
 
 	componentDidMount() {
-		const shapes = topologicalSort(this.props.shapes.shapes, this.props.shapes.arrows, this.props.addToast);
-		this.setState({
-			pytorchCode: generateFullPyTorchCode(shapes!, this.props.shapes.arrows)
-		});
+		
+		// This function also create error notifications.
+		const codeMap = generateGraphCodeableWithErrors(this.props.shapes.shapes, this.props.shapes.arrows, this.props.addToast);
+		
+		console.log(codeMap);
+		if(codeMap.size > 0) {
+			this.setState({
+				isValidCode: true,
+				pytorchCode: codeMap.get(PYTORCH_CODE) || ''
+			});
+		}
+		else
+		{
+			// If there is an error we must close this component
+			this.props.onHide();
+		}
 	}
 
 	public render() {
+
+		if(this.state.isValidCode)
 		return (
 		<Modal
 			{...this.props}
@@ -109,6 +125,9 @@ class CodeGeneratorPanel extends React.Component<ICodeGeneratorPanelProps, ICode
 			</Modal.Body>
 		</Modal>
 		);
+		else
+		return null;
+		
 	}
 }
 
