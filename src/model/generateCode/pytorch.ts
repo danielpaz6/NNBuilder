@@ -15,7 +15,10 @@ export const fillPytorchCode = (sortedList: Shape[], arrows: ArrowMap) => {
 		// Create the connections in the forward method
 
 		if(currShape.shape === FullyConnected) {
-			layersOutput.push("\t\tself.layer" + i + " = nn.Linear(32, 32)");
+			const inputDim = currShape.additionalInfo!.inputDimension;
+			const outputDim = currShape.additionalInfo!.outputDimension;
+
+			layersOutput.push("\t\tself.layer" + i + " = nn.Linear("+inputDim+", "+outputDim+")");
 
 			const previousIndex = sortedList.findIndex(s => s === arrows.getConnectedToMe(currShape)![0]);
 			connectionsOutput.push("\t\tx" + i + " = self.layer" + i + "(x" + previousIndex + ")");
