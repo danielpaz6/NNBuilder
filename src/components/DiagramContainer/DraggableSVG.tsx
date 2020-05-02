@@ -9,6 +9,8 @@ import { manhattanDistance } from '../../utils/distance';
 import { isValidArrow } from '../../model/checkArrow';
 import { Shape } from '../../interfaces/IShape';
 
+import './diagram.scss';
+
 export interface IDraggableSVGProps {
 	currentShape: Shape;
 	shapes: ShapeState;
@@ -189,6 +191,7 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 
 		return (
 			<svg 
+				className="draggableSVG"
 				x={this.props.currentShape.x}
 				y={this.props.currentShape.y}
 				onPointerDown={this.handlePointerDown}

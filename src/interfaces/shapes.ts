@@ -56,7 +56,8 @@ export const layersMap : Record<string, LayerInformation> = {
 		centerPosition: FullyConnected.centerPosition,
 		additionalInfo: {
 			inputDimension: 32,
-			outputDimension: 32
+			outputDimension: 32,
+			nodesCount: 7
 		}
 	},
 	Flatten: {
@@ -65,7 +66,13 @@ export const layersMap : Record<string, LayerInformation> = {
 	},
 	Convolutional: {
 		create: () => Convolutional,
-		centerPosition: Convolutional.centerPosition
+		centerPosition: Convolutional.centerPosition,
+		additionalInfo: {
+			inChannels: 0,
+			outChannels: 0,
+			kernelSize: 1,
+			stride: 1
+		}
 	},
 	Concatenate: {
 		create: () => Concatenate,

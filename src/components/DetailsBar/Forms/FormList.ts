@@ -1,8 +1,12 @@
-import FullyConnectedForm from "./FullyConnectedForm"
+import FullyConnectedForm from "./FullyConnectedForm";
+import ConvolutionalForm from "./ConvolutionalForm";
 
-export type FormList = typeof FullyConnectedForm;
+export type FormList =
+	typeof FullyConnectedForm |
+	typeof ConvolutionalForm;
 
 
 export const formsMap: Record<string, FormList> = {
-	"FullyConnectedForm": FullyConnectedForm
+	"FullyConnectedForm": FullyConnectedForm,
+	"ConvolutionalForm": ConvolutionalForm
 }

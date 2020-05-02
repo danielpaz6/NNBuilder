@@ -108,16 +108,13 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 						<Dropdown.Item onClick={() => this.createShape("FullyConnected")}>Fully Connected</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("Convolutional")}>Convolutional</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("MaxPooling")}>Max Pooling</Dropdown.Item>
-						<Dropdown.Item onClick={() => this.createShape("Concatenate")}>Concatenate</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("Dropout")}>Dropout</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("BatchNormalization")}>Batch Norm</Dropdown.Item>
+						<Dropdown.Divider />
+						<Dropdown.Header>Actions</Dropdown.Header>
+						<Dropdown.Item onClick={() => this.createShape("Concatenate")}>Concatenate</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("Flatten")}>Flatten</Dropdown.Item>
 						<Dropdown.Item onClick={() => this.createShape("Addition")}>Add</Dropdown.Item>
-						<Dropdown.Divider />
-						<Dropdown.Header>Activation</Dropdown.Header>
-						<Dropdown.Item>ReLU</Dropdown.Item>
-						<Dropdown.Item>Sigmoid</Dropdown.Item>
-						<Dropdown.Item>Tanh</Dropdown.Item>
 					</Dropdown.Menu>
 				</Dropdown>
 				<br />

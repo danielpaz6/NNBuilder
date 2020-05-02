@@ -5,11 +5,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { shapeReducer } from './shapes/reducers';
 import { mouseReducer } from "./mouse/reducers";
 import { toastsReducer } from "./toasts/reducers";
+import { configReducer } from "./config/reducers";
 
 const rootReducer = combineReducers({
 	shapes: shapeReducer,
 	mouse: mouseReducer,
-	toasts: toastsReducer
+	toasts: toastsReducer,
+	config: configReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

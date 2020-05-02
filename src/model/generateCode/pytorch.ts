@@ -3,6 +3,8 @@ import FullyConnected from "../../components/DiagramContainer/Shapes/FullyConnec
 import Concatenate from "../../components/DiagramContainer/Shapes/Concatenate";
 import Output from "../../components/DiagramContainer/Shapes/Output";
 import { Shape } from "../../interfaces/IShape";
+import Convolutional from "../../components/DiagramContainer/Shapes/Convolutional";
+import Flatten from "../../components/DiagramContainer/Shapes/Flatten";
 
 export const fillPytorchCode = (sortedList: Shape[], arrows: ArrowMap) => {
 	const layersOutput: string[] = []
@@ -31,6 +33,21 @@ export const fillPytorchCode = (sortedList: Shape[], arrows: ArrowMap) => {
 			});
 
 			connectionsOutput.push("\t\tx" + i + " = torch.cat((" + allIndexes.join(', ') + "), dim=1)");
+		}
+		else if(currShape.shape === Convolutional) {
+			const inChannels = currShape.additionalInfo!.inChannels;
+			const outChannels = currShape.additionalInfo!.outChannels;
+			const kernelSize = currShape.additionalInfo!.kernelSize;
+			const stride = currShape.additionalInfo!.stride;
+
+			layersOutput.push("\t\tself.layer" + i + " = nn.Conv2d("+inChannels+", "+outChannels+", "+kernelSize+", "+stride+")");
+			
+			const previousIndex = sortedList.findIndex(s => s === arrows.getConnectedToMe(currShape)![0]);
+			connectionsOutput.push("\t\tx" + i + " = self.layer" + i + "(x" + previousIndex + ")");
+		}
+		else if(currShape.shape === Flatten) {
+			const previousIndex = sortedList.findIndex(s => s === arrows.getConnectedToMe(currShape)![0]);
+			connectionsOutput.push("\t\tx" + i + " = x" + previousIndex + ".reshape(x" + previousIndex + ".size(0), -1)");
 		}
 		else if(currShape.shape === Output) {
 			const previousIndex = sortedList.findIndex(s => s === arrows.getConnectedToMe(currShape)![0]);

@@ -19,10 +19,6 @@ import { PYTORCH_CODE } from '../../model/generateCode/types';
 export interface ICodeGeneratorPanelProps {
 	show: boolean;
 	onHide: () => void;
-	
-	addShape: typeof addShape;
-	editActiveShape: typeof editActiveShape;
-	updateMouseLocation: typeof updateMouseLocation;
 	addToast: typeof addToast;
 	shapes: ShapeState;
 }
@@ -137,5 +133,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ addShape, editActiveShape, updateMouseLocation, addToast }
+	{ addToast }
 )(CodeGeneratorPanel);
