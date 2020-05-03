@@ -32,6 +32,8 @@ const abstractTemplateStyle = {
 
 export default class Input extends React.Component<IDraggableShape> {
 	static centerPosition = [(WIDTH + OFFSET) / 2, (HEIGHT + OFFSET) / 2];
+	static centerPositionAbstract = [(abstractTemplateStyle.width + abstractTemplateStyle.offset*2) / 2,
+		(abstractTemplateStyle.height + abstractTemplateStyle.offset*2) / 2];
 	
 	public renderFilledTemplate() {
 		return (

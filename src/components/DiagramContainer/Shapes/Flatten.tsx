@@ -11,6 +11,24 @@ const BG = "#FFBCB7";
 const BORDER = "#FF7E75";
 const BORDER_ACTIVE = "#fd5e53";
 
+const filledTemplateStyle = {
+	width: 20,
+	height: 150,
+	offset: 2,
+	bg: "#FFBCB7",
+	border: "#FF7E75",
+	borderActive: "red"
+}
+
+const abstractTemplateStyle = {
+	width: 70,
+	height: 70,
+	offset: 2,
+	bg: "#dae7fc",
+	border: "#909da6",
+	borderActive: "red"
+}
+
 export default class Flatten extends React.Component<IDraggableShape> {
 	static centerPosition = [WIDTH / 2, HEIGHT / 2];
 	

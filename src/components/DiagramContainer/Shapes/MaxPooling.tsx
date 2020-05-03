@@ -16,12 +16,40 @@ const BORDER2 = "#FFC7AF";
 const BORDER3 = "#92DFCD";
 const BORDER_ACTIVE = "red";
 
+const filledTemplateStyle = {
+	width: 30,
+	height: 30,
+	padding: 12,
+	offset: 2,
+	bg1: "#ffb6b9",
+	bg2: "#fae3d9",
+	bg: "#bbded6",
+	border1: "#FF9A9E",
+	border2: "#FFC7AF",
+	border3: "#92DFCD",
+	borderActive: "red"
+}
+
+const abstractTemplateStyle = {
+	width: 90,
+	height: 70,
+	offset: 2,
+	bg: "#dae7fc",
+	border: "#909da6",
+	borderActive: "red",
+	count: 5,
+	padding: 10
+}
+
 export default class MaxPooling extends React.Component<IDraggableShape> {
 	// I'll leave it 3/2 since this "3" should be variable in the future, it's
 	// the number of boxes we display
 	static centerPosition = [WIDTH / 2 + (PADDING) * 3 / 2, HEIGHT / 2 + (PADDING) * 3 / 2];
 
-	public render() {
+	static centerPositionAbstract = [(abstractTemplateStyle.width + abstractTemplateStyle.padding*abstractTemplateStyle.count) / 2,
+		(abstractTemplateStyle.height + abstractTemplateStyle.padding*abstractTemplateStyle.count) / 2];
+
+	public renderFilledTemplate() {
 		return (
 			<React.Fragment>
 				<title>Max Pooling Layer</title>
@@ -31,5 +59,71 @@ export default class MaxPooling extends React.Component<IDraggableShape> {
 				<rect id="svg_3" height={HEIGHT} width={WIDTH} y={OFFSET + PADDING*2} x={OFFSET + PADDING*3} strokeWidth="1" stroke={this.props.isMarked ? BORDER_ACTIVE : BORDER3} fill={BG3} rx="1"></rect>
 			</React.Fragment>
 		);
+	}
+
+	public renderAbstractTemplate() {
+		const arr = new Array(abstractTemplateStyle.count).fill(0);
+
+		return (
+			<React.Fragment>
+				<title>Max Pooling Layer</title>
+				{
+					arr.map((_, index) => 
+					<rect 
+						key={index}
+						height={abstractTemplateStyle.height} 
+						width={abstractTemplateStyle.width} 
+						x={abstractTemplateStyle.offset + abstractTemplateStyle.padding*index} 
+						y={abstractTemplateStyle.offset + abstractTemplateStyle.padding*index} 
+						strokeWidth="1" 
+						stroke={this.props.isMarked ? abstractTemplateStyle.borderActive : abstractTemplateStyle.border} 
+						fill={abstractTemplateStyle.bg}></rect>
+				)}
+				<polyline 
+					markerEnd="url(#smallArrow)"
+					points={`${abstractTemplateStyle.padding*(arr.length-1) + abstractTemplateStyle.offset},${abstractTemplateStyle.offset + abstractTemplateStyle.padding*(arr.length-1) + 30} ${4},${20}`}
+					fill="none"
+					stroke={abstractTemplateStyle.border}
+				/>
+				<svg 
+					width={abstractTemplateStyle.width}
+					height={abstractTemplateStyle.height} 
+					x={abstractTemplateStyle.padding*(arr.length-1)}
+					y={abstractTemplateStyle.padding*(arr.length-1)}
+					>
+					<text 
+						x="50%" 
+						y="20%" 
+						alignmentBaseline="middle" 
+						textAnchor="middle" 
+						fontSize="12px">
+							<tspan x="50%" dy="1.2em">Max Pooling</tspan>
+    						<tspan x="50%" dy="1.2em">Layer</tspan>
+    						<tspan x="50%" dy="1.8em" fontSize="10px">2x2&nbsp;&nbsp;&nbsp;(stride 2)</tspan>
+					</text>
+				</svg>
+
+				<svg 
+					width={50}
+					height={200} 
+					x={-7}
+					y={abstractTemplateStyle.padding*(arr.length/2) - 15}
+					>
+					<text 
+						x="30%" 
+						y="20%" 
+						alignmentBaseline="middle" 
+						textAnchor="middle" 
+						fontSize="10px">
+							<tspan x="50%" dy="1.2em" fontWeight="bold">32</tspan>
+    						<tspan x="50%" dy="1.2em" fontSize="8px">Channels</tspan>
+					</text>
+				</svg>
+			</React.Fragment>
+		);
+	}
+
+	public render() {
+		return this.renderAbstractTemplate();
 	}
 }

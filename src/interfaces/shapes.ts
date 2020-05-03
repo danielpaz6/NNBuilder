@@ -9,6 +9,7 @@ import Output from "../components/DiagramContainer/Shapes/Output";
 import Dropout from "../components/DiagramContainer/Shapes/Dropout";
 import BatchNormalization from "../components/DiagramContainer/Shapes/BatchNormalization";
 import { AdditionalInformationType } from "./IShape";
+import { TEMPLATE_FILLED, TEMPLATE_ABSTRACT } from "./designTemplates";
 
 export interface IDraggableSVGState {
 	isMarked: boolean;
@@ -42,18 +43,23 @@ export type LayerTypes =
 
 export interface LayerInformation {
 	create: () => LayerTypes;
-	centerPosition: number[];
+	centerPosition: Record<string, number[]>;
 	additionalInfo?: Record<string, AdditionalInformationType>;
 }
 
 export const layersMap : Record<string, LayerInformation> = {
 	MaxPooling: {
 		create: () => MaxPooling,
-		centerPosition: MaxPooling.centerPosition
+		centerPosition: {
+			[TEMPLATE_FILLED]: MaxPooling.centerPosition
+		}
 	},
 	FullyConnected: {
 		create: () => FullyConnected,
-		centerPosition: FullyConnected.centerPosition,
+		centerPosition: {
+			[TEMPLATE_FILLED]: FullyConnected.centerPosition,
+			[TEMPLATE_ABSTRACT]: FullyConnected.centerPositionAbstract
+		},
 		additionalInfo: {
 			inputDimension: 32,
 			outputDimension: 32,
@@ -62,11 +68,16 @@ export const layersMap : Record<string, LayerInformation> = {
 	},
 	Flatten: {
 		create: () => Flatten,
-		centerPosition: Flatten.centerPosition
+		centerPosition: {
+			[TEMPLATE_FILLED]: Flatten.centerPosition
+		}
 	},
 	Convolutional: {
 		create: () => Convolutional,
-		centerPosition: Convolutional.centerPosition,
+		centerPosition: {
+			[TEMPLATE_FILLED]: Convolutional.centerPosition,
+			[TEMPLATE_ABSTRACT]: Convolutional.centerPositionAbstract
+		},
 		additionalInfo: {
 			inChannels: 0,
 			outChannels: 0,
@@ -76,26 +87,44 @@ export const layersMap : Record<string, LayerInformation> = {
 	},
 	Concatenate: {
 		create: () => Concatenate,
-		centerPosition: Concatenate.centerPosition
+		centerPosition: {
+			[TEMPLATE_FILLED]: Concatenate.centerPosition,
+			[TEMPLATE_ABSTRACT]: Concatenate.centerPositionAbstract
+		}
 	},
 	Addition: {
 		create: () => Addition,
-		centerPosition: Addition.centerPosition
+		centerPosition: {
+			[TEMPLATE_FILLED]: Addition.centerPosition,
+			[TEMPLATE_ABSTRACT]: Addition.centerPositionAbstract
+		}
 	},
 	Input: {
 		create: () => Input,
-		centerPosition: Input.centerPosition
+		centerPosition: {
+			[TEMPLATE_FILLED]: Input.centerPosition,
+			[TEMPLATE_ABSTRACT]: Input.centerPositionAbstract
+		}
 	},
 	Output: {
 		create: () => Output,
-		centerPosition: Output.centerPosition
+		centerPosition: {
+			[TEMPLATE_FILLED]: Output.centerPosition,
+			[TEMPLATE_ABSTRACT]: Output.centerPositionAbstract
+		}
 	},
 	Dropout: {
 		create: () => Dropout,
-		centerPosition: Dropout.centerPosition
+		centerPosition: {
+			[TEMPLATE_FILLED]: Dropout.centerPosition,
+			[TEMPLATE_ABSTRACT]: Dropout.centerPositionAbstract
+		}
 	},
 	BatchNormalization: {
 		create: () => BatchNormalization,
-		centerPosition: BatchNormalization.centerPosition
+		centerPosition: {
+			[TEMPLATE_FILLED]: BatchNormalization.centerPosition,
+			[TEMPLATE_ABSTRACT]: BatchNormalization.centerPositionAbstract
+		}
 	}
 }

@@ -43,6 +43,9 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 	// the number of boxes we display
 	static centerPosition = [WIDTH / 2 + (PADDING) * 4 / 2, HEIGHT / 2 + (PADDING) * 4 / 2];
 
+	static centerPositionAbstract = [(abstractTemplateStyle.width + abstractTemplateStyle.padding*abstractTemplateStyle.count) / 2,
+		(abstractTemplateStyle.height + abstractTemplateStyle.padding*abstractTemplateStyle.count) / 2];
+
 	public renderFilledTemplate() {
 		return (
 			<React.Fragment>
@@ -65,6 +68,7 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 				{
 					arr.map((_, index) => 
 					<rect 
+						key={index}
 						height={abstractTemplateStyle.height} 
 						width={abstractTemplateStyle.width} 
 						x={abstractTemplateStyle.offset + abstractTemplateStyle.padding*index} 
@@ -88,8 +92,8 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 					<text 
 						x="50%" 
 						y="20%" 
-						alignment-baseline="middle" 
-						text-anchor="middle" 
+						alignmentBaseline="middle" 
+						textAnchor="middle" 
 						fontSize="12px">
 							<tspan x="50%" dy="1.2em">Convolutional</tspan>
     						<tspan x="50%" dy="1.2em">Layer</tspan>
@@ -107,8 +111,8 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 					<text 
 						x="30%" 
 						y="20%" 
-						alignment-baseline="middle" 
-						text-anchor="middle" 
+						alignmentBaseline="middle" 
+						textAnchor="middle" 
 						fontSize="10px">
 							<tspan x="50%" dy="1.2em" fontWeight="bold">32</tspan>
     						<tspan x="50%" dy="1.2em" fontSize="8px">Channels</tspan>

@@ -5,7 +5,6 @@ import { ShapeState } from '../../store/shapes/types';
 import { ConfigState } from '../../store/config/types';
 import { Shape } from '../../interfaces/IShape';
 import { TEMPLATE_FILLED } from '../../interfaces/designTemplates';
-import Input from './Shapes/Input';
 import FullyConnected, { abstractTemplateStyle } from './Shapes/FullyConnected';
 
 export interface IArrowsProps {
@@ -36,9 +35,6 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 
 	abstractArrow = (sourceShape: Shape, targetShape: Shape, x1: number, y1: number, x2: number, y2:number) => {
 
-		const xMid = (x1 + x2) / 2;
-		const yMid = (y1 + y2) / 2;
-
 		return (
 			<polyline 
 				key={sourceShape.timestamp + " " + targetShape.timestamp}
@@ -61,13 +57,23 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 		return arr1.map((_,i) => arr2.map((_, j) => {
 			if(i === midArr1 || j === midArr2)
 				return null;
-			
-			console.log("x1", x1, sourceShape.x);
-			const sX = x1 + abstractTemplateStyle.offset + abstractTemplateStyle.width;
-			const sY = y1 + abstractTemplateStyle.offset + abstractTemplateStyle.width/2 + (abstractTemplateStyle.width + abstractTemplateStyle.offset) * (i);
 
-			const tX = x2 - 3;
-			const tY = y2 + abstractTemplateStyle.offset + abstractTemplateStyle.width/2 + (abstractTemplateStyle.width + abstractTemplateStyle.offset) * (j);
+			let sX: number, sY: number, tX: number, tY: number;
+			
+			if(x1 < x2) {
+				sX = x1 + abstractTemplateStyle.offset + abstractTemplateStyle.width;
+				sY = y1 + abstractTemplateStyle.offset + abstractTemplateStyle.width/2 + (abstractTemplateStyle.width + abstractTemplateStyle.offset) * (i);
+
+				tX = x2 - 3;
+				tY = y2 + abstractTemplateStyle.offset + abstractTemplateStyle.width/2 + (abstractTemplateStyle.width + abstractTemplateStyle.offset) * (j);
+			}
+			else {
+				sX = x1 + 1;
+				sY = y1 + abstractTemplateStyle.offset + abstractTemplateStyle.width/2 + (abstractTemplateStyle.width + abstractTemplateStyle.offset) * (i);
+
+				tX = x2 + abstractTemplateStyle.offset + abstractTemplateStyle.width + 3;
+				tY = y2 + abstractTemplateStyle.offset + abstractTemplateStyle.width/2 + (abstractTemplateStyle.width + abstractTemplateStyle.offset) * (j);
+			}
 
 			return (
 				<polyline 
@@ -82,11 +88,6 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 	}
 
 	public render() {
-		/*console.log("Regular", this.props.shapes.arrows);
-		console.log("Test", Array.from(this.props.shapes.arrows.entries()));
-		console.log("Object.entries", Object.entries(this.props.shapes.arrows));
-		console.log("Object.keys", Object.keys(this.props.shapes.arrows));
-		console.log("-----------------------");*/
 		return (
 			<React.Fragment>
 			{
@@ -105,25 +106,24 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 					return this.filledArrow(
 						sourceShape,
 						targetShape,
-						x1 + sourceShape.centerPosition[0],
-						y1 + sourceShape.centerPosition[1],
-						x2 + targetShape.centerPosition[0],
-						y2 + targetShape.centerPosition[1]
+						x1 + sourceShape.centerPosition[this.props.config.designTemplate][0],
+						y1 + sourceShape.centerPosition[this.props.config.designTemplate][1],
+						x2 + targetShape.centerPosition[this.props.config.designTemplate][0],
+						y2 + targetShape.centerPosition[this.props.config.designTemplate][1]
 					);
 				}
 				else {
 					if(sourceShape.shape === FullyConnected && targetShape.shape === FullyConnected) {
-						console.log("HERE!");
 						return this.fullyConnectedArrows(sourceShape, targetShape, x1, y1, x2, y2);
 					}
 					else {
 						return this.abstractArrow(
 							sourceShape,
 							targetShape,
-							x1 + sourceShape.centerPosition[0] * 2 + 5,
-							y1 + sourceShape.centerPosition[1],
+							x1 + sourceShape.centerPosition[this.props.config.designTemplate][0] * 2 + 5,
+							y1 + sourceShape.centerPosition[this.props.config.designTemplate][1],
 							x2 - 3,
-							y2 + targetShape.centerPosition[1]
+							y2 + targetShape.centerPosition[this.props.config.designTemplate][1]
 						);
 					}
 				}

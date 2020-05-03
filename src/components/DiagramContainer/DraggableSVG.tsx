@@ -10,10 +10,12 @@ import { isValidArrow } from '../../model/checkArrow';
 import { Shape } from '../../interfaces/IShape';
 
 import './diagram.scss';
+import { ConfigState } from '../../store/config/types';
 
 export interface IDraggableSVGProps {
 	currentShape: Shape;
 	shapes: ShapeState;
+	config: ConfigState;
 	children: React.ReactNode;
 	isMarked: boolean;
 	editActiveShape: typeof editActiveShape;
@@ -134,10 +136,10 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 		{
 			// Once we updated the active shape, to avoid mouse glitching,
 			// we'll set the location of the mouse position to be the active shape
-
+			
 			this.props.updateMouseLocation(
-				this.state.x + this.props.currentShape.centerPosition[0],
-				this.state.y + this.props.currentShape.centerPosition[1]
+				this.state.x + this.props.currentShape.centerPosition[this.props.config.designTemplate][0],
+				this.state.y + this.props.currentShape.centerPosition[this.props.config.designTemplate][1]
 			);
 
 			// Once we confirmed that the shape didn't move ( in our distance definition ),
@@ -205,7 +207,8 @@ class DraggableSVG extends React.PureComponent<IDraggableSVGProps, IDraggableSVG
 
 const mapStateToProps = (state: AppState) => ({
 	shapes: state.shapes,
-	toasts: state.toasts
+	toasts: state.toasts,
+	config: state.config
 });
 
 export default connect(

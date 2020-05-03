@@ -18,4 +18,8 @@
 	.draggableSVG {
 		cursor: move;
 	}
+
+	text {
+		user-select: none;
+	}
 }

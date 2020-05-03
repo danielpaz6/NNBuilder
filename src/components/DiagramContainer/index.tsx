@@ -11,6 +11,7 @@ import { AppState } from '../../store';
 import Arrows from './Arrows';
 import { MouseState } from '../../store/mouse/types';
 import { seedInitShapes } from '../../utils/seedShapes';
+import { ConfigState } from '../../store/config/types';
 
 interface MouseLocation {
 	nativeEvent: {
@@ -22,6 +23,7 @@ interface MouseLocation {
 export interface IDiagramContainerProps {
 	shapes: ShapeState;
 	mouse: MouseState;
+	config: ConfigState;
 	editActiveShape: typeof editActiveShape;
 	updateMouseLocation: typeof updateMouseLocation;
 	setShapes: typeof setShapes;
@@ -150,8 +152,8 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 						<line
 							onClick={this.handleClick}
 							onContextMenu={this.handleRightClick}
-							x1={this.props.shapes.sourceShape.x + this.props.shapes.sourceShape.centerPosition[0]}
-							y1={this.props.shapes.sourceShape.y + this.props.shapes.sourceShape.centerPosition[1]}
+							x1={this.props.shapes.sourceShape.x + this.props.shapes.sourceShape.centerPosition[this.props.config.designTemplate][0]}
+							y1={this.props.shapes.sourceShape.y + this.props.shapes.sourceShape.centerPosition[this.props.config.designTemplate][1]}
 							x2={this.props.mouse.xPointer}
 							y2={this.props.mouse.yPointer}
 							style={{stroke:"rgb(255,0,0)", strokeWidth:2}} />
@@ -182,7 +184,8 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 
 const mapStateToProps = (state: AppState) => ({
 	shapes: state.shapes,
-	mouse: state.mouse
+	mouse: state.mouse,
+	config: state.config
 });
 
 export default connect(

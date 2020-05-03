@@ -14,6 +14,7 @@ import TemplatesModal from '../TemplatesModal';
 import CodeGeneratorPanel from '../CodeGeneratorPanel';
 import { addToast } from '../../store/toasts/actions';
 import { Shape } from '../../interfaces/IShape';
+import { ConfigState } from '../../store/config/types';
 
 export interface ISideBarProps {
 	addShape: typeof addShape;
@@ -21,6 +22,7 @@ export interface ISideBarProps {
 	updateMouseLocation: typeof updateMouseLocation;
 	addToast: typeof addToast;
 	shapes: ShapeState;
+	config: ConfigState;
 }
 
 export interface ISideBarState {
@@ -75,8 +77,8 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 		const getActiveShape = this.props.shapes.shapes.find(s => s.timestamp === timestamp)!;
 
 		this.props.updateMouseLocation(
-			getActiveShape.x + getActiveShape.centerPosition[0],
-			getActiveShape.y + getActiveShape.centerPosition[1]
+			getActiveShape.x + getActiveShape.centerPosition[this.props.config.designTemplate][0],
+			getActiveShape.y + getActiveShape.centerPosition[this.props.config.designTemplate][1]
 		);
 	}
 	
@@ -153,7 +155,8 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 }
 
 const mapStateToProps = (state: AppState) => ({
-	shapes: state.shapes
+	shapes: state.shapes,
+	config: state.config
 });
 
 export default connect(

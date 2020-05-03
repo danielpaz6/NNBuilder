@@ -32,6 +32,8 @@ export const abstractTemplateStyle = {
 
 export default class FullyConnected extends React.Component<IDraggableShape> {
 	static centerPosition = [WIDTH / 2, HEIGHT / 2];
+	static centerPositionAbstract = [(abstractTemplateStyle.width + abstractTemplateStyle.offset) / 2 + abstractTemplateStyle.offset,
+		((abstractTemplateStyle.width + abstractTemplateStyle.offset) * abstractTemplateStyle.count) / 2 + abstractTemplateStyle.offset];
 	
 	public renderFilledTemplate() {
 		return (

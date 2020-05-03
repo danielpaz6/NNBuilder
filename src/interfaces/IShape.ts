@@ -7,7 +7,7 @@ export interface Shape {
 	shape: LayerTypes;
 	x: number;
 	y: number;
-	centerPosition: number[]; // X and Y locations relative to the top left edge of the shape
+	centerPosition: Record<string, number[]>; // X and Y locations relative to the top left edge of the shape
 	//associatedArrows: Arrow[]; // include both connected to and connectedToMe
 	//connectedTo: Shape[]; // pointers to the real shapes
 	//connectedToMe: Shape[]; // pointers to the real shapes
