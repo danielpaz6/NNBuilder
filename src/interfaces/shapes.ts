@@ -9,10 +9,12 @@ import Output from "../components/DiagramContainer/Shapes/Output";
 import Dropout from "../components/DiagramContainer/Shapes/Dropout";
 import BatchNormalization from "../components/DiagramContainer/Shapes/BatchNormalization";
 import { AdditionalInformationType } from "./IShape";
-import { TEMPLATE_FILLED, TEMPLATE_ABSTRACT } from "./designTemplates";
+import { TEMPLATE_FILLED, TEMPLATE_ABSTRACT, TemplatesTypes } from "./designTemplates";
 
 export interface IDraggableSVGState {
 	isMarked: boolean;
+	additionalInfo?: Record<string, AdditionalInformationType>;
+	templateDesign: TemplatesTypes;
 }
 
 export interface IDraggable {
@@ -69,7 +71,8 @@ export const layersMap : Record<string, LayerInformation> = {
 	Flatten: {
 		create: () => Flatten,
 		centerPosition: {
-			[TEMPLATE_FILLED]: Flatten.centerPosition
+			[TEMPLATE_FILLED]: Flatten.centerPosition,
+			[TEMPLATE_ABSTRACT]: Flatten.centerPositionAbstract
 		}
 	},
 	Convolutional: {

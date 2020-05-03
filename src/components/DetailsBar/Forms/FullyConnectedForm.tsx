@@ -34,6 +34,42 @@ const FullyConnectedForm: React.FunctionComponent<IFormProps> = (props) => {
 				</Col>
 			</Row>
 		</Form.Group>
+
+		<hr />
+		<Form.Group>
+			<Form.Label>Style</Form.Label>
+			<Row>
+				<Col>
+					<Form.Label>Layers Size</Form.Label>
+					<Form>
+					<Form.Check
+						custom
+						type="radio"
+						label="Small size"
+						name="fcstyle"
+						id="fc-small"
+						onClick={() => props.handleParameterChangeByValue(5, "nodesCount")}
+					/>
+					<Form.Check
+						custom
+						type="radio"
+						label="Medium size"
+						name="fcstyle"
+						id="fc-medium"
+						onClick={() => props.handleParameterChangeByValue(7, "nodesCount")}
+					/>
+					<Form.Check
+						custom
+						type="radio"
+						label="Large size"
+						name="fcstyle"
+						id="fc-large"
+						onClick={() => props.handleParameterChangeByValue(9, "nodesCount")}
+					/>
+					</Form>
+				</Col>
+			</Row>
+		</Form.Group>
 	</React.Fragment>
 	);
 };

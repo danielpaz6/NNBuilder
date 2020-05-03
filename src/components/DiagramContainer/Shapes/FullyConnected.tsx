@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { IDraggableShape } from "../../../interfaces/shapes";
+import { TEMPLATE_ABSTRACT } from '../../../interfaces/designTemplates';
 
 // Positioning
 const WIDTH = 30;
@@ -45,7 +46,8 @@ export default class FullyConnected extends React.Component<IDraggableShape> {
 	}
 
 	public renderAbstractTemplate() {
-		const arr = new Array(abstractTemplateStyle.count).fill(0);
+		const nodesCount = this.props.additionalInfo ? this.props.additionalInfo.nodesCount : abstractTemplateStyle.count;
+		const arr = new Array(nodesCount).fill(0);
 
 		return (
 			<React.Fragment>
@@ -88,8 +90,10 @@ export default class FullyConnected extends React.Component<IDraggableShape> {
 					>
 						<tspan x="30%" dy="1em">Fully</tspan>
 						<tspan x="32%" dy="1.2em" >Connected</tspan>
-						<tspan x="30%" dy="1.5em">32x32</tspan>
-						<tspan x="30%" dy="1.5em">weights</tspan>
+						{this.props.additionalInfo &&
+							<tspan x="30%" dy="1.5em">{this.props.additionalInfo.inputDimension}x{this.props.additionalInfo.outputDimension}</tspan>
+						}
+						<tspan x="30%" dy="1.5em">(Nodes)</tspan>
 					</text>
 				</svg>
 			</React.Fragment>
@@ -97,6 +101,12 @@ export default class FullyConnected extends React.Component<IDraggableShape> {
 	}
 
 	public render() {
-		return this.renderAbstractTemplate();
+		switch(this.props.templateDesign)
+		{
+			case TEMPLATE_ABSTRACT:
+				return this.renderAbstractTemplate();
+			default:
+				return this.renderFilledTemplate();
+		}
 	}
 }

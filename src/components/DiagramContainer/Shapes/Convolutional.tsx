@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { IDraggableShape } from "../../../interfaces/shapes";
+import { TEMPLATE_ABSTRACT } from '../../../interfaces/designTemplates';
 
 
 // Positioning
@@ -97,8 +98,13 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 						fontSize="12px">
 							<tspan x="50%" dy="1.2em">Convolutional</tspan>
     						<tspan x="50%" dy="1.2em">Layer</tspan>
-    						<tspan x="50%" dy="1.8em" fontSize="10px">5x5</tspan>
-    						<tspan x="50%" dy="1.8em" fontSize="10px">(stride 1)</tspan>
+							{
+								this.props.additionalInfo &&
+								<React.Fragment>
+									<tspan x="50%" dy="1.8em" fontSize="10px">{this.props.additionalInfo.kernelSize}x{this.props.additionalInfo.kernelSize}</tspan>
+									<tspan x="50%" dy="1.8em" fontSize="10px">(stride {this.props.additionalInfo.stride})</tspan>
+								</React.Fragment>
+							}
 					</text>
 				</svg>
 
@@ -114,8 +120,13 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 						alignmentBaseline="middle" 
 						textAnchor="middle" 
 						fontSize="10px">
-							<tspan x="50%" dy="1.2em" fontWeight="bold">32</tspan>
-    						<tspan x="50%" dy="1.2em" fontSize="8px">Channels</tspan>
+							{
+							this.props.additionalInfo &&
+							<React.Fragment>
+								<tspan x="50%" dy="1.2em" fontWeight="bold">{this.props.additionalInfo.outChannels}</tspan>
+								<tspan x="50%" dy="1.2em" fontSize="8px">Channels</tspan>
+							</React.Fragment>
+							}
 					</text>
 				</svg>
 			</React.Fragment>
@@ -123,6 +134,12 @@ export default class Convolutional extends React.Component<IDraggableShape> {
 	}
 
 	public render() {
-		return this.renderAbstractTemplate();
+		switch(this.props.templateDesign)
+		{
+			case TEMPLATE_ABSTRACT:
+				return this.renderAbstractTemplate();
+			default:
+				return this.renderFilledTemplate();
+		}
 	}
 }

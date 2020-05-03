@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { IDraggableShape } from "../../../interfaces/shapes";
+import { TEMPLATE_ABSTRACT } from '../../../interfaces/designTemplates';
 
 // Positioning
 const WIDTH = 50;
@@ -78,6 +79,12 @@ export default class Addition extends React.Component<IDraggableShape> {
 	}
 
 	public render() {
-		return this.renderAbstractTemplate();
+		switch(this.props.templateDesign)
+		{
+			case TEMPLATE_ABSTRACT:
+				return this.renderAbstractTemplate();
+			default:
+				return this.renderFilledTemplate();
+		}
 	}
 }

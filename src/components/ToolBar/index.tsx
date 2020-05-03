@@ -7,11 +7,16 @@ import { ShapeState } from '../../store/shapes/types';
 import { seedNewShapes } from '../../utils/seedShapes';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { ConfigState } from '../../store/config/types';
+import { updateDesignTemplate } from "../../store/config/actions";
+import { TEMPLATE_ABSTRACT, TEMPLATE_FILLED } from '../../interfaces/designTemplates';
 
 
 export interface IToolBarProps {
 	shapes: ShapeState;
+	config: ConfigState;
 	setShapes: typeof setShapes;
+	updateDesignTemplate: typeof updateDesignTemplate;
 }
 
 export interface IToolBarState {
@@ -21,6 +26,15 @@ export interface IToolBarState {
 class ToolBar extends React.Component<IToolBarProps, IToolBarState> {
 	state = {
 		isFullScreenEnabled: false
+	}
+
+	handleStyleTemplate = () => {
+		if(this.props.config.designTemplate === TEMPLATE_ABSTRACT) {
+			this.props.updateDesignTemplate(TEMPLATE_FILLED);
+		}
+		else {
+			this.props.updateDesignTemplate(TEMPLATE_ABSTRACT);
+		}
 	}
 
 	handleNewTemplate = () => {
@@ -68,7 +82,7 @@ class ToolBar extends React.Component<IToolBarProps, IToolBarState> {
 						overlay={<Tooltip id="tooltip-toggle-template">Switch Style</Tooltip>}
 						placement="bottom"
 					>
-						<button>
+						<button onClick={this.handleStyleTemplate}>
 							<svg viewBox="3 5 12 12" fill="currentColor" width="24" height="24"><path d="M9,3 C11.209139,3 13,4.790861 13,7 C13,7.2006429 12.9887988,7.37261183 12.9663963,7.51590677 C14.180506,8.20261598 15,9.50560645 15,11 C15,13.209139 13.209139,15 11,15 C10.271376,15 9.58825351,14.8051848 8.99987956,14.4648015 C8.41251188,14.8049665 7.7290322,15 7,15 C4.790861,15 3,13.209139 3,11 C3,9.50560645 3.81949397,8.20261598 5.03360371,7.51590677 C5.0112047,7.34686296 5,7.17473998 5,7 C5,4.790861 6.790861,3 9,3 Z M5.30200941,8.52749838 C4.52278137,9.06033325 4,9.99405278 4,11 C4,12.6568542 5.34314575,14 7,14 C7.39828227,14 7.77843697,13.9223866 8.12616463,13.7814594 C7.42860086,13.0613619 6.85005188,11.8812408 7.03314346,10.4826921 C6.24401855,10.0695038 5.58474731,9.24058533 5.30200941,8.52749838 Z M9,4 C7.34314575,4 6,5.34314575 6,7 C6,8.65685425 7.34314575,10 9,10 C10.6568542,10 12,8.65685425 12,7 C12,5.34314575 10.6568542,4 9,4 Z"></path></svg>
 						</button>
 					</OverlayTrigger>
@@ -95,10 +109,11 @@ class ToolBar extends React.Component<IToolBarProps, IToolBarState> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-	shapes: state.shapes
+	shapes: state.shapes,
+	config: state.config
 });
 
 export default connect(
 	mapStateToProps,
-	{ setShapes }
+	{ setShapes, updateDesignTemplate }
 )(ToolBar);

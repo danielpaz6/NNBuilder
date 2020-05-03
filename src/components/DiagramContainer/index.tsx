@@ -162,7 +162,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 					}
 
 					<Arrows />
-					
+
 					{
 						this.props.shapes.shapes.map(shape => 
 							<DraggableSVG
@@ -171,7 +171,9 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 								key={shape.timestamp}
 							>
 								{React.createElement(shape.shape, {
-									isMarked: this.props.shapes.sourceShape && shape.timestamp === this.props.shapes.sourceShape!.timestamp ? true : false
+									isMarked: this.props.shapes.sourceShape && shape.timestamp === this.props.shapes.sourceShape!.timestamp ? true : false,
+									additionalInfo: shape.additionalInfo,
+									templateDesign: this.props.config.designTemplate
 								})}
 							</DraggableSVG>
 						)

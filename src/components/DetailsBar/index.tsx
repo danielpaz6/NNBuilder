@@ -27,14 +27,20 @@ interface IDetailsBarProps {
 }
 
 interface IDetailsBarState {
-
 }
-
 
 class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 
 	handleParamaterChange = (event: React.ChangeEvent<HTMLInputElement>, key: string) => {
 		const value = +event.target.value;
+		this.props.setShapeAdditionalInfo(
+			this.props.shapes.sourceShape!.timestamp,
+			key,
+			value	
+		);
+	}
+
+	handleParameterChangeByValue = (value: number, key: string) => {
 		this.props.setShapeAdditionalInfo(
 			this.props.shapes.sourceShape!.timestamp,
 			key,
@@ -84,6 +90,7 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 			if(formsMap[shape.shape.name + "Form"]) {
 				parameters = React.createElement(formsMap[shape.shape.name + "Form"], {
 					handleParamaterChange: this.handleParamaterChange,
+					handleParameterChangeByValue: this.handleParameterChangeByValue,
 					shapeAdditionalInfo: shape.additionalInfo!
 				});
 			}
