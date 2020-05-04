@@ -9,7 +9,8 @@ import {
 	UPDATE_SHAPE_ARROWS,
 	EDIT_SHAPE_NAME,
 	UPDATE_SHAPE_DESCRIPTION,
-	SET_SHAPE_ADDITONAL_INFO
+	SET_SHAPE_ADDITONAL_INFO,
+	EDIT_ARROW_ACTIVATION
 } from './types';
 import { Shape, AdditionalInformationType } from '../../interfaces/IShape';
 
@@ -44,6 +45,17 @@ export function editActiveShape(timestamp: number) : ShapeActionTypes {
 		}
 	};
 }
+
+export function editActiveArrow(source: Shape, target: Shape) : ShapeActionTypes {
+	return {
+		type: EDIT_ARROW_ACTIVATION,
+		meta: {
+			sourceShape: source,
+			targetShape: target
+		}
+	};
+}
+
 
 export function editShapeName(timestamp: number, name: string) : ShapeActionTypes {
 	return {

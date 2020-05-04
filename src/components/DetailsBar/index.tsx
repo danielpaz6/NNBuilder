@@ -168,6 +168,21 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 				</Form.Group>
 			</aside>;
 		}
+		else if(this.props.shapes.sourceArrow) {
+			return <aside className="component-info">
+				<h6 style={{textAlign: "center"}}>Arrow Properties</h6>
+				<hr />
+				<Form.Group controlId="activation-function">
+					<Form.Label>Activation Function</Form.Label>
+					<Form.Control as="select" style={{paddingRight: "10px"}}> 
+						<option>None</option>
+						<option>Sigmoid</option>
+						<option>ReLU</option>
+						<option>Tanh</option>
+					</Form.Control>
+				</Form.Group>
+			</aside>
+		}
 		else
 			return null;
 	}

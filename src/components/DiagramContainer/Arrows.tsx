@@ -10,12 +10,9 @@ import FullyConnected, { abstractTemplateStyle } from './Shapes/FullyConnected';
 export interface IArrowsProps {
 	shapes: ShapeState;
 	config: ConfigState;
+	handleArrowClick: (source: Shape, target: Shape) => void
 }
-
-export interface IArrowsState {
-}
-
-class Arrows extends React.Component<IArrowsProps, IArrowsState> {
+class Arrows extends React.Component<IArrowsProps> {
 
 	filledArrow = (sourceShape: Shape, targetShape: Shape, x1: number, y1: number, x2: number, y2:number) => {
 
@@ -35,14 +32,19 @@ class Arrows extends React.Component<IArrowsProps, IArrowsState> {
 
 	abstractArrow = (sourceShape: Shape, targetShape: Shape, x1: number, y1: number, x2: number, y2:number) => {
 
+		const isActiveArrow = this.props.shapes.sourceArrow &&
+			this.props.shapes.sourceArrow.source.timestamp === sourceShape.timestamp &&
+			this.props.shapes.sourceArrow.target.timestamp === targetShape.timestamp;
+
 		return (
 			<polyline 
 				key={sourceShape.timestamp + " " + targetShape.timestamp}
-				markerEnd="url(#bigArrow)"
+				markerEnd={"url(#"+(!isActiveArrow ? "bigArrow" : "bigArrowActive")+")"}
 				points={`${x1},${y1} ${x2},${y2}`}
 				fill="none"
-				stroke="#7788b0"
+				stroke={!isActiveArrow ? "#7788b0" : "red"}
 				strokeWidth="4"
+				onClick={() => this.props.handleArrowClick(sourceShape, targetShape)}
 			/>
 		);
 	}

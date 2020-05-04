@@ -19,7 +19,18 @@
 		cursor: move;
 	}
 
+	/*
+		The text inside the layers won't be selectable.	
+	*/
 	text {
 		user-select: none;
+	}
+
+	polyline {
+		cursor: pointer;
+
+		&:hover {
+			opacity: 0.8;
+		}
 	}
 }

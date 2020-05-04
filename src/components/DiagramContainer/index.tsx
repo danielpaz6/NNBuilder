@@ -3,7 +3,7 @@ import './diagram.scss';
 
 import DraggableSVG from "./DraggableSVG";
 
-import { editActiveShape, setShapes } from '../../store/shapes/actions';
+import { editActiveShape, setShapes, editActiveArrow } from '../../store/shapes/actions';
 import { updateMouseLocation } from '../../store/mouse/actions';
 import { ShapeState } from '../../store/shapes/types';
 import { connect } from 'react-redux';
@@ -12,6 +12,8 @@ import Arrows from './Arrows';
 import { MouseState } from '../../store/mouse/types';
 import { seedInitShapes } from '../../utils/seedShapes';
 import { ConfigState } from '../../store/config/types';
+import { Shape } from '../../interfaces/IShape';
+import Defs from './Defs';
 
 interface MouseLocation {
 	nativeEvent: {
@@ -27,6 +29,7 @@ export interface IDiagramContainerProps {
 	editActiveShape: typeof editActiveShape;
 	updateMouseLocation: typeof updateMouseLocation;
 	setShapes: typeof setShapes;
+	editActiveArrow: typeof editActiveArrow;
 }
 
 export interface IDiagramContainerState {
@@ -44,6 +47,14 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 
 	componentDidMount() {
 		this.props.setShapes(seedInitShapes);
+	}
+
+	handleArrowClick = (source: Shape, target: Shape) => {
+		// We'll remove the active shape ( it also remove the active arrow )
+		this.props.editActiveShape(-1);
+
+		// We'll reassign to the new Arrow
+		this.props.editActiveArrow(source, target);
 	}
 
 	handleClick = (event : React.MouseEvent) => {
@@ -117,36 +128,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 						role="button"
 						tabIndex={0}
 					>
-					<defs>	
-						<marker orient='auto' id="arrow" refX="0" refY="7"
-							markerWidth="80" markerHeight="80">
-							<polygon
-									points="2,7 0,0 11,7 0,14"
-									stroke="red"
-									fill="red" 
-								/>
-						</marker>
-
-						<marker orient='auto' id="bigArrow" refX="2.5" refY="2.2"
-							markerWidth="80" markerHeight="80">
-							<polygon
-									points="2,7 0,0 11,7 0,14"
-									stroke="#7788b0"
-									fill="#7788b0"
-									transform="scale(0.3)"
-								/>
-						</marker>
-
-						<marker orient='auto' id="smallArrow" refX="1" refY="4"
-							markerWidth="20" markerHeight="20">
-							<polygon
-									points="2,7 0,0 11,7 0,14"
-									stroke="#909da6"
-									fill="#909da6"
-									transform="scale(0.5)"
-								/>
-						</marker>
-					</defs>	
+					<Defs />
 					{
 						this.props.shapes.sourceShape && this.state.isMouseInsideSVG ?
 						<line
@@ -161,7 +143,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 						null
 					}
 
-					<Arrows />
+					<Arrows handleArrowClick={this.handleArrowClick} />
 
 					{
 						this.props.shapes.shapes.map(shape => 
@@ -192,5 +174,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ editActiveShape, updateMouseLocation, setShapes }
+	{ editActiveShape, updateMouseLocation, setShapes, editActiveArrow }
 )(DiagramContainer);

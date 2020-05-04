@@ -82,9 +82,9 @@ export const layersMap : Record<string, LayerInformation> = {
 			[TEMPLATE_ABSTRACT]: Convolutional.centerPositionAbstract
 		},
 		additionalInfo: {
-			inChannels: 0,
-			outChannels: 0,
-			kernelSize: 1,
+			inChannels: 16,
+			outChannels: 16,
+			kernelSize: 5,
 			stride: 1
 		}
 	},

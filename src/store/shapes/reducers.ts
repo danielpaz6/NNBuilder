@@ -11,6 +11,8 @@ import {
 	UPDATE_SHAPE_DESCRIPTION,
 	//Arrow,
 	SET_SHAPE_ADDITONAL_INFO,
+	Arrow,
+	EDIT_ARROW_ACTIVATION,
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
 import ArrowMap from "../../interfaces/arrowMap";
@@ -54,11 +56,28 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 				)
 			};
 
-		case EDIT_SHAPE_ACTIVATION:
+		case EDIT_SHAPE_ACTIVATION: {
+			const matchShape = state.shapes.find(s => s.timestamp === action.meta.timestamp);
+			
 			return {
 				...state,
-				sourceShape: state.shapes.find(s => s.timestamp === action.meta.timestamp)
+				sourceShape: matchShape,
+				sourceArrow: action.meta.timestamp === -1 || matchShape ? undefined : state.sourceArrow
 			}
+		}
+
+		case EDIT_ARROW_ACTIVATION: {
+			
+			const arrow: Arrow = {
+				source: action.meta.sourceShape,
+				target: action.meta.targetShape
+			};
+
+			return {
+				...state,
+				sourceArrow: arrow
+			}
+		}
 
 		case EDIT_SHAPE_NAME: {
 			const currShape = shapes.find(s => s.timestamp === action.payload.timestamp)!;

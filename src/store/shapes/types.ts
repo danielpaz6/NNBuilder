@@ -5,7 +5,6 @@ import { Shape, AdditionalInformationType } from "../../interfaces/IShape";
 export interface Arrow {
 	source: Shape;
 	target: Shape;
-	activationFunction?: string;
 }
 
 export interface ShapeState {
@@ -22,6 +21,7 @@ export const ADD_SHAPE = "ADD_SHAPE";
 export const SET_SHAPES = "SET_SHAPES";
 export const DELETE_SHAPE = "DELETE_SHAPE";
 export const EDIT_SHAPE_ACTIVATION = "EDIT_SHAPE_ACTIVATION";
+export const EDIT_ARROW_ACTIVATION = "EDIT_ARROW_ACTIVATION";
 export const EDIT_SHAPE_NAME = "EDIT_SHAPE_NAME";
 export const UPDATE_SHAPE_LOCATION = "UPDATE_SHAPE_LOCATION";
 export const UPDATE_SHAPE_DESCRIPTION = "UPDATE_SHAPE_DESCRIPTION";
@@ -52,6 +52,14 @@ interface EditShapeActivationAction {
 	meta: {
 		timestamp: number;
 	};
+}
+
+interface EditArrowActivationAction {
+	type: typeof EDIT_ARROW_ACTIVATION,
+	meta: {
+		sourceShape: Shape;
+		targetShape: Shape;
+	}
 }
 
 interface EditShapeNameAction {
@@ -113,4 +121,5 @@ export type ShapeActionTypes =
 	SetShapesAction |
 	EditShapeNameAction |
 	UpdateShapeDescriptionAction |
-	SetShapeInfo;
+	SetShapeInfo |
+	EditArrowActivationAction;
