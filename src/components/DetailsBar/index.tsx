@@ -13,9 +13,11 @@ import {
 	editShapeName,
 	updateShapePositionAction, 
 	updateShapeDescription,
-	setShapeAdditionalInfo
+	setShapeAdditionalInfo,
+	editActivationFunction
 } from '../../store/shapes/actions';
 import { formsMap } from './Forms/FormList';
+import { ACTIVATION_NONE, ACTIVATION_RELU, ACTIVATION_TANH, ACTIVATION_SIGMOID, AllActivationFunctions } from '../../interfaces/activations';
 
 
 interface IDetailsBarProps {
@@ -24,6 +26,7 @@ interface IDetailsBarProps {
 	updateShapePositionAction: typeof updateShapePositionAction;
 	updateShapeDescription: typeof updateShapeDescription;
 	setShapeAdditionalInfo: typeof setShapeAdditionalInfo;
+	editActivationFunction: typeof editActivationFunction;
 }
 
 interface IDetailsBarState {
@@ -38,6 +41,11 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 			key,
 			value	
 		);
+	}
+
+	handleArrowActivationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const activation = event.target.value as AllActivationFunctions;
+		this.props.editActivationFunction(activation);
 	}
 
 	handleParameterChangeByValue = (value: number, key: string) => {
@@ -106,15 +114,6 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 						value={shape.name}
 						onChange={this.handleChangeName} />
 				</Form.Group>
-				<Form.Group controlId="activation-function">
-					<Form.Label>Activation Function</Form.Label>
-					<Form.Control as="select" style={{paddingRight: "10px"}}> 
-						<option>None</option>
-						<option>Sigmoid</option>
-						<option>ReLU</option>
-						<option>Tanh</option>
-					</Form.Control>
-				</Form.Group>
 				{parameters}
 				<hr />
 				<Form.Group>
@@ -168,17 +167,32 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 				</Form.Group>
 			</aside>;
 		}
-		else if(this.props.shapes.sourceArrow) {
+		else if(this.props.shapes.sourceArrow)
+		{
+			const getArrowActivation = this.props.shapes.arrows.get(
+				[this.props.shapes.sourceArrow.source,
+				this.props.shapes.sourceArrow.target]
+			)!;
+
 			return <aside className="component-info">
 				<h6 style={{textAlign: "center"}}>Arrow Properties</h6>
 				<hr />
 				<Form.Group controlId="activation-function">
 					<Form.Label>Activation Function</Form.Label>
-					<Form.Control as="select" style={{paddingRight: "10px"}}> 
-						<option>None</option>
-						<option>Sigmoid</option>
-						<option>ReLU</option>
-						<option>Tanh</option>
+					<Form.Control 
+						value={getArrowActivation} 
+						as="select" 
+						style={{paddingRight: "10px"}}
+						onChange={this.handleArrowActivationChange}> 
+
+						<option 
+							value={ACTIVATION_NONE}>None</option>
+						<option 
+							value={ACTIVATION_SIGMOID}>Sigmoid</option>
+						<option 
+							value={ACTIVATION_RELU}>ReLU</option>
+						<option 
+							value={ACTIVATION_TANH}>Tanh</option>
 					</Form.Control>
 				</Form.Group>
 			</aside>
@@ -194,5 +208,6 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ editShapeName, updateShapePositionAction, updateShapeDescription, setShapeAdditionalInfo }
+	{ editShapeName, updateShapePositionAction, updateShapeDescription, setShapeAdditionalInfo,
+		editActivationFunction }
 )(DetailsBar);

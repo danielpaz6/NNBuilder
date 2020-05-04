@@ -1,5 +1,5 @@
 import { layersMap } from '../interfaces/shapes';
-import { AllActivationFunctions } from "../interfaces/activations";
+import { AllActivationFunctions, ACTIVATION_NONE } from "../interfaces/activations";
 import { Shape } from '../interfaces/IShape';
 
 const fc1 : Shape = {
@@ -89,11 +89,11 @@ const output : Shape = {
 // Make connections between the shapes
 
 const arrows = new Map<[Shape, Shape], AllActivationFunctions>();
-arrows.set([fc1, fc3], null);
-arrows.set([fc2, fc4], null);
-arrows.set([fc3, fc4], null);
-arrows.set([concat, fc3], null);
-arrows.set([concat, fc4], null);
+arrows.set([fc1, fc3], ACTIVATION_NONE);
+arrows.set([fc2, fc4], ACTIVATION_NONE);
+arrows.set([fc3, fc4], ACTIVATION_NONE);
+arrows.set([concat, fc3], ACTIVATION_NONE);
+arrows.set([concat, fc4], ACTIVATION_NONE);
 
 /*
 fc1.connectedTo.push(fc3);

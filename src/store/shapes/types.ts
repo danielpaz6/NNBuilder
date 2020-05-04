@@ -1,5 +1,6 @@
 import ArrowMap from "../../interfaces/arrowMap";
 import { Shape, AdditionalInformationType } from "../../interfaces/IShape";
+import { AllActivationFunctions } from "../../interfaces/activations";
 //import ArrowMap from "../../interfaces/arrowMap";
 
 export interface Arrow {
@@ -20,15 +21,24 @@ export interface ShapeState {
 export const ADD_SHAPE = "ADD_SHAPE";
 export const SET_SHAPES = "SET_SHAPES";
 export const DELETE_SHAPE = "DELETE_SHAPE";
+export const DELETE_ARROW = "DELETE_ARROW";
 export const EDIT_SHAPE_ACTIVATION = "EDIT_SHAPE_ACTIVATION";
 export const EDIT_ARROW_ACTIVATION = "EDIT_ARROW_ACTIVATION";
 export const EDIT_SHAPE_NAME = "EDIT_SHAPE_NAME";
 export const UPDATE_SHAPE_LOCATION = "UPDATE_SHAPE_LOCATION";
 export const UPDATE_SHAPE_DESCRIPTION = "UPDATE_SHAPE_DESCRIPTION";
 export const SET_SHAPE_ADDITONAL_INFO = "SET_SHAPE_ADDITONAL_INFO";
+export const EDIT_ACTIVATION_FUNCTION = "EDIT_ACTIVATION_FUNCTION";
 
 export const ADD_ARROW = "ADD_ARROW";
 export const UPDATE_SHAPE_ARROWS = "UPDATE_SHAPE_ARROWS";
+
+interface EditActivationFunction {
+	type: typeof EDIT_ACTIVATION_FUNCTION;
+	payload: {
+		func: AllActivationFunctions;
+	}
+}
 
 interface AddShapeAction {
 	type: typeof ADD_SHAPE;
@@ -42,9 +52,10 @@ interface SetShapesAction {
 
 interface DeleteShapeAction {
 	type: typeof DELETE_SHAPE;
-	meta: {
-		timestamp: number;
-	};
+}
+
+interface DeleteArrowAction {
+	type: typeof DELETE_ARROW;
 }
 
 interface EditShapeActivationAction {
@@ -122,4 +133,6 @@ export type ShapeActionTypes =
 	EditShapeNameAction |
 	UpdateShapeDescriptionAction |
 	SetShapeInfo |
-	EditArrowActivationAction;
+	EditArrowActivationAction |
+	EditActivationFunction |
+	DeleteArrowAction;

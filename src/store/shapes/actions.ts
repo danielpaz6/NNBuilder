@@ -10,9 +10,12 @@ import {
 	EDIT_SHAPE_NAME,
 	UPDATE_SHAPE_DESCRIPTION,
 	SET_SHAPE_ADDITONAL_INFO,
-	EDIT_ARROW_ACTIVATION
+	EDIT_ARROW_ACTIVATION,
+	EDIT_ACTIVATION_FUNCTION,
+	DELETE_ARROW
 } from './types';
 import { Shape, AdditionalInformationType } from '../../interfaces/IShape';
+import { AllActivationFunctions } from '../../interfaces/activations';
 
 export function addShape(newShape: Shape) : ShapeActionTypes {
 	return {
@@ -28,13 +31,16 @@ export function setShapes(shapes: Shape[]) : ShapeActionTypes {
 	};
 }
 
-export function deleteShape(timestamp: number) : ShapeActionTypes {
+export function deleteShape() : ShapeActionTypes {
 	return {
-		type: DELETE_SHAPE,
-		meta: {
-			timestamp
-		}
+		type: DELETE_SHAPE
 	};
+}
+
+export function deleteArrow() : ShapeActionTypes {
+	return {
+		type: DELETE_ARROW
+	}
 }
 
 export function editActiveShape(timestamp: number) : ShapeActionTypes {
@@ -44,6 +50,15 @@ export function editActiveShape(timestamp: number) : ShapeActionTypes {
 			timestamp: timestamp
 		}
 	};
+}
+
+export function editActivationFunction(func: AllActivationFunctions) : ShapeActionTypes {
+	return {
+		type: EDIT_ACTIVATION_FUNCTION,
+		payload: {
+			func: func
+		}
+	}
 }
 
 export function editActiveArrow(source: Shape, target: Shape) : ShapeActionTypes {

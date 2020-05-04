@@ -21,24 +21,41 @@ export default class ArrowMap {
 
     set(key: [Shape, Shape], value: AllActivationFunctions): this {
 		const newKey = key[0].timestamp + "|" + key[1].timestamp;
+		const isArrowAlreadyExists = this.activationMap.has(newKey);
+		
 		this.activationMap.set(newKey, value);
 
-		if(this.connectedToMap.has(key[0]))
-			this.connectedToMap.get(key[0])!.push(key[1]);
-		else
-			this.connectedToMap.set(key[0], [key[1]]);
+		// If the arrow already exists, we just needed to set the activationMap
+		// to point on the new activation value (@value parameter)
+		// no need to add it to the other maps as it's already exists there.
 
-		if(this.connectedToMeMap.has(key[1]))
-			this.connectedToMeMap.get(key[1])!.push(key[0]);
-		else
-			this.connectedToMeMap.set(key[1], [key[0]]);
+		if(!isArrowAlreadyExists)
+		{
+			if(this.connectedToMap.has(key[0]))
+				this.connectedToMap.get(key[0])!.push(key[1]);
+			else
+				this.connectedToMap.set(key[0], [key[1]]);
+
+			if(this.connectedToMeMap.has(key[1]))
+				this.connectedToMeMap.get(key[1])!.push(key[0]);
+			else
+				this.connectedToMeMap.set(key[1], [key[0]]);
+		}
 
         return this;
     }
 
     get(key: [Shape, Shape]): AllActivationFunctions | undefined {
         return this.activationMap.get(key[0].timestamp + "|" + key[1].timestamp);
-    }
+	}
+	
+	deleteShapeArrows(sourceShape: Shape) : boolean {
+		
+		this.connectedToMap.forEach(shapes => shapes.forEach(targetShape => this.deleteArrow([sourceShape, targetShape])));
+		this.connectedToMeMap.forEach(shapes => shapes.forEach(targetShape => this.deleteArrow([targetShape, sourceShape])));
+
+		return true;
+	}
 
     deleteArrow(key: [Shape, Shape]): boolean {
 		if(!this.connectedToMap.get(key[0]) || !this.connectedToMeMap.get(key[1]))
@@ -83,7 +100,7 @@ export default class ArrowMap {
 	
 	getList() {
 		const newList: [Shape, Shape, AllActivationFunctions][] = [];
-
+		
 		this.connectedToMap.forEach((value, sourceShape) => {
 			
 			value.forEach(targetShape =>

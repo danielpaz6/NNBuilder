@@ -3,7 +3,8 @@ import './diagram.scss';
 
 import DraggableSVG from "./DraggableSVG";
 
-import { editActiveShape, setShapes, editActiveArrow } from '../../store/shapes/actions';
+import { editActiveShape, setShapes, editActiveArrow, deleteShape, deleteArrow } from '../../store/shapes/actions';
+import { addToast } from "../../store/toasts/actions";
 import { updateMouseLocation } from '../../store/mouse/actions';
 import { ShapeState } from '../../store/shapes/types';
 import { connect } from 'react-redux';
@@ -14,6 +15,8 @@ import { seedInitShapes } from '../../utils/seedShapes';
 import { ConfigState } from '../../store/config/types';
 import { Shape } from '../../interfaces/IShape';
 import Defs from './Defs';
+import Input from './Shapes/Input';
+import Output from './Shapes/Output';
 
 interface MouseLocation {
 	nativeEvent: {
@@ -30,6 +33,9 @@ export interface IDiagramContainerProps {
 	updateMouseLocation: typeof updateMouseLocation;
 	setShapes: typeof setShapes;
 	editActiveArrow: typeof editActiveArrow;
+	deleteShape: typeof deleteShape;
+	deleteArrow: typeof deleteArrow;
+	addToast: typeof addToast;
 }
 
 export interface IDiagramContainerState {
@@ -98,9 +104,29 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 	}
 
 	handleKeyDown = (event: React.KeyboardEvent<SVGSVGElement>) => {
-		// If we pressed Esc, we'll remove active shape
-		if(event.keyCode === 27)
+		// If someone pressed Esc, we'll remove active shape ( also removes the active arrow )
+		if(event.keyCode === 27) {
 			this.props.editActiveShape(-1);
+		}
+		// If someone preseed Delete, we'll remove the current arrow/shape.
+		else if(event.keyCode === 46 || event.keyCode === 8) {
+			if(this.props.shapes.sourceShape) {
+				if(this.props.shapes.sourceShape.shape !== Input &&
+					this.props.shapes.sourceShape.shape !== Output) {
+					this.props.deleteShape();
+				}
+				else {
+					this.props.addToast("Removal Error", `You cannot remove Input / Output layers.`)
+				}
+
+				this.props.editActiveShape(-1);
+
+			}
+			else if(this.props.shapes.sourceArrow) {
+				this.props.deleteArrow();
+				this.props.editActiveShape(-1);
+			}
+		}
 	}
 
 	handleMouseLeave = () => {
@@ -119,15 +145,15 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 		return (
 			<div className="diagram-container">
 				<svg width="100%" height="100%"
-						onClick={this.handleClick}
-						onMouseMove={this.handlePointerMovement}
-						onContextMenu={this.handleRightClick}
-						onKeyDown={this.handleKeyDown}
-						onMouseLeave={this.handleMouseLeave}
-						onMouseEnter={this.handleMouseEnter}
-						role="button"
-						tabIndex={0}
-					>
+					onClick={this.handleClick}
+					onMouseMove={this.handlePointerMovement}
+					onContextMenu={this.handleRightClick}
+					onKeyDown={this.handleKeyDown}
+					onMouseLeave={this.handleMouseLeave}
+					onMouseEnter={this.handleMouseEnter}
+					role="button"
+					tabIndex={0}
+				>
 					<Defs />
 					{
 						this.props.shapes.sourceShape && this.state.isMouseInsideSVG ?
@@ -174,5 +200,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ editActiveShape, updateMouseLocation, setShapes, editActiveArrow }
+	{ editActiveShape, updateMouseLocation, setShapes, editActiveArrow, deleteShape, deleteArrow, addToast }
 )(DiagramContainer);

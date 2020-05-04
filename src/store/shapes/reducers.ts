@@ -13,9 +13,12 @@ import {
 	SET_SHAPE_ADDITONAL_INFO,
 	Arrow,
 	EDIT_ARROW_ACTIVATION,
+	EDIT_ACTIVATION_FUNCTION,
+	DELETE_ARROW,
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
 import ArrowMap from "../../interfaces/arrowMap";
+import {ACTIVATION_NONE} from "../../interfaces/activations";
 
 const initialState: ShapeState = {
 	shapes: [],
@@ -49,12 +52,35 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			};
 
 		case DELETE_SHAPE:
-			return {
-				...state,
-				shapes: state.shapes.filter(
-					shape => shape.timestamp !== action.meta.timestamp
-				)
-			};
+			if(state.sourceShape) {
+				const copiedArrows = new ArrowMap(state.arrows);
+
+				copiedArrows.deleteShapeArrows(state.sourceShape);
+
+				return {
+					...state,
+					shapes: state.shapes.filter(
+						shape => shape.timestamp !== state.sourceShape!.timestamp
+					),
+					sourceShape: undefined,
+					arrows: copiedArrows
+				};
+			}
+			
+			return state;
+
+		case DELETE_ARROW:
+			if(state.sourceArrow) {
+				const copiedArrows = new ArrowMap(state.arrows);
+				copiedArrows.deleteArrow([state.sourceArrow.source, state.sourceArrow.target]);
+
+				return {
+					...state,
+					arrows: copiedArrows
+				}
+			}
+
+			return state;
 
 		case EDIT_SHAPE_ACTIVATION: {
 			const matchShape = state.shapes.find(s => s.timestamp === action.meta.timestamp);
@@ -146,7 +172,7 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			const arrowsClone = new ArrowMap(state.arrows);
 
 			
-			arrowsClone.set([sourceShape, targetShape], null);
+			arrowsClone.set([sourceShape, targetShape], ACTIVATION_NONE);
 			
 			/*const newArrow : Arrow = {
 				source: action.payload.source,
@@ -173,6 +199,22 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 				...state,
 				shapes: shapes
 			}
+		}
+
+		case EDIT_ACTIVATION_FUNCTION: {
+			const copiedArrows = new ArrowMap(state.arrows);
+
+			if(state.sourceArrow)
+			{
+				copiedArrows.set([state.sourceArrow.source, state.sourceArrow.target], action.payload.func);
+
+				return {
+					...state,
+					arrows: copiedArrows
+				}
+			}
+
+			return state;
 		}
 
 		default:

@@ -53,7 +53,8 @@ export const layersMap : Record<string, LayerInformation> = {
 	MaxPooling: {
 		create: () => MaxPooling,
 		centerPosition: {
-			[TEMPLATE_FILLED]: MaxPooling.centerPosition
+			[TEMPLATE_FILLED]: MaxPooling.centerPosition,
+			[TEMPLATE_ABSTRACT]: MaxPooling.centerPositionAbstract
 		}
 	},
 	FullyConnected: {
