@@ -1,4 +1,4 @@
-import { ConfigState, ConfigActionTypes, UPDATE_DESIGN_TEMPLATE } from "./types";
+import { ConfigState, ConfigActionTypes, UPDATE_DESIGN_TEMPLATE, UPDATE_SVG_REF } from "./types";
 import { TEMPLATE_ABSTRACT } from "../../interfaces/designTemplates";
 
 const initialState: ConfigState = {
@@ -11,6 +11,12 @@ export function configReducer(state = initialState, action: ConfigActionTypes) :
 			return {
 				...state,
 				designTemplate: action.payload.design
+			}
+
+		case UPDATE_SVG_REF:
+			return {
+				...state,
+				svgRef: action.payload.svgRef
 			}
 
 		default:

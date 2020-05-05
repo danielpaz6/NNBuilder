@@ -4,6 +4,7 @@ import './diagram.scss';
 import DraggableSVG from "./DraggableSVG";
 
 import { editActiveShape, setShapes, editActiveArrow, deleteShape, deleteArrow } from '../../store/shapes/actions';
+import { updateSVGRef } from "../../store/config/actions";
 import { addToast } from "../../store/toasts/actions";
 import { updateMouseLocation } from '../../store/mouse/actions';
 import { ShapeState } from '../../store/shapes/types';
@@ -36,6 +37,7 @@ export interface IDiagramContainerProps {
 	deleteShape: typeof deleteShape;
 	deleteArrow: typeof deleteArrow;
 	addToast: typeof addToast;
+	updateSVGRef: typeof updateSVGRef;
 }
 
 export interface IDiagramContainerState {
@@ -45,7 +47,7 @@ export interface IDiagramContainerState {
 }
 
 class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiagramContainerState> {
-	//refElement = React.createRef<HTMLDivElement>();
+	refElement = React.createRef<SVGSVGElement>();
 	
 	state = {
 		isMouseInsideSVG: false
@@ -53,6 +55,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 
 	componentDidMount() {
 		this.props.setShapes(seedInitShapes);
+		this.props.updateSVGRef(this.refElement.current!);
 	}
 
 	handleArrowClick = (source: Shape, target: Shape) => {
@@ -111,6 +114,8 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 		// If someone preseed Delete, we'll remove the current arrow/shape.
 		else if(event.keyCode === 46 || event.keyCode === 8) {
 			if(this.props.shapes.sourceShape) {
+
+				// Edge case: cannot remove Input/Output layers
 				if(this.props.shapes.sourceShape.shape !== Input &&
 					this.props.shapes.sourceShape.shape !== Output) {
 					this.props.deleteShape();
@@ -126,6 +131,10 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 				this.props.deleteArrow();
 				this.props.editActiveShape(-1);
 			}
+
+			// Note: the reason that we made "duplicate code" by using
+			// `this.props.editActiveShape(-1);` twice is because we don't want
+			// to active this function every time that someone pressed on delete button.
 		}
 	}
 
@@ -153,6 +162,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 					onMouseEnter={this.handleMouseEnter}
 					role="button"
 					tabIndex={0}
+					ref={this.refElement}
 				>
 					<Defs />
 					{
@@ -200,5 +210,6 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ editActiveShape, updateMouseLocation, setShapes, editActiveArrow, deleteShape, deleteArrow, addToast }
+	{ editActiveShape, updateMouseLocation, setShapes, editActiveArrow, deleteShape, deleteArrow, addToast, updateSVGRef },
+	
 )(DiagramContainer);

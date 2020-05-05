@@ -13,10 +13,14 @@ export const manhattanDistance = (x1: number, y1: number, x2: number, y2: number
  * 
  * @returns [X, Y] fixed point
  */
-export const fixedDistanceFromPolygon = (d: number, xMid: number, yMid: number, x2: number, y2: number) => {
+export const fixedDistanceFromPolygon = (d: number, xMid: number, yMid: number, x2: number, y2: number, oppositeSide = false) => {
 	let xText, yText;
 
 	const m = -1 * (yMid-y2) / (xMid-x2);
+
+	if(m < 0 && oppositeSide === true) {
+		d *= -1;
+	}
 
 	const alpha = Math.atan(m);
 	const A = d * Math.sin(alpha);

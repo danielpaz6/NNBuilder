@@ -46,7 +46,7 @@ class Arrows extends React.Component<IArrowsProps> {
 		if(activationFunction !== ACTIVATION_NONE) {
 			const d = 12 + activationFunction.length * 2;
 
-			[xText, yText] = fixedDistanceFromPolygon(d, xMid, yMid, x2, y2);
+			[xText, yText] = fixedDistanceFromPolygon(d, xMid, yMid, x2, y2, true);
 		}
 
 		return (
@@ -134,13 +134,13 @@ class Arrows extends React.Component<IArrowsProps> {
 				}
 
 				return (
-						<polyline 
-							key={sourceShape.timestamp + " " + targetShape.timestamp + " " + i + " " + j}
-							markerEnd="url(#smallArrow)"
-							points={`${sX},${sY} ${tX},${tY}`}
-							fill="none"
-							stroke={!isActiveArrow ? "rgba(0,0,0,.2)" : "red"}
-						/>
+					<polyline 
+						key={sourceShape.timestamp + " " + targetShape.timestamp + " " + i + " " + j}
+						markerEnd="url(#smallArrow)"
+						points={`${sX},${sY} ${tX},${tY}`}
+						fill="none"
+						stroke={!isActiveArrow ? "rgba(0,0,0,.2)" : "red"}
+					/>
 				);
 			}))
 		}

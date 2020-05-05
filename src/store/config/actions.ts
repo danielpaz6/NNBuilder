@@ -1,4 +1,4 @@
-import { ConfigActionTypes, UPDATE_DESIGN_TEMPLATE } from "./types";
+import { ConfigActionTypes, UPDATE_DESIGN_TEMPLATE, UPDATE_SVG_REF } from "./types";
 import { TemplatesTypes } from "../../interfaces/designTemplates";
 
 export function updateDesignTemplate(design: TemplatesTypes) : ConfigActionTypes {
@@ -8,4 +8,13 @@ export function updateDesignTemplate(design: TemplatesTypes) : ConfigActionTypes
 			design: design
 		}
 	};
+}
+
+export function updateSVGRef(ref: SVGSVGElement) : ConfigActionTypes {
+	return {
+		type: UPDATE_SVG_REF,
+		payload: {
+			svgRef: ref
+		}
+	}
 }

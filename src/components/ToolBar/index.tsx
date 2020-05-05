@@ -10,6 +10,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { ConfigState } from '../../store/config/types';
 import { updateDesignTemplate } from "../../store/config/actions";
 import { TEMPLATE_ABSTRACT, TEMPLATE_FILLED } from '../../interfaces/designTemplates';
+import Canvg from 'canvg';
 
 
 export interface IToolBarProps {
@@ -26,6 +27,48 @@ export interface IToolBarState {
 class ToolBar extends React.Component<IToolBarProps, IToolBarState> {
 	state = {
 		isFullScreenEnabled: false
+	}
+
+	refSVG = React.createRef<SVGSVGElement>();
+	refCanvas = React.createRef<HTMLCanvasElement>();
+	refLink = React.createRef<HTMLAnchorElement>();
+
+	async componentDidMount() {
+		/*const canvas = document.querySelector('canvas')!;
+		const ctx = canvas.getContext('2d');
+	
+		const v = await Canvg.from(ctx, './svgs/1.svg');*/
+
+		/*const canvas = this.refCanvas.current!;
+		const ctx = canvas.getContext('2d')!;
+
+		const svgContent = "<svg>" + this.refSVG.current!.innerHTML + "</svg>";
+		const v = await Canvg.from(ctx, svgContent);
+		
+		v.start();*/
+	}
+
+	handleDownloadImage = async () => {
+		
+		// Extract SVG to Canvas
+		
+		const canvas = this.refCanvas.current!;
+		const ctx = canvas.getContext('2d')!;
+
+		const svgContent = "<svg>" + this.props.config.svgRef!.innerHTML + "</svg>";
+		const v = await Canvg.from(ctx, svgContent);
+
+		v.start();
+
+		// Downloading the canvas 
+
+		//var download = document.getElementById("download");
+		const download = this.refLink.current!;
+		const image = canvas.toDataURL("image/png")
+			.replace("image/png", "image/octet-stream");
+		download.setAttribute("href", image);
+
+		console.log("done!", svgContent);
 	}
 
 	handleStyleTemplate = () => {
@@ -58,7 +101,18 @@ class ToolBar extends React.Component<IToolBarProps, IToolBarState> {
 	public render() {
 		return (
 			<div className="toolbar">
+				<canvas ref={this.refCanvas} id="myCanvas" width="1000px" height="500px" style={{background: "white", display: "none"}}></canvas>
 				<div className="left-side">
+					{/*<svg ref={this.refSVG} id="canvasforimage">
+						<rect 
+							ref="test"
+							x="0"
+							y="0"
+							width="20"
+							height="20"
+							fill="green"
+						/>
+					</svg>*/}
 					<OverlayTrigger
 						overlay={<Tooltip id="tooltip-new-template">Start new template</Tooltip>}
 						placement="bottom"
@@ -67,14 +121,16 @@ class ToolBar extends React.Component<IToolBarProps, IToolBarState> {
 							<svg viewBox="5 5 15 15" fill="currentColor" width="9" height="15"><path d="M13,6.70710678 L13,9 L15.2928932,9 L13,6.70710678 Z M17,19 C17,19.5522847 16.5522847,20 16,20 L7,20 C6.44771525,20 6,19.5522847 6,19 L6,6 C6,5.44771525 6.44771525,5 7,5 L12.7099045,5 L17,9.2995551 L17,19 Z M16,10 L12,10 L12,6 L7,6 L7,19 L16,19 L16,10 Z"></path></svg>
 						</button>
 					</OverlayTrigger>
-
+					
 					<button>
 						<svg viewBox="4 5 15 15" fill="currentColor" width="9" height="15"><path d="M16.679,5.60187506 L18.381,7.30587506 C19.207,8.13287506 19.207,9.47787506 18.381,10.3058751 L10.211,18.4858751 L4,19.9998751 L5.512,13.7818751 L13.682,5.60187506 C14.481,4.79987506 15.878,4.79887506 16.679,5.60187506 Z M8.66091072,16.0462125 L9.973,17.3598751 L15.625,11.7018751 L12.289,8.36087506 L6.637,14.0198751 L7.95422762,15.3386821 L11.1467061,12.1463747 C11.3419735,11.9511178 11.6585559,11.9511262 11.8538129,12.1463936 C12.0490698,12.341661 12.0490613,12.6582435 11.8537939,12.8535004 L8.66091072,16.0462125 Z M16.306,11.0198751 L17.7,9.62387506 C18.15,9.17287506 18.15,8.43787506 17.7,7.98687506 L15.998,6.28287506 C15.561,5.84587506 14.801,5.84687506 14.364,6.28287506 L12.97,7.67887506 L16.306,11.0198751 Z M5.426,18.5738751 L8.995,17.7438751 L6.254,14.9988751 L5.426,18.5738751 Z"></path></svg>
 					</button>
 
-					<button>
-						<svg viewBox="4 4 15 15" fill="currentColor" width="9" height="15"><path d="M5,13 L5,17 C5,17.5522847 5.44771525,18 6,18 L17,18 C17.5522847,18 18,17.5522847 18,17 L18,13 L19,13 L19,17 C19,18.1045695 18.1045695,19 17,19 L6,19 C4.8954305,19 4,18.1045695 4,17 L4,13 L5,13 Z M11,13.2928932 L11,5 L12,5 L12,13.2928932 L14.1464466,11.1464466 C14.3417088,10.9511845 14.6582912,10.9511845 14.8535534,11.1464466 C15.0488155,11.3417088 15.0488155,11.6582912 14.8535534,11.8535534 L11.5,15.2071068 L8.14644661,11.8535534 C7.95118446,11.6582912 7.95118446,11.3417088 8.14644661,11.1464466 C8.34170876,10.9511845 8.65829124,10.9511845 8.85355339,11.1464466 L11,13.2928932 Z"></path></svg>
-					</button>
+					<a id="download" download="triangle.png" ref={this.refLink}>
+						<button onClick={this.handleDownloadImage}>
+							<svg viewBox="4 4 15 15" fill="currentColor" width="9" height="15"><path d="M5,13 L5,17 C5,17.5522847 5.44771525,18 6,18 L17,18 C17.5522847,18 18,17.5522847 18,17 L18,13 L19,13 L19,17 C19,18.1045695 18.1045695,19 17,19 L6,19 C4.8954305,19 4,18.1045695 4,17 L4,13 L5,13 Z M11,13.2928932 L11,5 L12,5 L12,13.2928932 L14.1464466,11.1464466 C14.3417088,10.9511845 14.6582912,10.9511845 14.8535534,11.1464466 C15.0488155,11.3417088 15.0488155,11.6582912 14.8535534,11.8535534 L11.5,15.2071068 L8.14644661,11.8535534 C7.95118446,11.6582912 7.95118446,11.3417088 8.14644661,11.1464466 C8.34170876,10.9511845 8.65829124,10.9511845 8.85355339,11.1464466 L11,13.2928932 Z"></path></svg>
+						</button>
+					</a>
 				</div>
 
 				<div className="right-side">
