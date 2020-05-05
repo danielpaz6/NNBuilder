@@ -46,6 +46,8 @@ export default class Input extends React.Component<IDraggableShape> {
 	}
 
 	public renderAbstractTemplate() {
+		const dim = this.props.additionalInfo ? parseInt(this.props.additionalInfo.dimension.toString()[0]) : 0;
+
 		return (
 			<React.Fragment>
 				<title>Input Layer</title>
@@ -67,8 +69,15 @@ export default class Input extends React.Component<IDraggableShape> {
 						textAnchor="middle" 
 						fontSize="12px">
 							<tspan x="50%" dy="1.2em">Input</tspan>
-    						<tspan x="50%" dy="1.2em">Image</tspan>
-    						<tspan x="50%" dy="1.8em" fontSize="10px">28x28</tspan>
+							{
+								this.props.additionalInfo &&
+    							<tspan x="50%" dy="1.2em">{this.props.additionalInfo.type}</tspan>
+							}
+							<tspan x="50%" dy="1.8em" fontSize="10px">
+								{dim >= 1 && this.props.additionalInfo!.dim1}
+								{dim >= 2 && "x" + this.props.additionalInfo!.dim2}
+								{dim >= 3 && "x" + this.props.additionalInfo!.dim3}
+							</tspan>
 					</text>
 				</svg>
 			</React.Fragment>

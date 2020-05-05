@@ -112,6 +112,13 @@ export const layersMap : Record<string, LayerInformation> = {
 		centerPosition: {
 			[TEMPLATE_FILLED]: Input.centerPosition,
 			[TEMPLATE_ABSTRACT]: Input.centerPositionAbstract
+		},
+		additionalInfo: {
+			type: "Image",
+			dimension: "2D",
+			dim1: 28,
+			dim2: 28,
+			dim3: 3
 		}
 	},
 	Output: {
