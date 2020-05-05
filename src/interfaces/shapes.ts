@@ -10,6 +10,7 @@ import Dropout from "../components/DiagramContainer/Shapes/Dropout";
 import BatchNormalization from "../components/DiagramContainer/Shapes/BatchNormalization";
 import { AdditionalInformationType } from "./IShape";
 import { TEMPLATE_FILLED, TEMPLATE_ABSTRACT, TemplatesTypes } from "./designTemplates";
+import { ACTIVATION_NONE } from "./activations";
 
 export interface IDraggableSVGState {
 	isMarked: boolean;
@@ -55,6 +56,9 @@ export const layersMap : Record<string, LayerInformation> = {
 		centerPosition: {
 			[TEMPLATE_FILLED]: MaxPooling.centerPosition,
 			[TEMPLATE_ABSTRACT]: MaxPooling.centerPositionAbstract
+		},
+		additionalInfo: {
+			kernelSize: 2
 		}
 	},
 	FullyConnected: {
@@ -115,6 +119,9 @@ export const layersMap : Record<string, LayerInformation> = {
 		centerPosition: {
 			[TEMPLATE_FILLED]: Output.centerPosition,
 			[TEMPLATE_ABSTRACT]: Output.centerPositionAbstract
+		},
+		additionalInfo: {
+			activation: ACTIVATION_NONE
 		}
 	},
 	Dropout: {
@@ -122,6 +129,9 @@ export const layersMap : Record<string, LayerInformation> = {
 		centerPosition: {
 			[TEMPLATE_FILLED]: Dropout.centerPosition,
 			[TEMPLATE_ABSTRACT]: Dropout.centerPositionAbstract
+		},
+		additionalInfo: {
+			p: 0.5
 		}
 	},
 	BatchNormalization: {
@@ -129,6 +139,10 @@ export const layersMap : Record<string, LayerInformation> = {
 		centerPosition: {
 			[TEMPLATE_FILLED]: BatchNormalization.centerPosition,
 			[TEMPLATE_ABSTRACT]: BatchNormalization.centerPositionAbstract
+		},
+		additionalInfo: {
+			dimension: "2D",
+			numFeatures: 20
 		}
 	}
 }

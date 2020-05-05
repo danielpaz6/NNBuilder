@@ -112,7 +112,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 		if(event.keyCode === 27) {
 			this.props.editActiveShape(-1);
 		}
-		else if(this.props.shapes.sourceShape) {
+		else if(this.props.shapes.sourceShape && [65,87,68,83,37,38,39,40].includes(event.keyCode)) {
 			const xPos = this.props.shapes.sourceShape.x;
 			const yPos = this.props.shapes.sourceShape.y;
 			const timestamp = this.props.shapes.sourceShape.timestamp;

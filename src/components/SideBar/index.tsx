@@ -122,7 +122,7 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 				<br />
 				
 				<h6 style={{paddingLeft: "5px"}}>Layers</h6>
-				<ListGroup defaultActiveKey="#link1">
+				<ListGroup defaultActiveKey="#link1" variant="flush">
 					{
 						this.props.shapes.shapes.map(shape => 
 							<ListGroup.Item

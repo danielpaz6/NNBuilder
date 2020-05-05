@@ -100,7 +100,10 @@ export default class MaxPooling extends React.Component<IDraggableShape> {
 						fontSize="12px">
 							<tspan x="50%" dy="1.2em">Max Pooling</tspan>
     						<tspan x="50%" dy="1.2em">Layer</tspan>
-    						<tspan x="50%" dy="1.8em" fontSize="10px">2x2&nbsp;&nbsp;&nbsp;(stride 2)</tspan>
+							{
+								this.props.additionalInfo &&
+							<tspan x="50%" dy="1.8em" fontSize="10px">{this.props.additionalInfo.kernelSize}x{this.props.additionalInfo.kernelSize}&nbsp;&nbsp;&nbsp;(stride None)</tspan>
+							}
 					</text>
 				</svg>
 
