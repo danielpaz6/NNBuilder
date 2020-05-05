@@ -3,7 +3,7 @@ import './diagram.scss';
 
 import DraggableSVG from "./DraggableSVG";
 
-import { editActiveShape, setShapes, editActiveArrow, deleteShape, deleteArrow } from '../../store/shapes/actions';
+import { editActiveShape, setShapes, editActiveArrow, deleteShape, deleteArrow, updateShapePositionAction } from '../../store/shapes/actions';
 import { updateSVGRef } from "../../store/config/actions";
 import { addToast } from "../../store/toasts/actions";
 import { updateMouseLocation } from '../../store/mouse/actions';
@@ -36,6 +36,7 @@ export interface IDiagramContainerProps {
 	editActiveArrow: typeof editActiveArrow;
 	deleteShape: typeof deleteShape;
 	deleteArrow: typeof deleteArrow;
+	updateShapePositionAction: typeof updateShapePositionAction;
 	addToast: typeof addToast;
 	updateSVGRef: typeof updateSVGRef;
 }
@@ -111,13 +112,55 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 		if(event.keyCode === 27) {
 			this.props.editActiveShape(-1);
 		}
+		else if(this.props.shapes.sourceShape) {
+			const xPos = this.props.shapes.sourceShape.x;
+			const yPos = this.props.shapes.sourceShape.y;
+			const timestamp = this.props.shapes.sourceShape.timestamp;
+			
+			// Key: W or Up
+			if(event.keyCode === 87 || event.keyCode === 38) {
+				this.props.updateShapePositionAction(
+					timestamp,
+					xPos,
+					yPos - 5
+				);
+			}
+
+			// Key: S or Down
+			else if(event.keyCode === 83 || event.keyCode === 40) {
+				this.props.updateShapePositionAction(
+					timestamp,
+					xPos,
+					yPos + 5
+				);
+			}
+
+			// Key: A or Left
+			else if(event.keyCode === 65 || event.keyCode === 37) {
+				this.props.updateShapePositionAction(
+					timestamp,
+					xPos - 5,
+					yPos
+				);
+			}
+
+			// Key: D or Right
+			else if(event.keyCode === 68 || event.keyCode === 39) {
+				this.props.updateShapePositionAction(
+					timestamp,
+					xPos + 5,
+					yPos
+				);
+			}
+
+		}
 		// If someone preseed Delete, we'll remove the current arrow/shape.
 		else if(event.keyCode === 46 || event.keyCode === 8) {
 			if(this.props.shapes.sourceShape) {
 
 				// Edge case: cannot remove Input/Output layers
-				if(this.props.shapes.sourceShape.shape !== Input &&
-					this.props.shapes.sourceShape.shape !== Output) {
+				if(this.props.shapes.sourceShape!.shape !== Input &&
+					this.props.shapes.sourceShape!.shape !== Output) {
 					this.props.deleteShape();
 				}
 				else {
@@ -210,6 +253,16 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
 	mapStateToProps,
-	{ editActiveShape, updateMouseLocation, setShapes, editActiveArrow, deleteShape, deleteArrow, addToast, updateSVGRef },
+	{ 
+		editActiveShape, 
+		updateMouseLocation, 
+		updateShapePositionAction,
+		setShapes, 
+		editActiveArrow, 
+		deleteShape, 
+		deleteArrow, 
+		addToast, 
+		updateSVGRef 
+	},
 	
 )(DiagramContainer);

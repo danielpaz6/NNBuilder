@@ -54,6 +54,34 @@
 
 	button:hover, .active_button {
 		//color: rgb(30, 167, 253);
-		color: #28a745;
+		color: #007bff;
+	}
+
+	.title {
+		float: left;
+		width: 192px;
+		height: 24px;
+		border-right: 1px solid #ccc;
+		margin-right:20px;
+
+		img {
+			width: 20px;
+			height: 20px;
+		}
+		
+		.image-container, .title-container {
+			float: left;
+		}
+
+		.image-container {
+			margin-top: -1px;
+			user-select: none;
+		}
+
+		h1 {
+			font-size: 12px;
+			margin-top: 7px;
+			margin-left: 7px;
+		}
 	}
 }
