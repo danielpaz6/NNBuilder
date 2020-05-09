@@ -142,28 +142,38 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 				</ListGroup>
 			</div>
 			<div className="small-side-bar">
-				<Dropdown>
-					<Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-						<svg viewBox="0 2 24 24" fill="currentColor" width="24" height="24"><path d="M19,5 C19.5522847,5 20,5.44771525 20,6 L20,16 C20,16.5522847 19.5522847,17 19,17 L17,17 L17,19 C17,19.5522847 16.5522847,20 16,20 L6,20 C5.44771525,20 5,19.5522847 5,19 L5,9 C5,8.44771525 5.44771525,8 6,8 L8,8 L8,6 C8,5.44771525 8.44771525,5 9,5 L19,5 Z M8,9 L6,9 L6,19 L16,19 L16,17 L9,17 C8.44771525,17 8,16.5522847 8,16 L8,9 Z M19,6 L9,6 L9,16 L19,16 L19,6 Z"></path></svg>
-					</Dropdown.Toggle>
+				<OverlayTrigger
+						overlay={<Tooltip id="tooltip-component">Add component</Tooltip>}
+						placement="right"
+				>
+					<Dropdown>
+						<Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+							<svg viewBox="0 2 24 24" fill="currentColor" width="24" height="24"><path d="M19,5 C19.5522847,5 20,5.44771525 20,6 L20,16 C20,16.5522847 19.5522847,17 19,17 L17,17 L17,19 C17,19.5522847 16.5522847,20 16,20 L6,20 C5.44771525,20 5,19.5522847 5,19 L5,9 C5,8.44771525 5.44771525,8 6,8 L8,8 L8,6 C8,5.44771525 8.44771525,5 9,5 L19,5 Z M8,9 L6,9 L6,19 L16,19 L16,17 L9,17 C8.44771525,17 8,16.5522847 8,16 L8,9 Z M19,6 L9,6 L9,16 L19,16 L19,6 Z"></path></svg>
+						</Dropdown.Toggle>
 
-					<Dropdown.Menu as={CustomMenu}>
-						<Dropdown.Header>Layers</Dropdown.Header>
-						<Dropdown.Item onClick={() => this.createShape("FullyConnected")}>Fully Connected</Dropdown.Item>
-						<Dropdown.Item onClick={() => this.createShape("Convolutional")}>Convolutional</Dropdown.Item>
-						<Dropdown.Item onClick={() => this.createShape("MaxPooling")}>Max Pooling</Dropdown.Item>
-						<Dropdown.Item onClick={() => this.createShape("Dropout")}>Dropout</Dropdown.Item>
-						<Dropdown.Item onClick={() => this.createShape("BatchNormalization")}>Batch Norm</Dropdown.Item>
-						<Dropdown.Header>Actions</Dropdown.Header>
-						<Dropdown.Item onClick={() => this.createShape("Concatenate")}>Concatenate</Dropdown.Item>
-						<Dropdown.Item onClick={() => this.createShape("Flatten")}>Flatten</Dropdown.Item>
-						<Dropdown.Item onClick={() => this.createShape("Addition")}>Add</Dropdown.Item>
-					</Dropdown.Menu>
-				</Dropdown>
+						<Dropdown.Menu as={CustomMenu}>
+							<Dropdown.Header>Layers</Dropdown.Header>
+							<Dropdown.Item onClick={() => this.createShape("FullyConnected")}>Fully Connected</Dropdown.Item>
+							<Dropdown.Item onClick={() => this.createShape("Convolutional")}>Convolutional</Dropdown.Item>
+							<Dropdown.Item onClick={() => this.createShape("MaxPooling")}>Max Pooling</Dropdown.Item>
+							<Dropdown.Item onClick={() => this.createShape("Dropout")}>Dropout</Dropdown.Item>
+							<Dropdown.Item onClick={() => this.createShape("BatchNormalization")}>Batch Norm</Dropdown.Item>
+							<Dropdown.Header>Actions</Dropdown.Header>
+							<Dropdown.Item onClick={() => this.createShape("Concatenate")}>Concatenate</Dropdown.Item>
+							<Dropdown.Item onClick={() => this.createShape("Flatten")}>Flatten</Dropdown.Item>
+							<Dropdown.Item onClick={() => this.createShape("Addition")}>Add</Dropdown.Item>
+						</Dropdown.Menu>
+					</Dropdown>
+				</OverlayTrigger>
 
-				<button onClick={() => this.handleSetModal(true)}>
-					<svg viewBox="0 1 24 24" fill="currentColor" width="24" height="24"><path d="M17,17.8999819 L17,19 C17,19.5522847 16.5522847,20 16,20 L7,20 C6.44771525,20 6,19.5522847 6,19 L6,6 C6,5.44771525 6.44771525,5 7,5 L16,5 C16.5522847,5 17,5.44771525 17,6 L17,8.10001812 C19.2822403,8.56328845 21,10.5810421 21,13 C21,14.2006351 20.5768174,15.3024306 19.8714727,16.1643659 L21.8535534,18.1464466 C22.0488155,18.3417088 22.0488155,18.6582912 21.8535534,18.8535534 C21.6582912,19.0488155 21.3417088,19.0488155 21.1464466,18.8535534 L19.1643659,16.8714727 C18.5482866,17.3756268 17.8096662,17.7356283 17,17.8999819 L17,17.8999819 Z M16,8 L16,6 L7,6 L7,19 L16,19 L16,18 C13.2385763,18 11,15.7614237 11,13 C11,10.2385763 13.2385763,8 16,8 L16,8 Z M16,17 C18.209139,17 20,15.209139 20,13 C20,10.790861 18.209139,9 16,9 C13.790861,9 12,10.790861 12,13 C12,15.209139 13.790861,17 16,17 Z"></path></svg>
-				</button>
+				<OverlayTrigger
+						overlay={<Tooltip id="tooltip-template">Select Pretrained Networks</Tooltip>}
+						placement="right"
+				>
+					<button onClick={() => this.handleSetModal(true)}>
+						<svg viewBox="0 1 24 24" fill="currentColor" width="24" height="24"><path d="M17,17.8999819 L17,19 C17,19.5522847 16.5522847,20 16,20 L7,20 C6.44771525,20 6,19.5522847 6,19 L6,6 C6,5.44771525 6.44771525,5 7,5 L16,5 C16.5522847,5 17,5.44771525 17,6 L17,8.10001812 C19.2822403,8.56328845 21,10.5810421 21,13 C21,14.2006351 20.5768174,15.3024306 19.8714727,16.1643659 L21.8535534,18.1464466 C22.0488155,18.3417088 22.0488155,18.6582912 21.8535534,18.8535534 C21.6582912,19.0488155 21.3417088,19.0488155 21.1464466,18.8535534 L19.1643659,16.8714727 C18.5482866,17.3756268 17.8096662,17.7356283 17,17.8999819 L17,17.8999819 Z M16,8 L16,6 L7,6 L7,19 L16,19 L16,18 C13.2385763,18 11,15.7614237 11,13 C11,10.2385763 13.2385763,8 16,8 L16,8 Z M16,17 C18.209139,17 20,15.209139 20,13 C20,10.790861 18.209139,9 16,9 C13.790861,9 12,10.790861 12,13 C12,15.209139 13.790861,17 16,17 Z"></path></svg>
+					</button>
+				</OverlayTrigger>
 				
 				<OverlayTrigger
 						overlay={<Tooltip id="tooltip-generate-code">Generate Code</Tooltip>}

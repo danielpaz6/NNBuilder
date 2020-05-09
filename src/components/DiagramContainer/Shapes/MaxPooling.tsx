@@ -80,12 +80,6 @@ export default class MaxPooling extends React.Component<IDraggableShape> {
 						stroke={this.props.isMarked ? abstractTemplateStyle.borderActive : abstractTemplateStyle.border} 
 						fill={abstractTemplateStyle.bg}></rect>
 				)}
-				<polyline 
-					markerEnd="url(#smallArrow)"
-					points={`${abstractTemplateStyle.padding*(arr.length-1) + abstractTemplateStyle.offset},${abstractTemplateStyle.offset + abstractTemplateStyle.padding*(arr.length-1) + 30} ${4},${20}`}
-					fill="none"
-					stroke={abstractTemplateStyle.border}
-				/>
 				<svg 
 					width={abstractTemplateStyle.width}
 					height={abstractTemplateStyle.height} 
@@ -104,23 +98,6 @@ export default class MaxPooling extends React.Component<IDraggableShape> {
 								this.props.additionalInfo &&
 							<tspan x="50%" dy="1.8em" fontSize="10px">{this.props.additionalInfo.kernelSize}x{this.props.additionalInfo.kernelSize}&nbsp;&nbsp;&nbsp;(stride None)</tspan>
 							}
-					</text>
-				</svg>
-
-				<svg 
-					width={50}
-					height={200} 
-					x={-7}
-					y={abstractTemplateStyle.padding*(arr.length/2) - 15}
-					>
-					<text 
-						x="30%" 
-						y="20%" 
-						alignmentBaseline="middle" 
-						textAnchor="middle" 
-						fontSize="10px">
-							<tspan x="50%" dy="1.2em" fontWeight="bold">32</tspan>
-    						<tspan x="50%" dy="1.2em" fontSize="8px">Channels</tspan>
 					</text>
 				</svg>
 			</React.Fragment>

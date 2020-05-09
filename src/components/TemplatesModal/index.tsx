@@ -3,24 +3,29 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import CardDeck from 'react-bootstrap/CardDeck';
 import Template from './Template';
+import { seedNewShapes } from '../../utils/seedShapes';
+import { setShapes } from '../../store/shapes/actions';
+import { connect } from 'react-redux';
+
+import { arrows, inputs } from '../../utils/generateTemplate/dqn';
 
 export interface ITemplatesModalProps {
 	show: boolean;
 	onHide: () => void;
-	//setShapes: typeof setShapes;
+	setShapes: typeof setShapes;
 }
 
 class TemplatesModal extends React.Component<ITemplatesModalProps> {
 	handleTemplate = (temp: string) => {
-		/*switch(temp) {
+		switch(temp) {
 			case "resnet":
-				this.props.setShapes(ResNet);
+				this.props.setShapes(inputs, arrows);
 				break;
 
 			case "blank":
 				this.props.setShapes(seedNewShapes);
 				break;
-		}*/
+		}
 
 		this.props.onHide();
 	}
@@ -42,8 +47,8 @@ class TemplatesModal extends React.Component<ITemplatesModalProps> {
 				<CardDeck>
 					<Template
 						chooseTemplate={() => this.handleTemplate("resnet")}
-						title={"ResNet"}
-						desc={"A ResNet Architecture"} />
+						title={"DeepMind"}
+						desc={"A Deep Q Learning architecture"} />
 					
 					<Template
 						chooseTemplate={() => this.handleTemplate("blank")}
@@ -59,7 +64,7 @@ class TemplatesModal extends React.Component<ITemplatesModalProps> {
 	}
 }
 
-export default /*connect(
+export default connect(
 	null,
 	{ setShapes }
-)*/(TemplatesModal);
+)(TemplatesModal);
