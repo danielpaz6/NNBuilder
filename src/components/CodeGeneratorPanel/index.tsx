@@ -112,7 +112,16 @@ class CodeGeneratorPanel extends React.Component<ICodeGeneratorPanelProps, ICode
 								</SyntaxHighlighter>
 							</Tab.Pane>
 							<Tab.Pane eventKey="tensorflow">
-								TestTest
+								Coming soon.
+							</Tab.Pane>
+							<Tab.Pane eventKey="keras">
+								Coming soon.
+							</Tab.Pane>
+							<Tab.Pane eventKey="tfjs">
+								Coming soon.
+							</Tab.Pane>
+							<Tab.Pane eventKey="caffe">
+								Coming soon.
 							</Tab.Pane>
 						</Tab.Content>
 						</Col>

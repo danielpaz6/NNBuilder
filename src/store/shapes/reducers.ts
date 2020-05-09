@@ -15,6 +15,7 @@ import {
 	EDIT_ARROW_ACTIVATION,
 	EDIT_ACTIVATION_FUNCTION,
 	DELETE_ARROW,
+	UPDATE_SHAPE_CENTER_POSITION,
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
 import ArrowMap from "../../interfaces/arrowMap";
@@ -46,8 +47,8 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 		case SET_SHAPES:
 			return {
 				...state,
-				shapes: [...action.payload],
-				arrows: new ArrowMap(),
+				shapes: [...action.payload.shapes],
+				arrows: action.payload.arrows || new ArrowMap(),
 				sourceShape: undefined
 			};
 
@@ -81,6 +82,24 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 			}
 
 			return state;
+
+		case UPDATE_SHAPE_CENTER_POSITION: {
+			if(state.sourceShape) {
+
+				const sourceShape = shapes.find(s => s.timestamp === state.sourceShape!.timestamp)!;
+				
+				// Re-assign the centerPosition, otherwise all layers will point to the same location.
+				sourceShape.centerPosition = Object.assign({}, sourceShape.centerPosition);
+				sourceShape.centerPosition[action.payload.template] = [...action.payload.newPosition];
+				
+				return {
+					...state,
+					shapes: shapes
+				}
+			}
+
+			return state;
+		}
 
 		case EDIT_SHAPE_ACTIVATION: {
 			const matchShape = state.shapes.find(s => s.timestamp === action.meta.timestamp);
@@ -153,15 +172,12 @@ export function shapeReducer(state = initialState, action: ShapeActionTypes) : S
 
 			// If there is already an Arrow between them, we won't do it again
 			if(state.arrows.has([sourceShape, targetShape])) {
-				console.log("it's the same one.");
 				return state;
 			}
 
 			// If there is an opposite Arrow, we'll return the previous state and
 			// will return an Error
 			if(state.arrows.has([targetShape, sourceShape])) {
-				// TODO: Make an error here, it could be down by dispatch to new reducer.
-				console.log("Error, cannot make opposite arrow.");
 				return state;
 			}
 			

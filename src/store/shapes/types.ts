@@ -29,9 +29,18 @@ export const UPDATE_SHAPE_LOCATION = "UPDATE_SHAPE_LOCATION";
 export const UPDATE_SHAPE_DESCRIPTION = "UPDATE_SHAPE_DESCRIPTION";
 export const SET_SHAPE_ADDITONAL_INFO = "SET_SHAPE_ADDITONAL_INFO";
 export const EDIT_ACTIVATION_FUNCTION = "EDIT_ACTIVATION_FUNCTION";
+export const UPDATE_SHAPE_CENTER_POSITION = "UPDATE_SHAPE_CENTER_POSITION";
 
 export const ADD_ARROW = "ADD_ARROW";
 export const UPDATE_SHAPE_ARROWS = "UPDATE_SHAPE_ARROWS";
+
+interface UpdateShapeCenterPisiton {
+	type: typeof UPDATE_SHAPE_CENTER_POSITION;
+	payload: {
+		newPosition: number[],
+		template: string
+	}
+}
 
 interface EditActivationFunction {
 	type: typeof EDIT_ACTIVATION_FUNCTION;
@@ -47,7 +56,10 @@ interface AddShapeAction {
 
 interface SetShapesAction {
 	type: typeof SET_SHAPES;
-	payload: Shape[];
+	payload: {
+		shapes: Shape[];
+		arrows?: ArrowMap;
+	}
 }
 
 interface DeleteShapeAction {
@@ -135,4 +147,6 @@ export type ShapeActionTypes =
 	SetShapeInfo |
 	EditArrowActivationAction |
 	EditActivationFunction |
-	DeleteArrowAction;
+	DeleteArrowAction |
+	UpdateShapeCenterPisiton
+;

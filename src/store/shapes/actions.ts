@@ -12,10 +12,12 @@ import {
 	SET_SHAPE_ADDITONAL_INFO,
 	EDIT_ARROW_ACTIVATION,
 	EDIT_ACTIVATION_FUNCTION,
-	DELETE_ARROW
+	DELETE_ARROW,
+	UPDATE_SHAPE_CENTER_POSITION
 } from './types';
 import { Shape, AdditionalInformationType } from '../../interfaces/IShape';
 import { AllActivationFunctions } from '../../interfaces/activations';
+import ArrowMap from '../../interfaces/arrowMap';
 
 export function addShape(newShape: Shape) : ShapeActionTypes {
 	return {
@@ -24,10 +26,13 @@ export function addShape(newShape: Shape) : ShapeActionTypes {
 	};
 }
 
-export function setShapes(shapes: Shape[]) : ShapeActionTypes {
+export function setShapes(shapes: Shape[], arrows?: ArrowMap) : ShapeActionTypes {
 	return {
 		type: SET_SHAPES,
-		payload: shapes
+		payload: {
+			shapes: shapes,
+			arrows: arrows
+		}
 	};
 }
 
@@ -40,6 +45,16 @@ export function deleteShape() : ShapeActionTypes {
 export function deleteArrow() : ShapeActionTypes {
 	return {
 		type: DELETE_ARROW
+	}
+}
+
+export function updateCenterPosition(template: string, position: number[]) : ShapeActionTypes {
+	return {
+		type: UPDATE_SHAPE_CENTER_POSITION,
+		payload: {
+			newPosition: position,
+			template: template
+		}
 	}
 }
 

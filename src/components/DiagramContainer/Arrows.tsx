@@ -38,6 +38,9 @@ class Arrows extends React.Component<IArrowsProps> {
 			this.props.shapes.sourceArrow.source.timestamp === sourceShape.timestamp &&
 			this.props.shapes.sourceArrow.target.timestamp === targetShape.timestamp;
 
+		if(sourceShape.shape === FullyConnected) {
+			x1 += 8;
+		}
 		
 		const xMid = (x1 + x2) / 2;
 		const yMid = (y1 + y2) / 2;
@@ -50,9 +53,8 @@ class Arrows extends React.Component<IArrowsProps> {
 		}
 
 		return (
-			<React.Fragment>
+			<React.Fragment key={sourceShape.timestamp + " " + targetShape.timestamp}>
 				<polyline 
-					key={sourceShape.timestamp + " " + targetShape.timestamp}
 					markerEnd={"url(#"+(!isActiveArrow ? "bigArrow" : "bigArrowActive")+")"}
 					points={`${x1},${y1} ${x2},${y2}`}
 					fill="none"
@@ -90,7 +92,7 @@ class Arrows extends React.Component<IArrowsProps> {
 
 		//const x3 = x2 + 
 		return (
-		<React.Fragment>
+		<React.Fragment key={sourceShape.timestamp + " " + targetShape.timestamp}>
 		{
 			arr1.map((_,i) => arr2.map((_, j) => {
 				if(i === midArr1 || j === midArr2)

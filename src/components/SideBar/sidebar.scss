@@ -10,3 +10,39 @@
 	overflow: auto;
 	padding: 15px;
 }
+
+.small-side-bar {
+	display: none;
+
+	z-index: 999;
+	top: 50px;
+	left: 10px;
+	position: absolute;
+	width: 40px;
+
+	button {
+		background: #fff;
+		border: 1px solid rgba(0,0,0,0.2);
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		transition: border-color 0.2s;
+		outline: 0;
+		margin-bottom: 7px;
+
+		&:hover, &:hover svg {
+			border-color: #007bff;
+		}
+	}
+
+}
+
+@media screen and (max-width: 600px) {
+	.side-bar {
+		display: none !important;
+	}
+
+	.small-side-bar {
+		display: block !important;
+	}
+}

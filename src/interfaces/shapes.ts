@@ -65,7 +65,7 @@ export const layersMap : Record<string, LayerInformation> = {
 		create: () => FullyConnected,
 		centerPosition: {
 			[TEMPLATE_FILLED]: FullyConnected.centerPosition,
-			[TEMPLATE_ABSTRACT]: FullyConnected.centerPositionAbstract
+			[TEMPLATE_ABSTRACT]: FullyConnected.centerPositionAbstract(7)
 		},
 		additionalInfo: {
 			inputDimension: 32,

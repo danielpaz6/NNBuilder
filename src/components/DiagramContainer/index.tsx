@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import Arrows from './Arrows';
 import { MouseState } from '../../store/mouse/types';
-import { seedInitShapes } from '../../utils/seedShapes';
+import { seedInitShapes, seedInitArrorws } from '../../utils/seedShapes';
 import { ConfigState } from '../../store/config/types';
 import { Shape } from '../../interfaces/IShape';
 import Defs from './Defs';
@@ -55,7 +55,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 	};
 
 	componentDidMount() {
-		this.props.setShapes(seedInitShapes);
+		this.props.setShapes(seedInitShapes, seedInitArrorws);
 		this.props.updateSVGRef(this.refElement.current!);
 	}
 
@@ -116,6 +116,11 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 			const xPos = this.props.shapes.sourceShape.x;
 			const yPos = this.props.shapes.sourceShape.y;
 			const timestamp = this.props.shapes.sourceShape.timestamp;
+
+			/*
+			 * Note: The `event.preventDefault();` prevent from the scroll-bar to move
+			 * once shape is being moved.
+			*/
 			
 			// Key: W or Up
 			if(event.keyCode === 87 || event.keyCode === 38) {
@@ -124,6 +129,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 					xPos,
 					yPos - 5
 				);
+				event.preventDefault();
 			}
 
 			// Key: S or Down
@@ -133,6 +139,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 					xPos,
 					yPos + 5
 				);
+				event.preventDefault();
 			}
 
 			// Key: A or Left
@@ -151,6 +158,7 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 					xPos + 5,
 					yPos
 				);
+				event.preventDefault();
 			}
 
 		}
@@ -194,9 +202,14 @@ class DiagramContainer extends React.PureComponent<IDiagramContainerProps, IDiag
 	}
 
 	public render() {
+		const isDetailsBarActivated = this.props.shapes.sourceArrow || this.props.shapes.sourceShape;
+
 		return (
-			<div className="diagram-container">
-				<svg width="100%" height="100%"
+			<div 
+				className={isDetailsBarActivated ? "diagram-container short-container" : "diagram-container"}
+			>
+				<svg
+					className="svg-container"
 					onClick={this.handleClick}
 					onMouseMove={this.handlePointerMovement}
 					onContextMenu={this.handleRightClick}

@@ -44,27 +44,30 @@ const FullyConnectedForm: React.FunctionComponent<IFormProps> = (props) => {
 					<Form>
 					<Form.Check
 						custom
+						checked={props.shapeAdditionalInfo.nodesCount === 5}
 						type="radio"
 						label="Small size"
 						name="fcstyle"
 						id="fc-small"
-						onClick={() => props.handleParameterChangeByValue(5, "nodesCount")}
+						onChange={() => props.handleParameterChangeByValue(5, "nodesCount")}
 					/>
 					<Form.Check
 						custom
+						checked={props.shapeAdditionalInfo.nodesCount === 7}
 						type="radio"
 						label="Medium size"
 						name="fcstyle"
 						id="fc-medium"
-						onClick={() => props.handleParameterChangeByValue(7, "nodesCount")}
+						onChange={() => props.handleParameterChangeByValue(7, "nodesCount")}
 					/>
 					<Form.Check
 						custom
+						checked={props.shapeAdditionalInfo.nodesCount === 9}
 						type="radio"
 						label="Large size"
 						name="fcstyle"
 						id="fc-large"
-						onClick={() => props.handleParameterChangeByValue(9, "nodesCount")}
+						onChange={() => props.handleParameterChangeByValue(9, "nodesCount")}
 					/>
 					</Form>
 				</Col>

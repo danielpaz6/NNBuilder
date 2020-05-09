@@ -85,3 +85,17 @@
 		}
 	}
 }
+
+@media screen and (max-width: 600px) {
+	#fullscreen-mode {
+		display: none;
+	}
+
+	.title {
+		width: 40px !important;
+
+		.title-container {
+			display: none !important;
+		}
+	}
+}

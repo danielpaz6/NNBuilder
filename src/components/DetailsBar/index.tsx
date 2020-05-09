@@ -14,19 +14,24 @@ import {
 	updateShapePositionAction, 
 	updateShapeDescription,
 	setShapeAdditionalInfo,
-	editActivationFunction
+	editActivationFunction,
+	updateCenterPosition
 } from '../../store/shapes/actions';
 import { formsMap } from './Forms/FormList';
 import { ACTIVATION_NONE, ACTIVATION_RELU, ACTIVATION_TANH, ACTIVATION_SIGMOID, AllActivationFunctions } from '../../interfaces/activations';
+import FullyConnected from '../DiagramContainer/Shapes/FullyConnected';
+import { ConfigState } from '../../store/config/types';
 
 
 interface IDetailsBarProps {
 	shapes: ShapeState;
+	config: ConfigState;
 	editShapeName: typeof editShapeName;
 	updateShapePositionAction: typeof updateShapePositionAction;
 	updateShapeDescription: typeof updateShapeDescription;
 	setShapeAdditionalInfo: typeof setShapeAdditionalInfo;
 	editActivationFunction: typeof editActivationFunction;
+	updateCenterPosition: typeof updateCenterPosition;
 }
 
 interface IDetailsBarState {
@@ -63,6 +68,11 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 			key,
 			value	
 		);
+		
+		// If we re-sized the Fully Connected layer, we should update its center position as well.
+		if(this.props.shapes.sourceShape && this.props.shapes.sourceShape.shape === FullyConnected) {
+			this.props.updateCenterPosition(this.props.config.designTemplate, FullyConnected.centerPositionAbstract(+value));
+		}
 	}
 	
 	handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,11 +223,12 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 };
 
 const mapStateToProps = (state: AppState) => ({
-	shapes: state.shapes
+	shapes: state.shapes,
+	config: state.config
 });
 
 export default connect(
 	mapStateToProps,
 	{ editShapeName, updateShapePositionAction, updateShapeDescription, setShapeAdditionalInfo,
-		editActivationFunction }
+		editActivationFunction, updateCenterPosition }
 )(DetailsBar);
