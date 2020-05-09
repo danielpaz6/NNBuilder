@@ -43,7 +43,6 @@ export const CustomMenu:any = React.forwardRef(
 		>
 		<Dropdown.Header style={{textAlign: "center"}}>Add new component</Dropdown.Header>
 		<FormControl
-			autoFocus
 			className="mx-3 my-2 w-auto"
 			placeholder="Select a layer..."
 			onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}

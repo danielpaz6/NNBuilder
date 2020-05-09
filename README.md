@@ -3,12 +3,12 @@
 A user interface that allows you to easily modify and visualize varios neural network architectures.
 
 <p align="center">
-	<img src="demo.png" width="720" />
+	<img src="demo.png" width="740" />
 </p>
 
-### [NNBuilder.io](https://nnbuilder.io)
+A link to the website: [NNBuilder.io](https://nnbuilder.io)
 
-### Introduction
+### More about this website
 
 Deep neural networks can be hard to understand, and notoriously difficult to plan and modify.
 
@@ -38,4 +38,4 @@ $ npm --version
 6. Run the project by running `npm start`
 
 ### Contribution
-Feel free to suggest, report bugs and 
+Feel free to suggest, report bugs and add forked ideas to this project.

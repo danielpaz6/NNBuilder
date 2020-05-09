@@ -32,6 +32,79 @@ class Arrows extends React.Component<IArrowsProps> {
 		);
 	}
 
+	/**
+	 * We'll draw an arrow by this function if sourceShape.x > targetShape.x
+	 */
+	abstractArrowPolygon = (sourceShape: Shape, targetShape: Shape, x1: number, y1: number, x2: number, y2: number, activationFunction: AllActivationFunctions) => {
+
+		const isActiveArrow = this.props.shapes.sourceArrow &&
+			this.props.shapes.sourceArrow.source.timestamp === sourceShape.timestamp &&
+			this.props.shapes.sourceArrow.target.timestamp === targetShape.timestamp;
+
+
+		if(sourceShape.shape === FullyConnected) {
+			x1 += 8;
+		}
+
+		const A = 60;
+
+		const points: number[][] = []
+	
+		const x1Edge = x1 + sourceShape.centerPosition[this.props.config.designTemplate][0]*2;
+		const y1Mid = y1 + sourceShape.centerPosition[this.props.config.designTemplate][1];
+		const y2Mid = y2 + targetShape.centerPosition[this.props.config.designTemplate][1];
+		
+		//const xMid = (x1 + x2) / 2;
+
+		let yMid = 0;
+		if(y1 < y2) {
+			yMid = (
+				y1 + sourceShape.centerPosition[this.props.config.designTemplate][1]*2 +
+				y2) / 2;
+		}
+		else {
+			yMid = (
+				y1 +
+				y2 + targetShape.centerPosition[this.props.config.designTemplate][1]*2
+			) / 2;
+		}
+
+		points.push([x1Edge, y1Mid]); // P0
+		points.push([x1Edge + A, y1Mid]); // P1
+		points.push([x1Edge + A, yMid]) // P2
+		points.push([x2 - A, yMid]); // P3
+		points.push([x2 - A, y2Mid]); // P4
+		points.push([x2, y2Mid]); // P5
+
+		let xText, yText;
+		if(activationFunction !== ACTIVATION_NONE) {
+			const d = 20;
+
+			[xText, yText] = fixedDistanceFromPolygon(d, points[4][0], points[4][1], points[5][0], points[5][1]);
+		}
+
+		return (
+			<React.Fragment key={sourceShape.timestamp + " " + targetShape.timestamp}>
+				<polyline 
+					markerEnd={"url(#"+(!isActiveArrow ? "bigArrow" : "bigArrowActive")+")"}
+					points={points.map(point => point.join(",")).join(" ")}
+					fill="none"
+					stroke={!isActiveArrow ? "#7788b0" : "red"}
+					strokeWidth="4"
+					onClick={() => this.props.handleArrowClick(sourceShape, targetShape)}
+				/>
+				{activationFunction !== ACTIVATION_NONE && <text
+					x={xText}
+					y={yText}
+					alignmentBaseline="middle" 
+					textAnchor="middle" 
+					fontSize="12px"
+					fontWeight="bold"
+				>{activationFunction}</text>}
+			</React.Fragment>
+		);
+	}
+
 	abstractArrow = (sourceShape: Shape, targetShape: Shape, x1: number, y1: number, x2: number, y2: number, activationFunction: AllActivationFunctions) => {
 
 		const isActiveArrow = this.props.shapes.sourceArrow &&
@@ -192,15 +265,28 @@ class Arrows extends React.Component<IArrowsProps> {
 						return this.fullyConnectedArrows(sourceShape, targetShape, x1, y1, x2, y2, activationFunction);
 					}
 					else {
-						return this.abstractArrow(
-							sourceShape,
-							targetShape,
-							x1 + sourceShape.centerPosition[this.props.config.designTemplate][0],
-							y1 + sourceShape.centerPosition[this.props.config.designTemplate][1],
-							x2 - 3,
-							y2 + targetShape.centerPosition[this.props.config.designTemplate][1],
-							activationFunction
-						);
+						if(x1 < x2) {
+							return this.abstractArrow(
+								sourceShape,
+								targetShape,
+								x1 + sourceShape.centerPosition[this.props.config.designTemplate][0],
+								y1 + sourceShape.centerPosition[this.props.config.designTemplate][1],
+								x2 - 3,
+								y2 + targetShape.centerPosition[this.props.config.designTemplate][1],
+								activationFunction
+							);
+						}
+						else {
+							return this.abstractArrowPolygon(
+								sourceShape,
+								targetShape,
+								x1,
+								y1,
+								x2 - 3,
+								y2,
+								activationFunction
+							);
+						}
 					}
 				}
 				
