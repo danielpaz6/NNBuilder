@@ -39,7 +39,6 @@ class CodeGeneratorPanel extends React.Component<ICodeGeneratorPanelProps, ICode
 		// This function also create error notifications.
 		const codeMap = generateGraphCodeableWithErrors(this.props.shapes.shapes, this.props.shapes.arrows, this.props.addToast);
 		
-		console.log(codeMap);
 		if(codeMap.size > 0) {
 			this.setState({
 				isValidCode: true,

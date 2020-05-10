@@ -9,11 +9,13 @@ import SideBar from "./components/SideBar";
 import DiagramContainer from "./components/DiagramContainer";
 import DetailsBar from "./components/DetailsBar";
 import Toasts from "./components/Toasts";
+import MobileNotifications from './components/MobileNotifications';
 
 function App() {
 	
 	return (
 		<div className="App">
+			<MobileNotifications />
 			<ToolBar />
 			<SideBar />
 			<DiagramContainer />

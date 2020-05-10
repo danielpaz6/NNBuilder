@@ -68,8 +68,6 @@ class SideBar extends React.Component<ISideBarProps, ISideBarState>
 			additionalInfo: {...layer.additionalInfo}
 		};
 
-		console.log(newObject);
-
 		this.props.addShape(newObject);
 	}
 
