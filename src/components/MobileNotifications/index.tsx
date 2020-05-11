@@ -22,7 +22,7 @@ const MobileNotifications: React.FunctionComponent<IMobileNotificationsProps> = 
 
 			<Modal.Body>
 				<p>This website is not yet fully compatible with mobile devices.</p>
-				<p>We suggest you to consider open this website using desktop brwoser.</p>
+				<p>We suggest you to consider open this website using desktop browser.</p>
 			</Modal.Body>
 
 			<Modal.Footer>
