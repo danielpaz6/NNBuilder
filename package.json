@@ -23,7 +23,7 @@
     "d3": "^5.15.1",
     "d3-drag": "^1.2.5",
     "gh-pages": "^2.2.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.1",
