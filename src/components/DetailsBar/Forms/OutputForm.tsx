@@ -18,7 +18,7 @@ const OutputForm: React.FunctionComponent<IFormProps> = (props) => {
 					<Form.Control 
 						as="select"
 						value={props.shapeAdditionalInfo.activation}
-						onChange={(e:any) => props.handleParamaterChangeSelect(e, "activation")}	
+						onChange={(e:React.ChangeEvent<HTMLSelectElement>) => props.handleParamaterChangeSelect(e, "activation")}	
 					>
 						<option value={ACTIVATION_NONE}>None</option>
 						<option value={ACTIVATION_SOFTMAX}>Softmax</option>

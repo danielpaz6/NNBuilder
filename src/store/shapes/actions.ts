@@ -17,7 +17,7 @@ import {
 } from './types';
 import { Shape, AdditionalInformationType } from '../../interfaces/IShape';
 import { AllActivationFunctions } from '../../interfaces/activations';
-import ArrowMap from '../../interfaces/arrowmap';
+import ArrowMap from '../../interfaces/arrowMap';
 
 export function addShape(newShape: Shape) : ShapeActionTypes {
 	return {

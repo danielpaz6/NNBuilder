@@ -43,6 +43,7 @@ const FullyConnectedForm: React.FunctionComponent<IFormProps> = (props) => {
 					<Form.Label>Layers Size</Form.Label>
 					<Form>
 					<Form.Check
+						custom
 						checked={props.shapeAdditionalInfo.nodesCount === 5}
 						type="radio"
 						label="Small size"
@@ -51,6 +52,7 @@ const FullyConnectedForm: React.FunctionComponent<IFormProps> = (props) => {
 						onChange={() => props.handleParameterChangeByValue(5, "nodesCount")}
 					/>
 					<Form.Check
+						custom
 						checked={props.shapeAdditionalInfo.nodesCount === 7}
 						type="radio"
 						label="Medium size"
@@ -59,6 +61,7 @@ const FullyConnectedForm: React.FunctionComponent<IFormProps> = (props) => {
 						onChange={() => props.handleParameterChangeByValue(7, "nodesCount")}
 					/>
 					<Form.Check
+						custom
 						checked={props.shapeAdditionalInfo.nodesCount === 9}
 						type="radio"
 						label="Large size"

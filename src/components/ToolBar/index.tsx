@@ -11,7 +11,7 @@ import Badge from 'react-bootstrap/Badge';
 import { ConfigState } from '../../store/config/types';
 import { updateDesignTemplate } from "../../store/config/actions";
 import { TEMPLATE_ABSTRACT, TEMPLATE_FILLED } from '../../interfaces/designTemplates';
-import { Canvg } from 'canvg';
+import Canvg from 'canvg';
 import Form from 'react-bootstrap/Form';
 import logo from '../../logo.svg';
 
@@ -138,7 +138,7 @@ class ToolBar extends React.Component<IToolBarProps, IToolBarState> {
 
 					<a id="download" download="myModel.png" ref={this.refLink}>
 					<OverlayTrigger
-						overlay={<Tooltip id="tooltip-download-svg"><Badge>Beta</Badge> Download Image Snapshot of your Model</Tooltip>}
+						overlay={<Tooltip id="tooltip-download-svg"><Badge variant="danger">Beta</Badge> Download Image Snapshot of your Model</Tooltip>}
 						placement="bottom"
 					>
 						<button onClick={this.handleDownloadImage}>
