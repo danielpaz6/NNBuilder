@@ -3,10 +3,10 @@
 A user interface that allows you to easily modify and visualize varios neural network architectures.
 
 <p align="center">
-	<a title="Click to watch a demo" href="https://nnbuilder.io"><img src="demo.png" width="740" /></a>
+	<a title="Click to watch a demo" href="https://danielpaz6.github.io/NNBuilder"><img src="demo.png" width="740" /></a>
 </p>
 
-A link to the website: [NNBuilder.io](https://nnbuilder.io)
+A link to the website: [NNBuilder.io](https://danielpaz6.github.io/NNBuilder)
 
 ### More about this website
 
