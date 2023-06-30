@@ -1,7 +1,7 @@
 import { topologicalSort, BFSAncestorsCount } from "./graphAlgorithms";
 import { generateFullPyTorchCode } from "./generateCode/pytorch";
 import { addToast } from "../store/toasts/actions";
-import ArrowMap from "../interfaces/arrowMap";
+import ArrowMap from "../interfaces/arrowmap";
 import { CodeTypes, PYTORCH_CODE } from "./generateCode/types";
 import Input from "../components/DiagramContainer/Shapes/Input";
 import { Shape } from "../interfaces/IShape";

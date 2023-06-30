@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import CardDeck from 'react-bootstrap/CardDeck';
+import CardDeck from 'react-bootstrap/Card';
 import Template from './Template';
 import { seedNewShapes } from '../../utils/seedShapes';
 import { setShapes } from '../../store/shapes/actions';

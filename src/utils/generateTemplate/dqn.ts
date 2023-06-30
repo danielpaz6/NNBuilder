@@ -2,7 +2,7 @@ import { layersMap } from "../../interfaces/shapes";
 import { Shape } from "../../interfaces/IShape";
 import { TEMPLATE_ABSTRACT } from "../../interfaces/designTemplates";
 import FullyConnected from "../../components/DiagramContainer/Shapes/FullyConnected";
-import ArrowMap from "../../interfaces/arrowMap";
+import ArrowMap from "../../interfaces/arrowmap";
 import { ACTIVATION_NONE, ACTIVATION_RELU } from "../../interfaces/activations";
 
 const time = new Date().getTime() - 3000;

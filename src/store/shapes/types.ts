@@ -1,4 +1,4 @@
-import ArrowMap from "../../interfaces/arrowMap";
+import ArrowMap from "../../interfaces/arrowmap";
 import { Shape, AdditionalInformationType } from "../../interfaces/IShape";
 import { AllActivationFunctions } from "../../interfaces/activations";
 //import ArrowMap from "../../interfaces/arrowMap";

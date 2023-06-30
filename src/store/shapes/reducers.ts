@@ -18,7 +18,7 @@ import {
 	UPDATE_SHAPE_CENTER_POSITION,
 	//UPDATE_SHAPE_ARROWS,
 } from "./types";
-import ArrowMap from "../../interfaces/arrowMap";
+import ArrowMap from "../../interfaces/arrowmap";
 import {ACTIVATION_NONE} from "../../interfaces/activations";
 
 const initialState: ShapeState = {

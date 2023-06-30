@@ -1,4 +1,4 @@
-import ArrowMap from "../../interfaces/arrowMap";
+import ArrowMap from "../../interfaces/arrowmap";
 import FullyConnected from "../../components/DiagramContainer/Shapes/FullyConnected";
 import Concatenate from "../../components/DiagramContainer/Shapes/Concatenate";
 import Output from "../../components/DiagramContainer/Shapes/Output";

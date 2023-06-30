@@ -17,7 +17,7 @@ const BatchNormalizationForm: React.FunctionComponent<IFormProps> = (props) => {
 					<Form.Control 
 						as="select"
 						value={props.shapeAdditionalInfo.dimension}
-						onChange={(e:React.ChangeEvent<HTMLSelectElement>) => props.handleParamaterChangeSelect(e, "dimension")}	
+						onChange={(e:any) => props.handleParamaterChangeSelect(e, "dimension")}	
 					>
 						<option>2D</option>
 						<option>1D</option>

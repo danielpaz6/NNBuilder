@@ -1,5 +1,5 @@
 import { addToast } from "../store/toasts/actions";
-import ArrowMap from "../interfaces/arrowMap";
+import ArrowMap from "../interfaces/arrowmap";
 import Input from "../components/DiagramContainer/Shapes/Input";
 import Output from "../components/DiagramContainer/Shapes/Output";
 import Concatenate from "../components/DiagramContainer/Shapes/Concatenate";
