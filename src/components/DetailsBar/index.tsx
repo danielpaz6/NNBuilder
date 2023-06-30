@@ -162,7 +162,6 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 						</Col>
 					</Row>
 				</Form.Group>
-				<hr />
 				<Form.Group controlId="description">
 					{/*
 						Note: There's a warning when openning the Accordion.Toggle:
@@ -173,12 +172,18 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 
 						And will be fixed.
 					*/}
-					<Form.Label>Description</Form.Label>
-						<Form.Control
-							as="textarea"
-							rows={3}
-							onChange={this.handleDescriptionChange}
-							value={shape.description ? shape.description : ""} />
+					<Accordion defaultActiveKey={shape.description ? '1' : '0'}>
+						<Accordion.Toggle as={Form.Label} eventKey="1" id="basic-nav-dropdown">				
+							Description <span className="dropdown-icon"></span>
+						</Accordion.Toggle>
+						<Accordion.Collapse eventKey="1">
+							<Form.Control
+								as="textarea"
+								rows="3"
+								onChange={this.handleDescriptionChange}
+								value={shape.description ? shape.description : ""} />
+						</Accordion.Collapse>
+					</Accordion>
 				</Form.Group>
 			</aside>;
 		}
@@ -198,7 +203,7 @@ class DetailsBar extends React.Component<IDetailsBarProps, IDetailsBarState> {
 						value={getArrowActivation} 
 						as="select" 
 						style={{paddingRight: "10px"}}
-						onChange={(e:any) => this.handleArrowActivationChange(e)}> 
+						onChange={this.handleArrowActivationChange}> 
 
 						<option 
 							value={ACTIVATION_NONE}>None</option>

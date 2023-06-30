@@ -1,4 +1,4 @@
-import ArrowMap from "../interfaces/arrowmap";
+import ArrowMap from "../interfaces/arrowMap";
 import { addToast } from "../store/toasts/actions";
 import { Queue } from "../interfaces/queue";
 import { Shape } from "../interfaces/IShape";

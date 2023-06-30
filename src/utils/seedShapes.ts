@@ -1,7 +1,7 @@
 import { layersMap } from '../interfaces/shapes';
 import { AllActivationFunctions, ACTIVATION_NONE, ACTIVATION_RELU, ACTIVATION_SIGMOID } from "../interfaces/activations";
 import { Shape } from '../interfaces/IShape';
-import ArrowMap from '../interfaces/arrowmap';
+import ArrowMap from '../interfaces/arrowMap';
 import { TEMPLATE_ABSTRACT } from '../interfaces/designTemplates';
 import FullyConnected from '../components/DiagramContainer/Shapes/FullyConnected';
 
